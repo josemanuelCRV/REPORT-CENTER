@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/josemanuelCRV/REPORT-CENTER.png?label=ready&title=Ready)](https://waffle.io/josemanuelCRV/REPORT-CENTER)
 # REPORT-CENTER
 <img src="http://meteonav.aemet.es/MeteoNav/imagenes/png/icono_info.png" ismap>
 
