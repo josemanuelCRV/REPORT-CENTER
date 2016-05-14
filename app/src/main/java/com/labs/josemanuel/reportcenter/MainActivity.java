@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -97,5 +100,19 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public List<Report> getSetCarList(int report) {
+        String[] titulo = new String[]{"Desperfecto en acera", "No recogen la basura", "Asfaltar"};
+        String[] propuesto = new String[] {"Jose", "Manu", "Bravo"};
+        int[] photos = new int[] {R.drawable.acera, R.drawable.basura, R.drawable.carreterarota};
+
+        List<Report> listAux = new ArrayList<>();
+
+        for (int i = 0; i < report; i++) {
+            Report r = new Report(titulo[i % titulo.length], propuesto[i % propuesto.length], photos[i % titulo.length]);
+            listAux.add(r);
+        }
+        return (listAux);
     }
 }
