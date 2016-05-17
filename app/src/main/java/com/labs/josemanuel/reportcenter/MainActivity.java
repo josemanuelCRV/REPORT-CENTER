@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                getResources().getString(R.string.hackityUrl)+"proposals",
+                getResources().getString(R.string.URL),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
