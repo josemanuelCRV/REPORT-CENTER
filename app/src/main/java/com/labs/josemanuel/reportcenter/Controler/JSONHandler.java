@@ -80,7 +80,6 @@ public class JSONHandler {
             //Cojo la clave del objeto JSON contenedor
             JSONArray claves = container.names();
 
-            //return arrayOuput.getString(0);
             return container.getString(claves.getString(0));
         } catch (JSONException e) {
             e.printStackTrace();

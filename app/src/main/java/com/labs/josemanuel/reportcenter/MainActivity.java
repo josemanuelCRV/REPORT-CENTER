@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.google.gson.Gson;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     Propuesta[] feed;
 
     TextView tv;
+    ImageView fotoCentro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +51,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tv=(TextView) findViewById(R.id.text);
+        fotoCentro= (ImageView) findViewById(R.id.imageView2);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                tv.setText(feed.toString());
 
             }
         });
@@ -82,7 +85,9 @@ public class MainActivity extends AppCompatActivity
                     public void onResponse(JSONArray response) {
                         // Procesar la respuesta Json
                         procesarRespuesta(response);
-                        tv.setText(String.valueOf(feed.length));
+                        tv.setText(String.valueOf(feed[0].getTitle()));
+                        Picasso.with(MainActivity.this).load(feed[0].getImage()[0].getUrl()).into(fotoCentro);
+
                     }
                 },
                 new Response.ErrorListener() {
