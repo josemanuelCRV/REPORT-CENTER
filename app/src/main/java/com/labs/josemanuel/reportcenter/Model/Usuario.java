@@ -4,23 +4,23 @@ package com.labs.josemanuel.reportcenter.Model;
  * Created by bufigol on 14/05/16.
  */
 public class Usuario {
-    private int target_id;
+    private String target_id;
     private String target_type;
     private String target_uuid;
     private String url;
 
-    public Usuario(int target_id, String target_type, String target_uuid, String url) {
+    public Usuario(String target_id, String target_type, String target_uuid, String url) {
         this.target_id = target_id;
         this.target_type = target_type;
         this.target_uuid = target_uuid;
         this.url = url;
     }
 
-    public int getTarget_id() {
+    public String getTarget_id() {
         return target_id;
     }
 
-    public void setTarget_id(int target_id) {
+    public void setTarget_id(String target_id) {
         this.target_id = target_id;
     }
 

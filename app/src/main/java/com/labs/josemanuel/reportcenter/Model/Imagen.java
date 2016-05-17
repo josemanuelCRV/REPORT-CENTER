@@ -4,16 +4,16 @@ package com.labs.josemanuel.reportcenter.Model;
  * Created by bufigol on 14/05/16.
  */
 public class Imagen {
-    private int target_id;
+    private String target_id;
     private String alt;
     private String title;
-    private int width;
-    private int height;
+    private String width;
+    private String height;
     private String target_type;
     private String target_uuid;
     private String url;
 
-    public Imagen(int target_id, String alt, String title, int width, int height, String target_type, String target_uuid, String url) {
+    public Imagen(String target_id, String alt, String title, String width, String height, String target_type, String target_uuid, String url) {
         this.target_id = target_id;
         this.alt = alt;
         this.title = title;
@@ -24,11 +24,11 @@ public class Imagen {
         this.url = url;
     }
 
-    public int getTarget_id() {
+    public String getTarget_id() {
         return target_id;
     }
 
-    public void setTarget_id(int target_id) {
+    public void setTarget_id(String target_id) {
         this.target_id = target_id;
     }
 
@@ -48,19 +48,19 @@ public class Imagen {
         this.title = title;
     }
 
-    public int getWidth() {
+    public String getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(String width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 

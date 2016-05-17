@@ -6,14 +6,14 @@ import java.util.Date;
  * Created by bufigol on 14/05/16.
  */
 public class Comentario {
-    private int status;
-    private int id;
-    private Date timestamp;
+    private String status;
+    private String id;
+    private String timestamp;
     private String name;
     private Usuario uid;
-    private int count;
+    private String count;
 
-    public Comentario(int status, int id, Date timestamp, String name, Usuario uid, int count) {
+    public Comentario(String status, String id, String timestamp, String name, Usuario uid, String count) {
         this.status = status;
         this.id = id;
         this.timestamp = timestamp;
@@ -22,27 +22,27 @@ public class Comentario {
         this.count = count;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -62,11 +62,11 @@ public class Comentario {
         this.uid = uid;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 

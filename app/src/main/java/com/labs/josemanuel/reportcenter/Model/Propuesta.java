@@ -8,10 +8,10 @@ import java.util.Arrays;
 public class Propuesta {
     private String title;
     private String langcode;
-    private int nid;
+    private String nid;
     private String uuid;
-    private long created;
-    private long changed;
+    private String created;
+    private String changed;
 
     private Body body;
     private Usuario uid;
@@ -22,9 +22,9 @@ public class Propuesta {
 
     public Propuesta(String title,
                      String langcode,
-                     int nid, String uuid,
-                     long created,
-                     long changed,
+                     String nid, String uuid,
+                     String created,
+                     String changed,
                      Body body,
                      Usuario uid,
                      Comentario[] com,
@@ -61,11 +61,11 @@ public class Propuesta {
         this.langcode = langcode;
     }
 
-    public int getNid() {
+    public String getNid() {
         return nid;
     }
 
-    public void setNid(int nid) {
+    public void setNid(String nid) {
         this.nid = nid;
     }
 
@@ -77,19 +77,19 @@ public class Propuesta {
         this.uuid = uuid;
     }
 
-    public long getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(long created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public long getChanged() {
+    public String getChanged() {
         return changed;
     }
 
-    public void setChanged(long changed) {
+    public void setChanged(String changed) {
         this.changed = changed;
     }
 

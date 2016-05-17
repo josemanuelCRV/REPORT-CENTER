@@ -6,9 +6,9 @@ package com.labs.josemanuel.reportcenter.Model;
 public class Body {
     private String value;
     private String format;
-    private boolean summary;
+    private String summary;
 
-    public Body(String value, String format, boolean summary) {
+    public Body(String value, String format, String summary) {
         this.value = value;
         this.format = format;
         this.summary = summary;
@@ -31,11 +31,12 @@ public class Body {
     }
 
     public boolean isSummary() {
-        return summary;
+        return Boolean.getBoolean(summary);
     }
 
     public void setSummary(boolean summary) {
-        this.summary = summary;
+        ;
+        this.summary = String.valueOf(summary);
     }
 
     @Override
