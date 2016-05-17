@@ -19,5 +19,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="URL">http://stag.hackityapp.com/es/api/v1/proposals</string>
+    <string name="URL">http://XXXX</string>
 </resources>
