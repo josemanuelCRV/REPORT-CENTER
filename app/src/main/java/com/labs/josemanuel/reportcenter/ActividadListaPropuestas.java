@@ -1,9 +1,19 @@
 package com.labs.josemanuel.reportcenter;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+<<<<<<< HEAD:app/src/main/java/com/labs/josemanuel/reportcenter/MainActivity.java
 import android.util.Log;
+||||||| merged common ancestors
+=======
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+>>>>>>> origin/Content_main:app/src/main/java/com/labs/josemanuel/reportcenter/ActividadListaPropuestas.java
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+<<<<<<< HEAD:app/src/main/java/com/labs/josemanuel/reportcenter/MainActivity.java
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
@@ -43,11 +54,28 @@ public class MainActivity extends AppCompatActivity
 
     TextView tv;
     ImageView fotoCentro;
+||||||| merged common ancestors
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+=======
+
+import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
+
+
+public class ActividadListaPropuestas extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private RecyclerView listaUI;
+    private LinearLayoutManager linearLayoutManager;
+    private AdaptadorPropuestas adaptador;
+
+
+>>>>>>> origin/Content_main:app/src/main/java/com/labs/josemanuel/reportcenter/ActividadListaPropuestas.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tv=(TextView) findViewById(R.id.text);
@@ -70,6 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+<<<<<<< HEAD:app/src/main/java/com/labs/josemanuel/reportcenter/MainActivity.java
 
         //-----Procesar Http Volley
         //Recogemos una instancia de Volley
@@ -101,6 +130,31 @@ public class MainActivity extends AppCompatActivity
 
         volleySingleton.addToRequestQueue(mJsonArrayRequest);
     }
+||||||| merged common ancestors
+    }
+=======
+
+
+        // nuevo
+        // Preparar lista
+        listaUI = (RecyclerView) findViewById(R.id.lista);
+        listaUI.setHasFixedSize(true);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        listaUI.setLayoutManager(linearLayoutManager);
+
+        adaptador = new AdaptadorPropuestas(this, this);
+        listaUI.setAdapter(adaptador);
+
+        // Iniciar loader
+        getSupportLoaderManager().restartLoader(1, null, this);
+
+
+
+
+
+    } // fin onCreate
+>>>>>>> origin/Content_main:app/src/main/java/com/labs/josemanuel/reportcenter/ActividadListaPropuestas.java
 
     private void procesarRespuesta(JSONArray response){
         try {
@@ -170,5 +224,31 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    // NUEVA SECCIÓN DE MANEJO DE RECYCLER ---------------------------------------
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, Alquileres.URI_CONTENIDO, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (adaptador != null) {
+            adaptador.swapCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onClick(AdaptadorPropuestas.ViewHolder holder, String idAlquiler) {
+        Snackbar.make(findViewById(android.R.id.content), ":id = " + idAlquiler,
+                Snackbar.LENGTH_LONG).show();
     }
 }

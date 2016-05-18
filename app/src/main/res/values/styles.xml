@@ -17,4 +17,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+
+
+
+    <!-- botones de Sign Up - Sign In -->
+    <style name="Btn_Sign" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/gold4_giant</item>
+        <item name="colorButtonNormal">@color/gold3_beachStorm</item>
+    </style>
+
+
+
 </resources>

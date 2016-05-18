@@ -3,8 +3,10 @@ package com.labs.josemanuel.reportcenter;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -22,6 +24,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -61,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private View mTextviewOtherAccount;
+    // private View mfabbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,17 +88,80 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
+                startActivity(goMain);
+
+                // attemptLogin();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-    }
+
+
+        mTextviewOtherAccount = findViewById(R.id.txlab_otherAcc);
+
+        // Floatting button
+        // mfabbutton = findViewById(R.id.fab);
+        // Floatting button
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        // atributos establecidos para el efecto
+        fab.setScaleX(0);
+        fab.setScaleY(0);
+        // animación OJO! LOLLIPOP
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            final Interpolator interpolador = AnimationUtils.loadInterpolator(getBaseContext(),
+                    android.R.interpolator.fast_out_slow_in);
+
+            fab.animate()
+                    .scaleX(1)
+                    .scaleY(1)
+                    .setInterpolator(interpolador)
+                    .setDuration(700)
+                    .setStartDelay(3000)
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            fab.animate()
+                                    .scaleY(1)
+                                    .scaleX(1)
+                                    .setInterpolator(interpolador)
+                                    .setDuration(600)
+                                    .start();
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+        }
+
+        // acción de Floatting button al recibir onClick
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "¿Nos logueamos con Twitter?", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+    }  // fin oncreate
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -202,6 +271,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * Shows the progress UI and hides the login form.
+     * <p/>
+     * Añadido el fab para que se desapareca al loguear ()
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
@@ -217,6 +288,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+
+                    mTextviewOtherAccount.setVisibility(View.GONE);
+                    // mfabbutton.setVisibility(View.GONE);
+                    // ya no hace falta porque va dentro del formulario y el form lo ocultamos.
                 }
             });
 
@@ -233,6 +308,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+
+            mTextviewOtherAccount.setVisibility(View.GONE);
+            // mfabbutton.setVisibility(View.GONE);
+
         }
     }
 
