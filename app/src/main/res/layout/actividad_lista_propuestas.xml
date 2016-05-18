@@ -13,6 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <include layout="@layout/contenido_actividad_lista_propuestas" />
+
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

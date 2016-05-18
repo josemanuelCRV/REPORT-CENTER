@@ -123,7 +123,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="@string/another_account"
                     android:textColor="@color/secondary_text"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab"

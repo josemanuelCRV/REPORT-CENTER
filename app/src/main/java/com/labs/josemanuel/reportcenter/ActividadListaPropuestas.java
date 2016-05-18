@@ -1,8 +1,14 @@
 package com.labs.josemanuel.reportcenter;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,13 +19,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+
+import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
+
+
+public class ActividadListaPropuestas extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private RecyclerView listaUI;
+    private LinearLayoutManager linearLayoutManager;
+    private AdaptadorPropuestas adaptador;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,7 +56,27 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
+
+
+        // nuevo
+        // Preparar lista
+        listaUI = (RecyclerView) findViewById(R.id.lista);
+        listaUI.setHasFixedSize(true);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        listaUI.setLayoutManager(linearLayoutManager);
+
+        adaptador = new AdaptadorPropuestas(this, this);
+        listaUI.setAdapter(adaptador);
+
+        // Iniciar loader
+        getSupportLoaderManager().restartLoader(1, null, this);
+
+
+
+
+
+    } // fin onCreate
 
     @Override
     public void onBackPressed() {
@@ -97,5 +133,31 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    // NUEVA SECCIÓN DE MANEJO DE RECYCLER ---------------------------------------
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, Alquileres.URI_CONTENIDO, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (adaptador != null) {
+            adaptador.swapCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onClick(AdaptadorPropuestas.ViewHolder holder, String idAlquiler) {
+        Snackbar.make(findViewById(android.R.id.content), ":id = " + idAlquiler,
+                Snackbar.LENGTH_LONG).show();
     }
 }
