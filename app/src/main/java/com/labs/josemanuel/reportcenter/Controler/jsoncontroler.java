@@ -18,7 +18,7 @@ import java.util.Date;
 /**
  * Clase para el manejo de archivos JSON
  * Created by bufigol on 15/05/16.
- */
+
 public class jsoncontroler {
     private static final String ALT  = "alt";
     private static final String BODY = "body";
@@ -243,3 +243,4 @@ public class jsoncontroler {
         }
     }
 }
+*/

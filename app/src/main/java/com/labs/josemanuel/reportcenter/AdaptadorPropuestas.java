@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 
 /**
@@ -29,6 +30,7 @@ import com.bumptech.glide.Glide;
 public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuestas.ViewHolder> {
     private final Context contexto;
     private Cursor items;
+    private Propuesta[] propuestas;
 
     /*
     interfaz de comunicación, mecanismo para que la actividad o fragment escuche los clicks que escucha View.OnClickListener
@@ -79,10 +81,11 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
 
         return null;
     }
-
-    public AdaptadorPropuestas(Context contexto, OnItemClickListener escucha) {
+    //Constructor de la clase
+    public AdaptadorPropuestas(Context contexto, OnItemClickListener escucha, Propuesta[] propuestas) {
         this.contexto = contexto;
         this.escucha = escucha;
+        this.propuestas=propuestas;
 
     }
 

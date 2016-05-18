@@ -4,16 +4,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-<<<<<<< HEAD:app/src/main/java/com/labs/josemanuel/reportcenter/MainActivity.java
 import android.util.Log;
-||||||| merged common ancestors
-=======
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
->>>>>>> origin/Content_main:app/src/main/java/com/labs/josemanuel/reportcenter/ActividadListaPropuestas.java
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,7 +22,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,14 +32,14 @@ import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
 
-<<<<<<< HEAD:app/src/main/java/com/labs/josemanuel/reportcenter/MainActivity.java
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+
+public class ActividadListaPropuestas extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
@@ -52,25 +47,9 @@ public class MainActivity extends AppCompatActivity
     JsonArrayRequest mJsonArrayRequest;
     Propuesta[] feed;
 
-    TextView tv;
-    ImageView fotoCentro;
-||||||| merged common ancestors
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-=======
-
-import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
-
-
-public class ActividadListaPropuestas extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
-
     private RecyclerView listaUI;
     private LinearLayoutManager linearLayoutManager;
     private AdaptadorPropuestas adaptador;
-
-
->>>>>>> origin/Content_main:app/src/main/java/com/labs/josemanuel/reportcenter/ActividadListaPropuestas.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +57,6 @@ public class ActividadListaPropuestas extends AppCompatActivity
         setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tv=(TextView) findViewById(R.id.text);
-        fotoCentro= (ImageView) findViewById(R.id.imageView2);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,13 +75,12 @@ public class ActividadListaPropuestas extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-<<<<<<< HEAD:app/src/main/java/com/labs/josemanuel/reportcenter/MainActivity.java
 
         //-----Procesar Http Volley
         //Recogemos una instancia de Volley
-        volleySingleton= VolleySingleton.getInstance(this);
-        requestQueue= volleySingleton.getRequestQueue();
-        jsonHandler= new JSONHandler();
+        volleySingleton = VolleySingleton.getInstance(this);
+        requestQueue = volleySingleton.getRequestQueue();
+        jsonHandler = new JSONHandler();
 
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -114,8 +90,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
                     public void onResponse(JSONArray response) {
                         // Procesar la respuesta Json
                         procesarRespuesta(response);
-                        tv.setText(String.valueOf(feed[0].getTitle()));
-                        Picasso.with(MainActivity.this).load(feed[0].getImage()[0].getUrl()).into(fotoCentro);
+                        //Picasso.with(ActividadListaPropuestas.this).load(feed[0].getImage()[0].getUrl()).into(fotoCentro);
 
                     }
                 },
@@ -126,13 +101,9 @@ public class ActividadListaPropuestas extends AppCompatActivity
                         error.printStackTrace();
                     }
                 }
-                );
+        );
 
         volleySingleton.addToRequestQueue(mJsonArrayRequest);
-    }
-||||||| merged common ancestors
-    }
-=======
 
 
         // nuevo
@@ -143,19 +114,15 @@ public class ActividadListaPropuestas extends AppCompatActivity
         linearLayoutManager = new LinearLayoutManager(this);
         listaUI.setLayoutManager(linearLayoutManager);
 
-        adaptador = new AdaptadorPropuestas(this, this);
+        adaptador = new AdaptadorPropuestas(this, this,feed);
         listaUI.setAdapter(adaptador);
 
         // Iniciar loader
         getSupportLoaderManager().restartLoader(1, null, this);
 
-
-
-
-
     } // fin onCreate
->>>>>>> origin/Content_main:app/src/main/java/com/labs/josemanuel/reportcenter/ActividadListaPropuestas.java
 
+    //Metodo envoltorio de la inserción de los POJO en el array de propuestas
     private void procesarRespuesta(JSONArray response){
         try {
             Log.v("Respuesta!" , response.getJSONObject(0).toString());
@@ -165,9 +132,6 @@ public class ActividadListaPropuestas extends AppCompatActivity
         }
 
     }
-
-
-
 
     @Override
     public void onBackPressed() {

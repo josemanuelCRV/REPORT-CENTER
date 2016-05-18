@@ -32,13 +32,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-<<<<<<< HEAD
-    <string name="URL">http://XXXX</string>
-||||||| merged common ancestors
-=======
+    <string name="URL">http://stag.hackityapp.com/es/api/v1/proposals</string>
+
     <string name="bg_img_botom">skyline Madrid city</string>
     <string name="logo_flat">Logo</string>
 
 
->>>>>>> origin/Content_main
 </resources>
