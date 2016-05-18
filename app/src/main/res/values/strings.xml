@@ -11,8 +11,10 @@
     <string name="prompt_email">email</string>
     <string name="prompt_user">username</string>
     <string name="prompt_password">password</string>
-    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in">LET´S HACK</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="another_account">Or Sign In with another account</string>
+
 
     <!-- Strings related to SignUp -->
     <string name="title_activity_sing_up">Sign Up</string>
@@ -30,12 +32,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-
-
-
-
-
-
+    <string name="bg_img_botom">skyline Madrid city</string>
+    <string name="logo_flat">Logo</string>
 
 
 </resources>
