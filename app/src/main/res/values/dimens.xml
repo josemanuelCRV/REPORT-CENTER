@@ -9,6 +9,6 @@
 
     <!-- dimensiones para el recycler -->
     <dimen name="margen_superior_lista">8dp</dimen>
-    <dimen name="altura_imagen_item">192dp</dimen>
+    <dimen name="altura_imagen_item">256dp</dimen>
 
 </resources>

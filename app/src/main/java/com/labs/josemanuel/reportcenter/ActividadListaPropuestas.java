@@ -19,54 +19,51 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.gson.Gson;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
-import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+    //UI
+    private RecyclerView listaUI;
+    private TextView emptyFeedTextView;
+    private LinearLayoutManager linearLayoutManager;
+    private AdaptadorPropuestas adaptador;
+
+    //Data
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
     VolleySingleton volleySingleton;
     RequestQueue requestQueue;
-    JSONHandler jsonHandler;
+    //Clase manejadora de JSON
+    JSONHandler jsonHandler = new JSONHandler();
     JsonArrayRequest mJsonArrayRequest;
+    //Array de Propuestas POJO.
     Propuesta[] feed;
 
-    private RecyclerView listaUI;
-    private LinearLayoutManager linearLayoutManager;
-    private AdaptadorPropuestas adaptador;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //UI
         setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        emptyFeedTextView= (TextView) findViewById(R.id.empty_view);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,12 +72,27 @@ public class ActividadListaPropuestas extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // Iniciar loader
+        getSupportLoaderManager().restartLoader(1, null, this);
+        // nuevo
+        // Preparar lista
+        listaUI = (RecyclerView) findViewById(R.id.lista);
+        //listaUI.setHasFixedSize(true);
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
 
-        //-----Procesar Http Volley
+            }
+        });*/
+
+        //Data
         //Recogemos una instancia de Volley
         volleySingleton = VolleySingleton.getInstance(this);
+        //Recogemos una cola de peticiones Http
         requestQueue = volleySingleton.getRequestQueue();
-        jsonHandler = new JSONHandler();
 
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -89,9 +101,11 @@ public class ActividadListaPropuestas extends AppCompatActivity
                     @Override
                     public void onResponse(JSONArray response) {
                         // Procesar la respuesta Json
-                        procesarRespuesta(response);
-                        //Picasso.with(ActividadListaPropuestas.this).load(feed[0].getImage()[0].getUrl()).into(fotoCentro);
-
+                        feed=procesarRespuesta(response);
+                        emptyFeedTextView.setVisibility(View.GONE);
+                        listaUI.setVisibility(View.VISIBLE);
+                        adaptador = new AdaptadorPropuestas(ActividadListaPropuestas.this, ActividadListaPropuestas.this,feed);
+                        listaUI.setAdapter(adaptador);
                     }
                 },
                 new Response.ErrorListener() {
@@ -103,32 +117,25 @@ public class ActividadListaPropuestas extends AppCompatActivity
                 }
         );
 
-        volleySingleton.addToRequestQueue(mJsonArrayRequest);
-
-
-        // nuevo
-        // Preparar lista
-        listaUI = (RecyclerView) findViewById(R.id.lista);
-        listaUI.setHasFixedSize(true);
-
         linearLayoutManager = new LinearLayoutManager(this);
         listaUI.setLayoutManager(linearLayoutManager);
 
-        adaptador = new AdaptadorPropuestas(this, this,feed);
-        listaUI.setAdapter(adaptador);
+        if(feed ==null){
+            listaUI.setVisibility(View.GONE);
+            emptyFeedTextView.setVisibility(View.VISIBLE);
+        }
 
-        // Iniciar loader
-        getSupportLoaderManager().restartLoader(1, null, this);
-
+        volleySingleton.addToRequestQueue(mJsonArrayRequest);
     } // fin onCreate
 
     //Metodo envoltorio de la inserción de los POJO en el array de propuestas
-    private void procesarRespuesta(JSONArray response){
+    private Propuesta[] procesarRespuesta(JSONArray response){
         try {
             Log.v("Respuesta!" , response.getJSONObject(0).toString());
-            feed=jsonHandler.generatePropuestaArray(response);
+            return feed=jsonHandler.generatePropuestaArray(response);
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
 
     }
@@ -211,8 +218,9 @@ public class ActividadListaPropuestas extends AppCompatActivity
     }
 
     @Override
-    public void onClick(AdaptadorPropuestas.ViewHolder holder, String idAlquiler) {
-        Snackbar.make(findViewById(android.R.id.content), ":id = " + idAlquiler,
+    public void onClick(AdaptadorPropuestas.ViewHolder holder, String nidPropuesta) {
+        Snackbar.make(findViewById(android.R.id.content), ":nid = " + nidPropuesta,
                 Snackbar.LENGTH_LONG).show();
     }
+
 }

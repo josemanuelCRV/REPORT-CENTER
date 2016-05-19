@@ -6,7 +6,10 @@ package com.labs.josemanuel.reportcenter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.labs.josemanuel.reportcenter.Model.Localizacion;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 
 /**
@@ -40,31 +47,32 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
     private OnItemClickListener escucha;
 
     interface OnItemClickListener {
-        public void onClick(ViewHolder holder, String idAlquiler);
+        void onClick(ViewHolder holder, String idAlquiler);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         // Referencias UI
-        public TextView viewNombre;
+        public TextView viewTitle;
         public TextView viewUbicacion;
-        public TextView viewDescripcion;
-        public TextView viewPrecio;
+        public TextView viewBody;
+        public TextView viewUsername;
         public ImageView viewFoto;
 
         public ViewHolder(View v) {
             super(v);
-            viewNombre = (TextView) v.findViewById(R.id.nombre);
+            viewTitle = (TextView) v.findViewById(R.id.nombre);
             viewUbicacion = (TextView) v.findViewById(R.id.ubicacion);
-            viewDescripcion = (TextView) v.findViewById(R.id.descripcion);
-            viewPrecio = (TextView) v.findViewById(R.id.precio);
+            viewBody = (TextView) v.findViewById(R.id.descripcion);
+            viewUsername = (TextView) v.findViewById(R.id.precio);
             viewFoto = (ImageView) v.findViewById(R.id.foto);
             v.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            escucha.onClick(this, obtenerIdAlquiler(getAdapterPosition()));
+            //escucha.onClick(this, obtenerIdAlquiler(getAdapterPosition()));
+            escucha.onClick(this, obtenerNid(getAdapterPosition()));
         }
     }
 
@@ -72,15 +80,22 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
     Retorna en el valor de la columna "idAlquiler" de la posición actual.
     Este método es muy útil a la hora de leer los eventos de click y mostrar detalles.
      */
-    private String obtenerIdAlquiler(int posicion) {
+    /*private String obtenerIdAlquiler(int posicion) {
         if (items != null) {
             if (items.moveToPosition(posicion)) {
                 return items.getString(ConsultaAlquileres.ID_ALQUILER);
             }
         }
-
+        return null;
+    }*/
+    //Identificador de la propuesta
+    private String obtenerNid(int posicion) {
+        if (propuestas != null) {
+            return propuestas[posicion].getNid();
+        }
         return null;
     }
+
     //Constructor de la clase
     public AdaptadorPropuestas(Context contexto, OnItemClickListener escucha, Propuesta[] propuestas) {
         this.contexto = contexto;
@@ -101,26 +116,33 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
      */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        items.moveToPosition(position);
+        Propuesta propuesta= propuestas[position];
+        holder.viewTitle.setText(propuesta.getTitle());
+        Localizacion loc = propuesta.getLoc();
+        holder.viewUbicacion.setText(String.format("Latitud %1s\nLongitud %2s",loc.getLatitude().substring(0,7),loc.getLongitude().substring(0,7)));
+        holder.viewBody.setText(propuesta.getBody().getValue());
+        holder.viewUsername.setText(String.format("idUsuario %s" ,propuesta.getUid().getTarget_id())); // Consultar en api el username del id
+        Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);
+
+        /*items.moveToPosition(position);
 
         String s;
 
         // Asignación UI
         s = items.getString(ConsultaAlquileres.NOMBRE);
-        holder.viewNombre.setText(s);
+        holder.viewTitle.setText(s);
 
         s = items.getString(ConsultaAlquileres.UBICACION);
         holder.viewUbicacion.setText(s);
 
         s = items.getString(ConsultaAlquileres.DESCRIPCION);
-        holder.viewDescripcion.setText(s);
+        holder.viewBody.setText(s);
 
         s = items.getString(ConsultaAlquileres.PRECIO);
-        holder.viewPrecio.setText(String.format("%s participantes", s));
+        holder.viewUsername.setText(String.format("%s participantes", s));
 
         s = items.getString(ConsultaAlquileres.URL);
-        Glide.with(contexto).load(s).centerCrop().into(holder.viewFoto);
-
+        Glide.with(contexto).load(s).centerCrop().into(holder.viewFoto);*/
 
     }
 
@@ -128,8 +150,8 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
     // Obtén la cantidad de ítems con el método getCount() del cursor.
     @Override
     public int getItemCount() {
-        if (items != null)
-            return items.getCount();
+        if (propuestas != null)
+            return propuestas.length;
         return 0;
     }
 

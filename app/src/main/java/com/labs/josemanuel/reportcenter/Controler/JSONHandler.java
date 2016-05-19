@@ -110,6 +110,9 @@ public class JSONHandler {
             jsonInput1= jsoninput.getJSONArray(JsonConstants.BODY);
             jsoninput=jsonInput1.getJSONObject(0);
             String  value   = jsoninput.getString(JsonConstants.VALU);
+            //Limpia etiqueta <p> del body
+            value= value.charAt(0)=='<'? value.substring(3,value.length()-6):value;
+
             String  format  = jsoninput.getString(JsonConstants.FRMT);
             String summary = jsoninput.getString(JsonConstants.SMRY);
             return  new Body(value,format,summary);
