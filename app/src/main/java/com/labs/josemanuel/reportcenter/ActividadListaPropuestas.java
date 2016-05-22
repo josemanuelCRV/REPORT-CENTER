@@ -86,11 +86,6 @@ public class ActividadListaPropuestas extends AppCompatActivity
         //Una vez que tengamos la activity de addProposal activada, le pasamos al método JSONHandler.generateJSONObjectFromPropuesta() la  POJO.
         //clienteHttp.makePost(JSONHandler.generateJsonStringFromPropuesta());
 
-        if(feed == null){
-            listaUI.setVisibility(View.GONE);
-            emptyFeedTextView.setVisibility(View.VISIBLE);
-        }
-
 
     } // fin onCreate
 

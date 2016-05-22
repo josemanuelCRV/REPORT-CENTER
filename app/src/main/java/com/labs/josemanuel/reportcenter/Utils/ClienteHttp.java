@@ -50,7 +50,7 @@ public class ClienteHttp {
     /*
     * Para hacer posts en Drupal, se necesita completar dos pasos
     * 1º Realizar una llamada a una url que devuelve un token de autenticación (tokenURL)
-    * 2º Una vez se recibe el token de autenticación, se realiza la petición POST al servidor.
+    * 2º Una vez se recibe el token de autenticación, se realiza la petición POST al servidor con el token.
     */
     private StringRequest getToken(final String data){
 
@@ -112,7 +112,7 @@ public class ClienteHttp {
 
 
 
-    //Dar una vuelta
+    //Dar una vuelta //Cranear un poco
     /**
      * jsonArray
      *
