@@ -46,10 +46,6 @@ public class ActividadListaPropuestas extends AppCompatActivity
     private LinearLayoutManager linearLayoutManager;
     private AdaptadorPropuestas adaptador;
     ClienteHttp clienteHttp;
-    //Data
-    //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
-    VolleySingleton volleySingleton;
-    RequestQueue requestQueue;
     //Clase manejadora de JSON
     JSONHandler jsonHandler = new JSONHandler();
     JsonArrayRequest mJsonArrayRequest;
@@ -71,7 +67,6 @@ public class ActividadListaPropuestas extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // Iniciar loader
@@ -79,33 +74,29 @@ public class ActividadListaPropuestas extends AppCompatActivity
         // nuevo
         // Preparar lista
         listaUI = (RecyclerView) findViewById(R.id.lista);
-        //listaUI.setHasFixedSize(true);
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });*/
-
+        linearLayoutManager = new LinearLayoutManager(this);
+        listaUI.setLayoutManager(linearLayoutManager);
         //Data
         //----------------------------------Nuevo
         clienteHttp= new ClienteHttp(getString(R.string.URL),this);
-        JSONObject dummy = new JSONObject();
-        try {
-            dummy.put("title","hola");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        clienteHttp.initiate();
+        loadProposalFeed();
+
+
+        //Una vez que tengamos la activity de addProposal activada, le pasamos al método JSONHandler.generateJSONObjectFromPropuesta() la  POJO.
+        //clienteHttp.makePost(JSONHandler.generateJsonStringFromPropuesta());
+
+        if(feed == null){
+            listaUI.setVisibility(View.GONE);
+            emptyFeedTextView.setVisibility(View.VISIBLE);
         }
-        clienteHttp.makePost(dummy);
 
-        //Recogemos una instancia de Volley
-        volleySingleton = VolleySingleton.getInstance(this);
-        //Recogemos una cola de peticiones Http
-        requestQueue = volleySingleton.getRequestQueue();
 
+    } // fin onCreate
+
+
+
+    private void loadProposalFeed() {
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 getResources().getString(R.string.URL),
@@ -113,11 +104,12 @@ public class ActividadListaPropuestas extends AppCompatActivity
                     @Override
                     public void onResponse(JSONArray response) {
                         // Procesar la respuesta Json
-                        feed=procesarRespuesta(response);
-                        emptyFeedTextView.setVisibility(View.GONE);
-                        listaUI.setVisibility(View.VISIBLE);
+                        feed=procesarRespuesta(response);//
+                        emptyFeedTextView.setVisibility(View.GONE);//
+                        listaUI.setVisibility(View.VISIBLE);//
                         adaptador = new AdaptadorPropuestas(ActividadListaPropuestas.this, ActividadListaPropuestas.this,feed);
                         listaUI.setAdapter(adaptador);
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -128,18 +120,8 @@ public class ActividadListaPropuestas extends AppCompatActivity
                     }
                 }
         );
-
-        linearLayoutManager = new LinearLayoutManager(this);
-        listaUI.setLayoutManager(linearLayoutManager);
-
-        if(feed ==null){
-            listaUI.setVisibility(View.GONE);
-            emptyFeedTextView.setVisibility(View.VISIBLE);
-        }
-
-        volleySingleton.addToRequestQueue(mJsonArrayRequest);
-    } // fin onCreate
-
+        clienteHttp.addToRequestQueue(mJsonArrayRequest);
+    }
     //Metodo envoltorio de la inserción de los POJO en el array de propuestas
     private Propuesta[] procesarRespuesta(JSONArray response){
         try {

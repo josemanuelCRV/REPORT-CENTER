@@ -1,5 +1,7 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.labs.josemanuel.reportcenter.Model.Body;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Imagen;
@@ -72,6 +74,10 @@ public class JSONHandler {
         return new Propuesta(title,langcode,nid,uuid,created,changed,body,usuario,comentario,loc,imagen,type);
     }
 
+    public static String generateJsonStringFromPropuesta(Propuesta propuesta){
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(propuesta);
+    }
 
     private static String getStringFromNode(JSONObject jsoninput, String nodeName){
         try {
