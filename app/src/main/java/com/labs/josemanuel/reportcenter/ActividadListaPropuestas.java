@@ -28,10 +28,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Utils.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
 
@@ -43,7 +45,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
     private TextView emptyFeedTextView;
     private LinearLayoutManager linearLayoutManager;
     private AdaptadorPropuestas adaptador;
-
+    ClienteHttp clienteHttp;
     //Data
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
     VolleySingleton volleySingleton;
@@ -89,6 +91,16 @@ public class ActividadListaPropuestas extends AppCompatActivity
         });*/
 
         //Data
+        //----------------------------------Nuevo
+        clienteHttp= new ClienteHttp(getString(R.string.URL),this);
+        JSONObject dummy = new JSONObject();
+        try {
+            dummy.put("title","hola");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        clienteHttp.makePost(dummy);
+
         //Recogemos una instancia de Volley
         volleySingleton = VolleySingleton.getInstance(this);
         //Recogemos una cola de peticiones Http
