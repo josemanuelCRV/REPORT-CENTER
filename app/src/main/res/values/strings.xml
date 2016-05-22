@@ -34,6 +34,7 @@
     </string>
     <string name="bg_img_botom">skyline Madrid city</string>
     <string name="logo_flat">Logo</string>
+    <string name="prompt_alias">alias</string>
 
 
 </resources>

@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.labs.josemanuel.reportcenter.LoginActivity"
+    android:background="@color/colorPrimary_light">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/background_sign"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/bg_city2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/bg_img_botom" />
+
+
+    <ImageView
+        android:id="@+id/flat_logo"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/logo_flat_white"
+        android:layout_marginTop="110dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logo_flat" />
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="20"
+        android:visibility="gone"/>
+    <ProgressBar
+
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:visibility="gone" />
+</RelativeLayout>
