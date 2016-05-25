@@ -43,7 +43,16 @@ public class ClienteHttp {
         mVolleySingleton = VolleySingleton.getInstance(mContext); //Recogemos una instancia de Volley
         mRequestQueue = mVolleySingleton.getRequestQueue(); //Recogemos una cola de peticiones Http
     }
-    public <T> void addToRequestQueue(Request<T> req) {
+    /**
+     * @param tag
+     * Nullable, tag para identificar la petición en la cola.
+     * @param req
+     * Petición a procesar por la librería Volley
+     *
+     * */
+    public <T> void addToRequestQueue(String tag,Request<T> req) {
+        if (tag!=null)
+            req.setTag(tag);
         mRequestQueue.add(req);
     }
 

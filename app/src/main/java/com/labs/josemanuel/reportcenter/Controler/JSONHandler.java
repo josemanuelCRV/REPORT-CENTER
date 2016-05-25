@@ -27,6 +27,9 @@ public class JSONHandler {
         Propuesta[] output = new Propuesta[jsoninput.length()];
         for (int i=0;i<output.length;i++) {
             output[i] = generateCompletePropuesta(jsoninput.getJSONObject(i));
+            PropuestaHandler.parseDate(output[i].getCreated());
+            PropuestaHandler.getTimeFromToday(output[i].getCreated());
+            PropuestaHandler.getColorKey(output[i].getField_proposal_status());
         }
 
             return output;

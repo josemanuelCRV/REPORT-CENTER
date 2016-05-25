@@ -29,6 +29,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Utils.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Utils.HttpsTrustManager;
+import com.labs.josemanuel.reportcenter.Utils.NukeSSLCerts;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
 
 import org.json.JSONArray;
@@ -57,6 +59,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new NukeSSLCerts().nuke();
         //UI
         setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -92,6 +95,12 @@ public class ActividadListaPropuestas extends AppCompatActivity
 
 
     private void loadProposalFeed() {
+        String  tag_JsonArray_req = "mJsonArrayRequest";
+        /**
+         * Misma finalidad que NukeSSLCerts.
+         * @see NukeSSLCerts
+         * */
+        //HttpsTrustManager.allowAllSSL();
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 getResources().getString(R.string.URL),
@@ -115,7 +124,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
                     }
                 }
         );
-        clienteHttp.addToRequestQueue(mJsonArrayRequest);
+        clienteHttp.addToRequestQueue(tag_JsonArray_req,mJsonArrayRequest);
     }
     //Metodo envoltorio de la inserción de los POJO en el array de propuestas
     private Propuesta[] procesarRespuesta(JSONArray response){
