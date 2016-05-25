@@ -12,7 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.labs.josemanuel.reportcenter.AdaptadorPropuestas;
+import com.labs.josemanuel.reportcenter.ui.AdaptadorPropuestas;
 import com.labs.josemanuel.reportcenter.R;
 
 import org.json.JSONArray;
@@ -117,7 +117,8 @@ public class ClienteHttp {
      * jsonArray
      *
      * */
-    JSONArray jsonArray;
+
+/*    JSONArray jsonArray;
     //no funciona al ser async
     public void pullJSONarrayFromServer(){
         JsonArrayRequest mJsonArrayRequest = new JsonArrayRequest(
@@ -140,12 +141,15 @@ public class ClienteHttp {
         );
         mVolleySingleton.addToRequestQueue(mJsonArrayRequest);
     }
+
+
     public JSONArray getJsonArray() {
         return jsonArray;
     }
+
     public void setJsonArray(JSONArray jsonArray) {
         this.jsonArray = jsonArray;
-    }
+    }*/
 
 
 }

@@ -33,6 +33,45 @@
         completions."
     </string>
 
+
+    <!-- Actividades -->
+    <string name="title_activity_update">Editar Propuesta</string>
+    <string name="title_activity_detail">Detalle</string>
+    <string name="title_activity_insert">Nueva Propuesta</string>
+
+    <!-- Action Buttons -->
+    <string name="action_delete">Borrar</string>
+    <string name="action_discard">Descartar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_done">Guardar</string>
+
+    <!-- Categorías -->
+    <string-array name="entradas_categoria">
+        <item>Mobiliario Urbano</item>
+        <item>Limpieza</item>
+        <item>Movilidad</item>
+        <item>Áreas Verdes</item>
+        <item>Vida urbana</item>
+        <item>Otras</item>
+    </string-array>
+
+    <!-- Prioridades -->
+    <string-array name="entradas_prioridad">
+        <item>Alta</item>
+        <item>Media</item>
+        <item>Baja</item>
+    </string-array>
+
+    <!-- Diálogos -->
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_discard_msg">¿Descartar Cambios?</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_delete_msg">Se eliminará la meta</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
     <string name="URL">http://stag.hackityapp.com/es/api/v1/proposals</string>
 
     <string name="bg_img_botom">skyline Madrid city</string>

@@ -11,4 +11,8 @@
     <dimen name="margen_superior_lista">8dp</dimen>
     <dimen name="altura_imagen_item">256dp</dimen>
 
+    <!-- dimensiones para bg_Category e Img_Detail -->
+    <dimen name="altura_imagen_detail">300dp</dimen>
+
+
 </resources>

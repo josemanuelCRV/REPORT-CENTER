@@ -1,4 +1,4 @@
-package com.labs.josemanuel.reportcenter;
+package com.labs.josemanuel.reportcenter.ui.actividades;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -35,6 +35,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.labs.josemanuel.reportcenter.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -92,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
+                Intent goMain = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(goMain);
 
                 // attemptLogin();
@@ -122,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     .scaleY(1)
                     .setInterpolator(interpolador)
                     .setDuration(700)
-                    .setStartDelay(3000)
+                    .setStartDelay(2000)
                     .setListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -155,8 +157,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "¿Nos logueamos con Twitter?", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent goMain = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(goMain);
+                /*Snackbar.make(view, "¿Nos logueamos con Twitter?", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 
@@ -238,18 +242,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+           // focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+           //  focusView = mEmailView;
             cancel = true;
         }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView.requestFocus();
+           //  focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.

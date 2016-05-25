@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
 
+/*
 
 public class ActividadListaPropuestas extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -213,3 +214,4 @@ public class ActividadListaPropuestas extends AppCompatActivity
     }
 
 }
+*/
