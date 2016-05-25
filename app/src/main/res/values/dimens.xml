@@ -6,4 +6,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- dimensiones para el recycler -->
+    <dimen name="margen_superior_lista">8dp</dimen>
+    <dimen name="altura_imagen_item">256dp</dimen>
+
 </resources>

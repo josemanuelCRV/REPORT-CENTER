@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#00BCD4</color>
     <color name="colorPrimaryDark">#0097A7</color>
-    <color name="colorPrimary_light">#B2EBF2</color>
+    <color name="colorPrimary_light">#b2ebf2</color>
     <color name="colorAccent">#ff5722</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
@@ -11,10 +11,14 @@
 
     <!-- Giant Goldfish palette-->
     <color name="gold1_aoi">#69D2E7</color>
-    <color name="gold2_poundwater">#A7DBD8</color>
+    <color name="gold2_poundwater">#a7dbd8</color>
     <color name="gold3_beachStorm">#E0E4CC</color>
     <color name="gold4_giant">#F38630</color>
     <color name="gold5_unreal">#F38630</color>
+
+    <!-- Colores Hackity -->
+
+    <color name="rojo_hackity">#e43e26</color>
 
     <color name="btn_Twitter_normal">#33b5e5</color>
     <color name="btn_Twitter_pressed">#3F51B5</color>
