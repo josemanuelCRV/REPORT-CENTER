@@ -35,6 +35,7 @@ import org.json.JSONObject;
 public class DetailFragment extends Fragment {
 
 
+    // asdfcasd
     /**
      * Etiqueta de depuración
      */
