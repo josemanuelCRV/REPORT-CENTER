@@ -1,8 +1,9 @@
 package com.labs.josemanuel.reportcenter;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.support.v4.app.LoaderManager;
@@ -22,22 +23,20 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
-import com.labs.josemanuel.reportcenter.Utils.ClienteHttp;
-import com.labs.josemanuel.reportcenter.Utils.HttpsTrustManager;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Utils.NukeSSLCerts;
-import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
+
+import java.util.Map;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
@@ -60,6 +59,11 @@ public class ActividadListaPropuestas extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new NukeSSLCerts().nuke();
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+        editor.putBoolean("login",false);
+        editor.apply();
+
         //UI
         setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

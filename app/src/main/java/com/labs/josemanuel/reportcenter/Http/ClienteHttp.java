@@ -1,9 +1,10 @@
-package com.labs.josemanuel.reportcenter.Utils;
+package com.labs.josemanuel.reportcenter.Http;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,12 +13,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.labs.josemanuel.reportcenter.AdaptadorPropuestas;
-import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,7 +32,7 @@ import java.util.Map;
 public class ClienteHttp {
     private static String mUrl;
 
-    String tokenURL= "/rest/session/token";
+    String tokenURL= "/user/rest/session/token";
     Context mContext;
     //Data
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
@@ -69,6 +75,32 @@ public class ClienteHttp {
                 String token = response;//recogida token.
                 Log.v("token ", token);
 
+                //----------------REFACTOR!
+                if (token != null) {
+                    OutputStreamWriter osw=null;
+                    try {
+                        if(PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("login",true)){
+                            osw= new OutputStreamWriter(mContext.openFileOutput("clave.txt",mContext.MODE_PRIVATE));
+                            osw.write(ClienteHttp.getStringFromJSONObjectBackend(token,"tokenCSRF"));
+                            Credentials.setUserId(ClienteHttp.getStringFromJSONObjectBackend(token,"userId"));
+                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean("login",false);
+                            editor.apply();
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }finally{
+                        try {
+                            osw.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // can get more details such as response.headers
+                    }
+
+
                 mVolleySingleton.addToRequestQueue(proposalPost(token,data));
             }
         },new Response.ErrorListener() {
@@ -81,7 +113,7 @@ public class ClienteHttp {
         return mStringRequest;
     }
     public static StringRequest proposalPost(final String token,final String data){
-        StringRequest mStringRequest = new StringRequest(Request.Method.POST, mUrl, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.POST, mUrl+"/user/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.v("Response server", response);
@@ -105,9 +137,14 @@ public class ClienteHttp {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                super.getHeaders().put("Content-Type","application/json");
-                super.getHeaders().put("X-CSRF-Token",token);
-                return super.getHeaders();
+                Map<String,String> params = new HashMap<>();
+                try {
+                    JSONObject aux = new JSONObject(token);
+                    params.put("X-CSRF-Token",aux.getString("tokenCSRF"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return params;
             }
         };
 
@@ -116,6 +153,10 @@ public class ClienteHttp {
     }
     //Método wrapper de la petición POST a Drupal.
     public void makePost(String data){
+        mVolleySingleton.addToRequestQueue(getToken(data));
+    }
+
+    public void doLogin(String data){
         mVolleySingleton.addToRequestQueue(getToken(data));
     }
 
@@ -156,5 +197,16 @@ public class ClienteHttp {
         this.jsonArray = jsonArray;
     }
 
-
+    public static String getStringFromJSONObjectBackend(String jsonString,String fieldName){
+        String output;
+        JSONObject jsonObject;
+        try {
+            jsonObject= new JSONObject(jsonString);
+            output=jsonObject.getString(fieldName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            output="Error: nothing";
+        }
+        return output;
+    }
 }

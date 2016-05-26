@@ -119,7 +119,15 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         Propuesta propuesta= propuestas[position];
         holder.viewTitle.setText(propuesta.getTitle());
         Localizacion loc = propuesta.getLoc();
-        holder.viewUbicacion.setText(String.format("Latitud %1s\nLongitud %2s",loc.getLatitude().substring(0,7),loc.getLongitude().substring(0,7)));
+        /**
+         * 26/05/2016
+         * visualización nodo vacío en Localización
+         * Si no se ha registrado la localización de la propuesta, muestra lat= 0 lg=0
+        * */
+        if(loc.getLongitude().length()==1)
+            holder.viewUbicacion.setText(String.format("Latitud %1s\nLongitud %2s",loc.getLatitude(),loc.getLongitude()));
+        else
+            holder.viewUbicacion.setText(String.format("Latitud %1s\nLongitud %2s",loc.getLatitude().substring(0,7),loc.getLongitude().substring(0,7)));
         holder.viewBody.setText(propuesta.getBody().getValue());
         holder.viewUsername.setText(String.format("idUsuario %s" ,propuesta.getUid().getTarget_id())); // Consultar en api el username del id
         Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);
