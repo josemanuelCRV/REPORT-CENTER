@@ -7,18 +7,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.OnScrollListenerEnAnabolizantes;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.JsonConstants;
 import com.labs.josemanuel.reportcenter.modelo.Meta;
@@ -54,14 +59,19 @@ public class DetailFragment extends Fragment {
     private ImageButton editButton;
     private String extra;
     private Gson gson = new Gson();
+    private ScrollView panoflasquesomos;
 
     /*
     instancia global del administrador
      */
     private RecyclerView.LayoutManager lManager;
+
     private InteractiveScrollView scrollView;
+    private LinearLayout comentariosContainer;
+    private TextView btnVolver;
 
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
 
 
     public DetailFragment() {
@@ -90,7 +100,12 @@ public class DetailFragment extends Fragment {
         fechaLim = (TextView) v.findViewById(R.id.fecha);
         categoria = (TextView) v.findViewById(R.id.categoria);
         editButton = (ImageButton) v.findViewById(R.id.fab);
-        scrollView = (InteractiveScrollView) v.findViewById(R.id.contenedor);
+        btnVolver= (TextView) v.findViewById(R.id.btnBack);
+        panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
+
+        //Layout que contiene botón retroceder y comentarios
+        comentariosContainer= (LinearLayout) v.findViewById(R.id.comentariosContainer);
+        scrollView = (InteractiveScrollView) v.findViewById(R.id.comentarios);
 
         AdaptadorComentario adapter = new AdaptadorComentario(getContext(), Infrastructure.getComentarioSeleccionada());
         scrollView.setAdapter(adapter);         // Usar un administrador para LinearLayout
@@ -99,6 +114,7 @@ public class DetailFragment extends Fragment {
         scrollView.setLayoutManager(lManager);
         // Obtener extra del intent de envío
         extra = getArguments().getString(Constantes.EXTRA_ID);
+
 
 
         // Setear escucha para el fab
@@ -114,6 +130,40 @@ public class DetailFragment extends Fragment {
                 }
         );
 
+
+        panoflasquesomos.setOnScrollChangeListener(new OnScrollListenerEnAnabolizantes(comentariosContainer));
+
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                panoflasquesomos.setVisibility(View.VISIBLE);
+                comentariosContainer.setVisibility(View.GONE);
+            }
+        });
+
+//        scrollView.setOnBottomReachedListener(new InteractiveScrollView.OnBottomReachedListener() {
+//            @Override
+//            public void onBottomReached() {
+//                Log.v("EVENTO!","LLEGUE AL FINAL");
+//            }
+//        });
+//
+
+
+        /*scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                Log.v("ScrollMOved","Up&down");
+                *//*View view = scrollView.getChildAt(scrollView.getChildCount()-1);
+                int diff = (view.getBottom()-(scrollView.getHeight()+scrollView.getScrollY()));
+
+                if (diff == 0 && scrollView.getOnBottomReachedListener()!= null) {
+                    scrollView.getOnBottomReachedListener();
+                }*//*
+        }}
+        );*/
+
+        //scrollView.setOnScrollChangeListener(new OnScrollListenerEnAnabolizantes());
 
         // Cargar datos desde el web service
         cargarDatos();

@@ -79,12 +79,12 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Comentario comentario = comentarios[position];
-        holder.viewCount.setText(comentario.getCount());
+        //holder.viewCount.setText(comentario.getCount());
         holder.viewId.setText(comentario.getId());
-        holder.viewName.setText(comentario.getName());
-        holder.viewStatus.setText(comentario.getStatus()); // Consultar en api el username del id
-        holder.viewTimestamp.setText(comentario.getTimestamp()); // Consultar en api el username del id
-        holder.viewUid.setText(comentario.getUid().getTarget_id()); // Consultar en api el username del id
+        //holder.viewName.setText(comentario.getName());
+        //holder.viewStatus.setText(comentario.getStatus()); // Consultar en api el username del id
+        //holder.viewTimestamp.setText(comentario.getTimestamp()); // Consultar en api el username del id
+        //holder.viewUid.setText(comentario.getUid().getTarget_id()); // Consultar en api el username del id
 
 
 

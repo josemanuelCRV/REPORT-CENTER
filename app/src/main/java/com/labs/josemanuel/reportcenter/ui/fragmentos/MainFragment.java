@@ -156,9 +156,6 @@ public class MainFragment extends Fragment {
     }
 
 
-
-/*    */
-
     /**
      * Carga el adaptador con las metas obtenidas
      * en la respuesta
@@ -166,7 +163,7 @@ public class MainFragment extends Fragment {
 
     public void cargarAdaptador() {
 
-        // HttpsTrustManager.allowAllSSL();
+        HttpsTrustManager.allowAllSSL();
         mJsonArrayRequest = new JsonArrayRequest(
                 getResources().getString(R.string.URL),
                 new Response.Listener<JSONArray>() {
