@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Utils.NukeSSLCerts;
 import com.labs.josemanuel.reportcenter.tools.Constantes;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MainFragment;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        new NukeSSLCerts().nuke();
 
         /*
             CHECK TOOLBAR

@@ -72,7 +72,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="URL">http://stag.hackityapp.com/es/api/v1/proposals</string>
+    <string name="URL">https://stag.hackityapp.com/es/api/v1/proposals</string>
 
     <string name="bg_img_botom">skyline Madrid city</string>
     <string name="logo_flat">Logo</string>

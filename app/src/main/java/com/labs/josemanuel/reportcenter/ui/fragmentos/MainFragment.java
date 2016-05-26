@@ -22,6 +22,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Utils.HttpsTrustManager;
+import com.labs.josemanuel.reportcenter.Utils.NukeSSLCerts;
 import com.labs.josemanuel.reportcenter.ui.AdaptadorPropuestas;
 import com.labs.josemanuel.reportcenter.ui.actividades.InsertActivity;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
@@ -98,6 +100,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
+        new NukeSSLCerts().nuke();
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -162,6 +165,8 @@ public class MainFragment extends Fragment {
      */
 
     public void cargarAdaptador() {
+
+        // HttpsTrustManager.allowAllSSL();
         mJsonArrayRequest = new JsonArrayRequest(
                 getResources().getString(R.string.URL),
                 new Response.Listener<JSONArray>() {
