@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     .scaleY(1)
                     .setInterpolator(interpolador)
                     .setDuration(700)
-                    .setStartDelay(2000)
+                    .setStartDelay(1000)
                     .setListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {

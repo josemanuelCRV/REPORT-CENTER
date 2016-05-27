@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="8dp"
+    android:layout_marginLeft="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_vertical_margin"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     card_view:cardUseCompatPadding="true">
@@ -18,14 +21,58 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <!-- FOTO Propuesta-->
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titulo"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/foto"
+            android:layout_alignStart="@+id/foto" />
+
         <ImageView
             android:id="@+id/foto"
             android:layout_width="match_parent"
             android:layout_height="@dimen/altura_imagen_item"
-            android:layout_marginBottom="10dp"
             android:adjustViewBounds="false"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:layout_below="@+id/titulo"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="21dp" />
 
+
+        <!--Boton Follow-->
+    <!--    <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/btnFolow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/ic_favorite_red"
+            card_view:backgroundTint="@color/background"
+
+            card_view:rippleColor="@color/colorRippleMini"
+            card_view:fabSize="mini"/>-->
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnFolow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_favorite_red"
+            fab:fab_colorNormal="@color/colorNormalMiniClose"
+            fab:fab_colorPressed="@color/colorPressedMiniClose"
+            fab:fab_colorRipple="@color/colorRippleMini"
+            card_view:fabSize="mini"
+            card_view:backgroundTint="@color/background"
+            android:layout_below="@+id/titulo"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <!-- foto de User circle shape-->
         <ImageView
@@ -36,44 +83,36 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/foto"
             android:layout_marginBottom="10dp"
-            android:src="@android:drawable/sym_def_app_icon" />
+            android:src="@android:drawable/sym_def_app_icon"
+            android:layout_marginTop="6dp" />
 
         <!-- nombre de User circle shape-->
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fotouser"
             android:layout_toEndOf="@+id/fotouser"
             android:layout_toRightOf="@+id/fotouser"
             android:paddingBottom="@dimen/activity_vertical_margin"
-            android:text="$ Precio"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:text="username"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:layout_below="@+id/foto"
+            android:layout_marginTop="6dp" />
 
         <!-- Fecha -->
         <TextView
             android:id="@+id/fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/username"
-            android:layout_toEndOf="@+id/fotouser"
-            android:layout_toRightOf="@+id/fotouser"
             android:text="Fecha"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/highlighted_text_material_light" />
+            android:textColor="@color/highlighted_text_material_light"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_toRightOf="@+id/fotouser"
+            android:layout_toEndOf="@+id/fotouser" />
 
 
         <!-- Titulo -->
-        <TextView
-            android:id="@+id/titulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/fotouser"
-            android:layout_alignStart="@+id/fotouser"
-            android:layout_below="@+id/fotouser"
-            android:text="Titulo"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:layout_marginTop="10dp" />
 
 
         <!-- Descripcion -->
@@ -81,12 +120,13 @@
             android:id="@+id/descripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titulo"
-            android:layout_marginBottom="15dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet."
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@+id/fotouser"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
         <!-- Categoría -->
@@ -94,13 +134,13 @@
             android:id="@+id/categoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categoría"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/accent"
             android:layout_alignBaseline="@+id/username"
             android:layout_alignBottom="@+id/username"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:text="Categoría"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/accent" />
 
         <!-- Ubicacion -->
         <TextView
@@ -122,10 +162,9 @@
             android:text="Prioridad"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="italic"
-            android:layout_below="@+id/descripcion"
+            android:layout_above="@+id/btn_sumit_commit"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="15dp" />
+            android:layout_alignParentStart="true" />
 
         <!-- Icono para la fecha -->
         <ImageView
@@ -138,8 +177,9 @@
             android:src="@android:drawable/ic_menu_directions" />
 
 
+        <!-- Boton detalle -->
         <Button
-            android:id="@+id/btn_detalle"
+            android:id="@+id/btn_sumit_commit"
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -149,22 +189,22 @@
             android:layout_alignStart="@+id/prioridad" />
 
         <TextView
+            android:id="@+id/followers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Follow:  5"
-            android:id="@+id/followers"
             android:layout_alignTop="@+id/prioridad"
             android:layout_centerHorizontal="true"
+            android:text="Follow:  5"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <TextView
+            android:id="@+id/repairers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reparir it:  2"
-            android:id="@+id/repairers"
-            android:layout_alignTop="@+id/followers"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/followers"
+            android:text="Reparir it:  2"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 

@@ -4,14 +4,19 @@ package com.labs.josemanuel.reportcenter.ui;
  * Created by JMC on 25/05/2016.
  */
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +24,7 @@ import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Localizacion;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.Usuario;
+import com.labs.josemanuel.reportcenter.OnScrollListenerEnAnabolizantes;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.tools.Infrastructure;
 import com.labs.josemanuel.reportcenter.ui.actividades.DetailActivity;
@@ -31,9 +37,6 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
     private Comentario[] comentarios;
 
 
-
-
-
     //Constructor de la clase
     public AdaptadorComentario(Context contexto, Comentario[] comentarios) {
         this.contexto = contexto;
@@ -42,8 +45,7 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder
-            {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         // Referencias UI
         public TextView viewStatus;
         public TextView viewId;
@@ -51,8 +53,10 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
         public TextView viewName;
         public TextView viewUid;
         public TextView viewCount;
+        public ImageButton btnVolver;
 
 
+        @TargetApi(Build.VERSION_CODES.M)
         public ViewHolder(View v) {
             super(v);
             viewStatus = (TextView) v.findViewById(R.id.status);
@@ -61,6 +65,8 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
             viewName = (TextView) v.findViewById(R.id.name);
             viewUid = (TextView) v.findViewById(R.id.uid);
             viewCount = (TextView) v.findViewById(R.id.count);
+
+
         }
 
     }
@@ -81,11 +87,10 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
         Comentario comentario = comentarios[position];
         //holder.viewCount.setText(comentario.getCount());
         holder.viewId.setText(comentario.getId());
-        //holder.viewName.setText(comentario.getName());
-        //holder.viewStatus.setText(comentario.getStatus()); // Consultar en api el username del id
-        //holder.viewTimestamp.setText(comentario.getTimestamp()); // Consultar en api el username del id
+        holder.viewName.setText(comentario.getName());
+        holder.viewStatus.setText(comentario.getStatus()); // Consultar en api el username del id
+        holder.viewTimestamp.setText(comentario.getTimestamp()); // Consultar en api el username del id
         //holder.viewUid.setText(comentario.getUid().getTarget_id()); // Consultar en api el username del id
-
 
 
     }

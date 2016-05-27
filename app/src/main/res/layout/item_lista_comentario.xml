@@ -2,8 +2,10 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
+    android:layout_marginLeft="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_vertical_margin"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
     card_view:cardElevation="@dimen/cardview_default_elevation"
     card_view:cardUseCompatPadding="true">
@@ -17,7 +19,10 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <!-- FOTO Propuesta-->
+
+
+
+        <!-- Status-->
         <TextView
             android:id="@+id/status"
             android:layout_width="match_parent"
@@ -27,50 +32,54 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="49dp" />
+            android:layout_marginTop="49dp"
+            android:text="status"
+            android:layout_toRightOf="@+id/uid"
+            android:layout_toEndOf="@+id/uid" />
 
 
-        <!-- foto de User circle shape-->
+        <!-- ID-->
         <TextView
             android:id="@+id/id"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@android:drawable/sym_def_app_icon"
+            android:text="id"
+            android:layout_alignTop="@+id/status"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="false"
-            android:layout_marginTop="57dp" />
+            android:layout_alignParentStart="true" />
 
-        <!-- nombre de User circle shape-->
+        <!-- TimeStamp-->
         <TextView
             android:id="@+id/timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/activity_vertical_margin"
-            android:text="$ Precio"
+            android:text="Timestamp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:layout_below="@+id/name"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="66dp" />
+            android:layout_alignParentStart="true" />
 
-        <!-- Fecha -->
+        <!-- Name -->
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha"
+            android:text="name"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/highlighted_text_material_light"
+            android:textColor="@color/primary_text"
             android:layout_below="@+id/count"
-            android:layout_marginTop="38dp" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
-        <!-- Titulo -->
+        <!-- UUID -->
         <TextView
             android:id="@+id/uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Titulo"
+            android:text="UUID"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             android:layout_centerHorizontal="true" />
 
@@ -80,10 +89,11 @@
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet."
+            android:text="Count : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet."
             android:ellipsize="end"
             android:maxLines="2"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="28dp"
             android:layout_below="@+id/id"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

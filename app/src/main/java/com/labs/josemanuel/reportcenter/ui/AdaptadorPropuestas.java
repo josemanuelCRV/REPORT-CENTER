@@ -53,7 +53,7 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             viewBody = (TextView) v.findViewById(R.id.descripcion);
             viewUsername = (TextView) v.findViewById(R.id.username);
             viewFoto = (ImageView) v.findViewById(R.id.foto);
-            viewDetalleButton = (Button) v.findViewById(R.id.btn_detalle);
+            viewDetalleButton = (Button) v.findViewById(R.id.btn_sumit_commit);
             v.setOnClickListener(this);
         }
 

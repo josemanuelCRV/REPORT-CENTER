@@ -68,10 +68,9 @@ public class DetailFragment extends Fragment {
 
     private InteractiveScrollView scrollView;
     private LinearLayout comentariosContainer;
-    private TextView btnVolver;
+    private ImageButton btnVolver;
 
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
-
 
 
     public DetailFragment() {
@@ -89,6 +88,7 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
 
         // Obtención de views
@@ -100,11 +100,11 @@ public class DetailFragment extends Fragment {
         fechaLim = (TextView) v.findViewById(R.id.fecha);
         categoria = (TextView) v.findViewById(R.id.categoria);
         editButton = (ImageButton) v.findViewById(R.id.fab);
-        btnVolver= (TextView) v.findViewById(R.id.btnBack);
+        btnVolver = (ImageButton) v.findViewById(R.id.btnBack);
         panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
 
         //Layout que contiene botón retroceder y comentarios
-        comentariosContainer= (LinearLayout) v.findViewById(R.id.comentariosContainer);
+        comentariosContainer = (LinearLayout) v.findViewById(R.id.comentariosContainer);
         scrollView = (InteractiveScrollView) v.findViewById(R.id.comentarios);
 
         AdaptadorComentario adapter = new AdaptadorComentario(getContext(), Infrastructure.getComentarioSeleccionada());
@@ -114,7 +114,6 @@ public class DetailFragment extends Fragment {
         scrollView.setLayoutManager(lManager);
         // Obtener extra del intent de envío
         extra = getArguments().getString(Constantes.EXTRA_ID);
-
 
 
         // Setear escucha para el fab
@@ -133,13 +132,25 @@ public class DetailFragment extends Fragment {
 
         panoflasquesomos.setOnScrollChangeListener(new OnScrollListenerEnAnabolizantes(comentariosContainer));
 
+
+
+        if(panoflasquesomos.isAccessibilityFocused()  ){
+            btnVolver.setVisibility(View.INVISIBLE);
+        }else
+            btnVolver.setVisibility(View.VISIBLE);
+
+
+        // ************* Boton close
+
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 panoflasquesomos.setVisibility(View.VISIBLE);
                 comentariosContainer.setVisibility(View.GONE);
+                //btnVolver.setVisibility(View.GONE);
             }
         });
+
 
 //        scrollView.setOnBottomReachedListener(new InteractiveScrollView.OnBottomReachedListener() {
 //            @Override

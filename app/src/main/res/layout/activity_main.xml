@@ -36,7 +36,8 @@ tools:context=".ui.actividades.MainActivity">
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".ui.actividades.MainActivity"
-        android:layout_below="@+id/include" />
+        android:layout_below="@+id/include"
+        android:background="@color/gold3_beachStorm" />
 
 
 
