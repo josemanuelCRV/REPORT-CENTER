@@ -1,17 +1,22 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Model.Body;
 import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
+import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Imagen;
 import com.labs.josemanuel.reportcenter.Model.Localizacion;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.Status;
 import com.labs.josemanuel.reportcenter.Model.Type;
+import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.Model.Usuario;
-import com.labs.josemanuel.reportcenter.Utils.JsonConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,24 +44,6 @@ public class JSONHandler {
             return null;
         }
     }
-
-    public static Propuesta generatePropuesta(JSONObject jsoninput) {
-        String title = getStringFromNode(jsoninput, "title");
-        String langcode = getStringFromNode(jsoninput, "langcode");
-        String nid = getStringFromNode(jsoninput, "nid");
-        String uuid = getStringFromNode(jsoninput, "uuid");
-        String created = getStringFromNode(jsoninput, "created");
-        String changed = getStringFromNode(jsoninput, "changed");
-        Body body = getBodyFromNode(jsoninput);
-        Usuario usuario = getUsuarioFromNode(jsoninput, "uid");
-        Comentario[] comentario = getCommentsArray(jsoninput);
-        Localizacion loc = getLocalizacionFromNode(jsoninput);
-        Imagen[] imagen = getImagenArray(jsoninput);
-        Type type = getTypeFromNode(jsoninput);
-
-        return new Propuesta(title, langcode, nid, uuid, created, changed, body, usuario, comentario, loc, imagen, type);
-    }
-
     public static Propuesta generateCompletePropuesta(JSONObject jsoninput) {
         String nid = getStringFromNode(jsoninput, "nid");
         String uuid = getStringFromNode(jsoninput, "uuid");
@@ -105,6 +92,70 @@ public class JSONHandler {
         );
     }
 
+    public static User generateUser(JSONObject jsoninput){
+        String uid = getStringFromNode(jsoninput, "uid");
+        String uuid = getStringFromNode(jsoninput, "uuid");
+        String langcode = getStringFromNode(jsoninput, "langcode");
+        String preferred_language = getStringFromNode(jsoninput, "preferred_language");
+        String preferred_admin_langcode = getStringFromNode(jsoninput, "preferred_admin_langcode");
+        String mail = getStringFromNode(jsoninput, "mail");
+        String timezone = getStringFromNode(jsoninput, "timezone");
+        String status = getStringFromNode(jsoninput, "status");
+        String created = getStringFromNode(jsoninput, "created");
+        String changed = getStringFromNode(jsoninput, "changed");
+        String access = getStringFromNode(jsoninput, "access");
+        String login = getStringFromNode(jsoninput, "login");
+        String init = getStringFromNode(jsoninput, "init");
+        String roles = getStringFromNode(jsoninput, "roles");
+        String default_langcode = getStringFromNode(jsoninput, "default_langcode");
+        String path = getStringFromNode(jsoninput, "path");
+        String avatars_avatar_generator = getStringFromNode(jsoninput, "avatars_avatar_generator");
+        String avatars_user_picture = getStringFromNode(jsoninput, "avatars_user_picture");
+        String user_picture = getStringFromNode(jsoninput, "user_picture");
+
+        return new User(uid,uuid,langcode,preferred_language,preferred_admin_langcode,mail,timezone,status,created,changed,access
+                    ,login,init,roles,default_langcode,path,avatars_avatar_generator,avatars_user_picture,user_picture);
+    }
+
+
+    public static Comment generateComment(JSONObject jsoninput){
+        String cid = getStringFromNode(jsoninput, "cid");
+        String uuid = getStringFromNode(jsoninput, "uuid");
+        String pid = getStringFromNode(jsoninput, "pid");
+        JSONArray entity_id_aux;
+        JSONObject entity_id_aux_container=null;
+        Propuesta entity_id=null;
+        try {
+            entity_id_aux= jsoninput.getJSONArray("entity_id");
+            entity_id_aux_container=entity_id_aux.getJSONObject(0);
+            entity_id= new Propuesta (
+                    entity_id_aux_container.getString(JsonConstants.TGID),
+                    entity_id_aux_container.getString(JsonConstants.TGTY),
+                    entity_id_aux_container.getString(JsonConstants.TGUD),
+                    entity_id_aux_container.getString(JsonConstants.URL)
+                    );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String subject = getStringFromNode(jsoninput, "subject");
+        String langcode = getStringFromNode(jsoninput, "langcode");
+        Usuario usuario = getUsuarioFromNode(jsoninput,"uid");
+        String name = getStringFromNode(jsoninput, "name");
+        String mail = getStringFromNode(jsoninput, "mail");
+        String homepage = getStringFromNode(jsoninput, "homepage");
+        String created = getStringFromNode(jsoninput, "created");
+        String changed = getStringFromNode(jsoninput, "changed");
+        String status = getStringFromNode(jsoninput, "status");
+        String thread = getStringFromNode(jsoninput, "thread");
+        String entity_type = getStringFromNode(jsoninput, "entity_type");
+        String comment_type = getStringFromNode(jsoninput, "comment_type");
+        String field_name = getStringFromNode(jsoninput, "field_name");
+        String default_langcode = getStringFromNode(jsoninput, "default_langcode");
+        Body comment_body = getBodyFromNode(jsoninput);
+        return new Comment(cid,uuid,pid,entity_id,subject,langcode,usuario,name,mail,homepage,created,changed,status
+                ,thread,entity_type,comment_type,field_name,default_langcode,comment_body);
+    }
+
     public static String generateJsonStringFromPropuesta(Propuesta propuesta) {
         Gson gson = new GsonBuilder().create();
         return gson.toJson(propuesta);
@@ -134,14 +185,19 @@ public class JSONHandler {
             if (arrayJSON.length() == 0)
                 return null;
             container = arrayJSON.getJSONObject(0);
-            String value = container.getString(JsonConstants.VALU);
 
+            String value = container.getString(JsonConstants.VALU);
             //Limpia etiqueta <p> del body
             value = value.charAt(0) == '<' ? value.substring(3, value.length() - 6) : value;
             String format = container.getString(JsonConstants.FRMT);
-            String summary = container.getString(JsonConstants.SMRY);
-
-            return new Body(value, format, summary);
+            String summary;
+            //Comprobación body de propuesta, si lo es devuelve el constructor con los 3 parámetros.
+            if (container.length()==3){
+                summary= container.getString(JsonConstants.SMRY);
+                return new Body(value,format,summary);
+            }
+            //Si no lo es, devuelve el constructor de un body de comentario
+            return new Body(value, format);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

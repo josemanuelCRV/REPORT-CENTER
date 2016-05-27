@@ -1,4 +1,4 @@
-package com.labs.josemanuel.reportcenter.Utils;
+package com.labs.josemanuel.reportcenter.Controler;
 
 /**
  * Created by Miguel on 5/16/2016.

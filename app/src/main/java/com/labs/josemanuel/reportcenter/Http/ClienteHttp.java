@@ -12,8 +12,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
+import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
+import com.labs.josemanuel.reportcenter.Model.Comment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +29,9 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Miguel on 5/22/2016.
@@ -197,6 +204,28 @@ public class ClienteHttp {
         this.jsonArray = jsonArray;
     }
 
+
+
+    public JSONObject getCommentFromCid(String cid){
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl + "/es/user/" + cid + "?_format=json",future,future);
+
+        mVolleySingleton.addToRequestQueue(jsonObjectRequest);
+
+        try {
+            return future.get(2500, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+
     public static String getStringFromJSONObjectBackend(String jsonString,String fieldName){
         String output;
         JSONObject jsonObject;
@@ -209,4 +238,6 @@ public class ClienteHttp {
         }
         return output;
     }
+
+
 }

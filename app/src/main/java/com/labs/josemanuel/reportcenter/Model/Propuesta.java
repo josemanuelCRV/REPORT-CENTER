@@ -43,6 +43,7 @@ public class Propuesta {
     private String field_proposal_postal_code;
     private String field_proposal_route_name;
     private Status field_proposal_status;
+    private String url;
 
     public Propuesta(String title,
                      String langcode,
@@ -107,7 +108,13 @@ public class Propuesta {
         this.field_proposal_status = field_proposal_status;
     }
 
-
+    //--------------
+    public Propuesta(String target_id,String target_type, String target_uuid, String url) {
+        this.nid = target_id;
+        this.type.setTarget_type(target_type);
+        this.uuid = target_uuid;
+        this.url=url;
+    }
 
     public String getNid() {
         return nid;

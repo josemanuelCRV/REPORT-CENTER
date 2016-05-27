@@ -1,4 +1,4 @@
-package com.labs.josemanuel.reportcenter.Utils;
+package com.labs.josemanuel.reportcenter.Http;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;

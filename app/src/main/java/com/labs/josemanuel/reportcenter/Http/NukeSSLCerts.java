@@ -1,4 +1,4 @@
-package com.labs.josemanuel.reportcenter.Utils;
+package com.labs.josemanuel.reportcenter.Http;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;

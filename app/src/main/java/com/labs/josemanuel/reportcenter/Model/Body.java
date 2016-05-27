@@ -14,6 +14,11 @@ public class Body {
         this.summary = summary;
     }
 
+    public Body(String value, String format){
+        this.value = value;
+        this.format = format;
+    }
+
     public String getValue() {
         return value;
     }

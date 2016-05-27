@@ -27,16 +27,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
+import com.labs.josemanuel.reportcenter.Model.Comentario;
+import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
-import com.labs.josemanuel.reportcenter.Utils.NukeSSLCerts;
+import com.labs.josemanuel.reportcenter.Http.NukeSSLCerts;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
-
-import java.util.Map;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
@@ -139,6 +139,16 @@ public class ActividadListaPropuestas extends AppCompatActivity
             e.printStackTrace();
             return null;
         }
+    }
+
+    private Comment[] procesarCommentarios(Comentario[] comentarios){
+        Comment[] salida = new Comment[comentarios.length];
+        int i = 0;
+        for(Comentario comentario : comentarios){
+            salida[i]= JSONHandler.generateComment(clienteHttp.getCommentFromCid(comentario.getId()));
+            i++;
+        }
+        return salida;
 
     }
 
