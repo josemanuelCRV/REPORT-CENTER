@@ -2,14 +2,24 @@
 <resources>
 
     <!-- Nueva paleta Diseño Fragments -->
-    <color name="primary">#DA5252</color>
-    <color name="accent">#ff6373</color>
-    <color name="ripple">#FD98A2</color>
-    <color name="tertiary">#455561</color>
-    <color name="background">#ffffff</color>
-    <color name="textColorPrimary">#323232</color>
-    <color name="textColorSecondary">#434343</color>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorPrimary_light">#b2ebf2</color>
+    <color name="colorAccent">#ff5722</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
     <color name="transparent_actionbar_background">#24000000</color>
+
+     <color name="primary">#DA5252</color>
+     <color name="accent">#ff6373</color>
+     <color name="ripple">#FD98A2</color>
+     <color name="tertiary">#455561</color>
+     <color name="background">#ffffff</color>
+     <color name="textColorPrimary">#323232</color>
+     <color name="textColorSecondary">#434343</color>
+     <!--<color name="transparent_actionbar_background">#24000000</color>-->
 
     <!-- MINI FAB UPDATE -->
     <color name="colorNormalMini">#00B0FF</color>
@@ -42,7 +52,7 @@
 
 
         <!-- ANTERIOR PALETA GOLD/PalletColor -->
-    <color name="colorPrimary">#00BCD4</color>
+   <!-- <color name="colorPrimary">#00BCD4</color>
     <color name="colorPrimaryDark">#0097A7</color>
     <color name="colorPrimary_light">#b2ebf2</color>
     <color name="colorAccent">#ff5722</color>
@@ -50,11 +60,11 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
-
+-->
 
 
     <!-- Giant Goldfish palette-->
-    <color name="gold1_aoi">#69D2E7</color>
+    <color name="gold1_aoi">#69d2e7</color>
     <color name="gold2_poundwater">#a7dbd8</color>
     <color name="gold3_beachStorm">#c8e0e4cc</color>
     <color name="gold4_giant">#F38630</color>

@@ -13,12 +13,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/AppTheme">
 
         <!-- actividad principal NUEVA-->
         <activity
             android:name=".ui.actividades.MainActivity"
-            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+            android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
             <!-- android:theme="@style/AppTheme.NoActionBar"> -->
@@ -57,8 +57,8 @@
         <activity
             android:name=".ui.actividades.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:parentActivityName=".ui.actividades.MainActivity"
-            >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.actividades.MainActivity">
             <!--android:theme="@style/AppTheme.NoActionBar">-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

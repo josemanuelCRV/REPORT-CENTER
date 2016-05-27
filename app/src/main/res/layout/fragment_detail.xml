@@ -214,7 +214,8 @@
                         android:layout_alignLeft="@+id/prioridad"
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/prioridad"
-                        android:text="ENVIAR" />
+                        android:text="ENVIAR"
+                        android:textColor="@color/colorAccent" />
 
 
                 </LinearLayout>

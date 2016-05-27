@@ -2,11 +2,11 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimary">@color/gold2_poundwater</item>
+        <item name="colorPrimaryDark">@color/gold1_aoi</item>
+        <item name="colorAccent">@color/gold4_giant</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="colorControlHighlight">@color/accent</item>
+        <item name="colorControlHighlight">@color/gold5_unreal</item>
         <item name="android:windowBackground">@color/background</item>
     </style>
 
@@ -35,12 +35,13 @@
 
    <!--  Nuevo Detalle Styles -->
     <style name="AppTheme.Detail" parent="AppTheme.Base">
-       <item name="colorPrimaryDark">@android:color/black</item>
+       <item name="colorPrimaryDark">@color/accent</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="actionBarStyle">@style/ActionBar.Detail</item>
     </style>
 
     <style name="ActionBar.Detail" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="colorPrimaryDark">@color/accent</item>
         <item name="background">@null</item>
     </style>
 
