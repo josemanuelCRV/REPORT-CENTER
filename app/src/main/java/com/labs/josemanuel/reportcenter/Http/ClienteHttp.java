@@ -239,25 +239,11 @@ public class ClienteHttp {
     }
 
 
-    public AsyncTask<Void, Void, JSONArray> getPropuestas(){
+    public AsyncTask<RequestFuture<JSONArray>, Void, JSONArray> getPropuestas(){
         RequestFuture<JSONArray> future= RequestFuture.newFuture();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
-        mVolleySingleton.getRequestQueue().add(jsonArrayRequest);
-
-        /*try {
-            return future.get(10500, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
-        return null;*/
-
-            Log.v("done in Background","Straight outta madridClienteHttp");
-
-            return new GetPropuestas().execute();
+        mVolleySingleton.addToRequestQueue(jsonArrayRequest);
+        return new GetPropuestas().execute(future);
 
     }
     /*http://programminglife.io/android-volley-synchronous-request/

@@ -2,6 +2,7 @@ package com.labs.josemanuel.reportcenter;
 
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -21,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -137,23 +139,40 @@ public class ActividadListaPropuestas extends AppCompatActivity
         clienteHttp.addToRequestQueue(tag_JsonArray_req,mJsonArrayRequest);
     }*/
     private void loadProposalFeed() {
-        String  tag_JsonArray_req = "mJsonArrayRequest";
+        String tag_JsonArray_req = "mJsonArrayRequest";
         /**
          * Misma finalidad que TrustAllSSLCerts.
          * @see TrustAllSSLCerts
          * */
-        //feed=procesarRespuesta(clienteHttp.getPropuestas());
-        try {
-            clienteHttp.getPropuestas().get(2, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
-    }
+            final AsyncTask asyncTask = clienteHttp.getPropuestas();
 
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("RT", "Thread t Begins");
+                    try {
+                        feed = procesarRespuesta((JSONArray) asyncTask.get());
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adaptador = new AdaptadorPropuestas(ActividadListaPropuestas.this, ActividadListaPropuestas.this, feed);
+                                Toast.makeText(ActividadListaPropuestas.this, "Capum!", Toast.LENGTH_SHORT).show();
+                                listaUI.setAdapter(adaptador);
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            t.start();
+
+
+    }
 
 
 
@@ -165,7 +184,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
     private Propuesta[] procesarRespuesta(JSONArray response){
         try {
             Log.v("Respuesta!" , response.getJSONObject(0).toString());
-            return feed=jsonHandler.generatePropuestaArray(response);
+            return jsonHandler.generatePropuestaArray(response);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

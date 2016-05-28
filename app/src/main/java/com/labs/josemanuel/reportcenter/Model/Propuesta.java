@@ -70,6 +70,7 @@ public class Propuesta {
         this.type = type;
     }
 
+    public Propuesta(){}
     public Propuesta(String nid, String uuid, String vid, String langcode, Type type, String title, Usuario uid, String status, String created, String changed, String promote, String sticky, String revision_timestamp, Usuario revision_uid, String revision_log, String revision_translation_affected, String default_langcode, String path, String content_translation_source, String content_translation_outdated, Body body, String field_proposal_aal1, String field_proposal_aal2, Categoria field_proposal_category, Comentario[] com, String field_proposal_country, String field_proposal_formatted_address, String field_proposal_id_aviso, Imagen[] image, String field_proposal_locality, Localizacion loc, String field_proposal_notify_council, String field_proposal_postal_code, String field_proposal_route_name, Status field_proposal_status) {
         this.nid = nid;
         this.uuid = uuid;
