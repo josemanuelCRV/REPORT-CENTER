@@ -168,7 +168,6 @@ public class ClienteHttp {
     }
 
 
-
     //Dar una vuelta //Cranear un poco
     /**
      * jsonArray
@@ -204,8 +203,6 @@ public class ClienteHttp {
         this.jsonArray = jsonArray;
     }
 
-
-
     public JSONObject getCommentFromCid(String cid){
         RequestFuture<JSONObject> future= RequestFuture.newFuture();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl + "/es/comment/" + cid + "?_format=json",future,future);
@@ -224,7 +221,6 @@ public class ClienteHttp {
         return null;
 
     }
-
 
     public static String getStringFromJSONObjectBackend(String jsonString,String fieldName){
         String output;

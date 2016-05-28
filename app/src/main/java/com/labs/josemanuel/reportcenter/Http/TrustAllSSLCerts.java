@@ -14,13 +14,13 @@ import javax.net.ssl.X509TrustManager;
 /**
  * Created by Usuario on 25/05/2016.
  */
-public class NukeSSLCerts {
+public class TrustAllSSLCerts {
     /**
     * Esta clase no es válida para producción, porque no está validando ningún certificado del servidor
     *
     * https://newfivefour.com/android-trust-all-ssl-certificates.html
     * */
-    protected static final String TAG = "NukeSSLCerts";
+    protected static final String TAG = "TrustAllSSLCerts";
     /**
      * permite lanzar las peticiones a través de SSL, sin verificar de ninguna manera el certificado proveniente del servidor.
      */

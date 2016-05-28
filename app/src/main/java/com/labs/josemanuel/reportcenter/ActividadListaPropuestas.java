@@ -27,11 +27,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
+import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
-import com.labs.josemanuel.reportcenter.Http.NukeSSLCerts;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +58,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new NukeSSLCerts().nuke();
+        new TrustAllSSLCerts().nuke();
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
         editor.putBoolean("login",false);
@@ -101,8 +101,8 @@ public class ActividadListaPropuestas extends AppCompatActivity
     private void loadProposalFeed() {
         String  tag_JsonArray_req = "mJsonArrayRequest";
         /**
-         * Misma finalidad que NukeSSLCerts.
-         * @see NukeSSLCerts
+         * Misma finalidad que TrustAllSSLCerts.
+         * @see TrustAllSSLCerts
          * */
         //HttpsTrustManager.allowAllSSL();
         mJsonArrayRequest = new JsonArrayRequest(

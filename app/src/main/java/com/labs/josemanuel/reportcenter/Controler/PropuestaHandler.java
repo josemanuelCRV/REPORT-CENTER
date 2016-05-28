@@ -1,5 +1,6 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
+import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.Status;
 
@@ -16,8 +17,8 @@ import java.util.TimeZone;
  * Created by Usuario on 25/05/2016.
  */
 public class PropuestaHandler {
-    Propuesta[] mPropuestas=null;// create a Pacific Standard Time time zone
-    static DateFormat  formatter = new SimpleDateFormat("E, M d, yyyy - h:mm a");
+    Propuesta[] mPropuestas=null;
+    static SimpleDateFormat  formatter = new SimpleDateFormat("E, M d, yyyy - h:mm a");
     static SimpleDateFormat TimeFromDate = new SimpleDateFormat("d 'horas y '  h:mm 'horas'");
     static Date date=null;
     public PropuestaHandler(Propuesta[] propuestas){
@@ -48,13 +49,20 @@ public class PropuestaHandler {
 
         return TimeFromDate.format(date);
     }
+
     public static String getColorKey(Status status){
         String url = status.getUrl();
 
         String key = url.replaceAll("[^0-9]", "");
 
         return key;
+    }
+    public static String getColorKey(Categoria categoria){
+        String url = categoria.getUrl();
 
+        String key = url.replaceAll("[^0-9]", "");
+
+        return key;
     }
 
 }
