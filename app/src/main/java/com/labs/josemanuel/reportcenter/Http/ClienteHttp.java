@@ -208,12 +208,12 @@ public class ClienteHttp {
 
     public JSONObject getCommentFromCid(String cid){
         RequestFuture<JSONObject> future= RequestFuture.newFuture();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl + "/es/user/" + cid + "?_format=json",future,future);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl + "/es/comment/" + cid + "?_format=json",future,future);
 
         mVolleySingleton.addToRequestQueue(jsonObjectRequest);
 
         try {
-            return future.get(2500, TimeUnit.MINUTES);
+            return future.get(2500, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
