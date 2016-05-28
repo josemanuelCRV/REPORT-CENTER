@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         /**
          * La aplicación almacena la obligación de logearse en el caso de que no exista el token || no sea válido
          * */
-        mClienteHttp.doLogin("Prueba!");
+        //mClienteHttp.doLogin("Prueba!");
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
-                startActivity(goMain);*/
+                Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
+                startActivity(goMain);
                 // attemptLogin();
 
 //                mLoginClient.loginWithServer(mEmailView.getText().toString(),mPasswordView.getText().toString());

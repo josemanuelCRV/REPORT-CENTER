@@ -3,6 +3,7 @@ package com.labs.josemanuel.reportcenter.Http;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -11,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
@@ -18,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -235,5 +238,65 @@ public class ClienteHttp {
         return output;
     }
 
+
+    public AsyncTask<Void, Void, JSONArray> getPropuestas(){
+        RequestFuture<JSONArray> future= RequestFuture.newFuture();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
+        mVolleySingleton.getRequestQueue().add(jsonArrayRequest);
+
+        /*try {
+            return future.get(10500, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;*/
+
+            Log.v("done in Background","Straight outta madridClienteHttp");
+
+            return new GetPropuestas().execute();
+
+    }
+    /*http://programminglife.io/android-volley-synchronous-request/
+    public void fetchData(final DataCallback callback) {
+        String url = "your-url-here";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(tag, response.toString());
+
+                        try {
+                            callback.onSuccess(response);
+                        } catch (JSONException e) {
+                            Log.e(tag, e.getMessage(), e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(tag, "Error: " + error.getMessage());
+                    }
+                });
+
+        NetworkController.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
+    public void useData() {
+        fetchData(new DataCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    data = result.getString("data");
+                } catch (JSONException e) {
+                    Log.e(tag, e.getMessage(), e);
+                }
+            }
+        });
+    }
+*/
 
 }

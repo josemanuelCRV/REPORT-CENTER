@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
+import com.labs.josemanuel.reportcenter.Http.DataCallback;
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Comment;
@@ -35,8 +36,13 @@ import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
@@ -97,13 +103,13 @@ public class ActividadListaPropuestas extends AppCompatActivity
     } // fin onCreate
 
 
-
-    private void loadProposalFeed() {
+    //OldSchool
+    /*private void loadProposalFeed() {
         String  tag_JsonArray_req = "mJsonArrayRequest";
-        /**
+        *//**
          * Misma finalidad que TrustAllSSLCerts.
          * @see TrustAllSSLCerts
-         * */
+         * *//*
         //HttpsTrustManager.allowAllSSL();
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -129,7 +135,32 @@ public class ActividadListaPropuestas extends AppCompatActivity
                 }
         );
         clienteHttp.addToRequestQueue(tag_JsonArray_req,mJsonArrayRequest);
+    }*/
+    private void loadProposalFeed() {
+        String  tag_JsonArray_req = "mJsonArrayRequest";
+        /**
+         * Misma finalidad que TrustAllSSLCerts.
+         * @see TrustAllSSLCerts
+         * */
+        //feed=procesarRespuesta(clienteHttp.getPropuestas());
+        try {
+            clienteHttp.getPropuestas().get(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
+
+
+
+
+
     //Metodo envoltorio de la inserción de los POJO en el array de propuestas
     private Propuesta[] procesarRespuesta(JSONArray response){
         try {
