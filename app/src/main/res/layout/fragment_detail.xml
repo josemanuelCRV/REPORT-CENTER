@@ -24,17 +24,18 @@
 
         <ImageView
             android:id="@+id/cabecera"
-            android:layout_width="500dp"
-            android:layout_height="500dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="38dp"
+            android:layout_marginBottom="28dp"
             android:adjustViewBounds="true"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:scaleType="fitXY" />
+
+       <!-- android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"-->
 
 
         <!--Boton Update-->
@@ -96,94 +97,61 @@
 
 
                 <TextView
-                    android:id="@+id/descripcion_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/direccion"
-                    android:text="Descripción"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/black" />
-
-
-                <TextView
-                    android:id="@+id/fecha_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/titulo"
-                    android:text="Fecha Límite"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/black" />
-
-
-                <TextView
                     android:id="@+id/fecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/fecha_label"
-                    android:layout_alignRight="@+id/fecha_label"
-                    android:layout_below="@+id/fecha_label"
                     android:text="Fecha"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-
-
-                <TextView
-                    android:id="@+id/categoria"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/fecha"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/fecha"
-                    android:text="Categoría"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-
-
-                <TextView
-                    android:id="@+id/direccion_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignTop="@+id/fecha_label"
-                    android:text="Direción"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/black" />
+                    android:layout_below="@+id/titulo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+
+                <TextView
+                    android:id="@+id/status_prop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categoría"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_alignTop="@+id/fecha"
+                    android:layout_alignRight="@+id/linearLayout"
+                    android:layout_alignEnd="@+id/linearLayout" />
+
 
                 <TextView
                     android:id="@+id/direccion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/direccion_label"
-                    android:layout_marginBottom="20dp"
                     android:text="C/..."
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/fecha"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/titulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Titulo"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/categoria"
-                    android:layout_marginBottom="16dp"
-                    android:text="Titulo"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:layout_marginTop="40dp" />
 
                 <TextView
                     android:id="@+id/descripcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Descripción"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_below="@+id/direccion"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/descripcion_label"
-                    android:layout_marginBottom="20dp"
-                    android:text="Descripción"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="80dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -193,17 +161,24 @@
                     android:layout_below="@+id/descripcion"
                     android:background="#fff2f2"
                     android:measureWithLargestChild="false"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:id="@+id/linearLayout">
 
-                    <EditText
-                        android:id="@+id/editText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <!--Boton Close-->
+                    <com.melnykov.fab.FloatingActionButton
+                        android:id="@+id/btnComments"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="20dp"
-                        android:layout_toEndOf="@+id/comentariosContainer"
-                        android:layout_toRightOf="@+id/comentariosContainer" />
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="bottom|right"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="16dp"
+                        android:src="@mipmap/ic_close"
+                        fab:fab_colorNormal="@color/colorNormalMiniClose"
+                        fab:fab_colorPressed="@color/colorPressedMiniClose"
+                        fab:fab_colorRipple="@color/colorRippleMini"
+                        fab:fab_type="mini" />
 
 
                     <Button
@@ -211,49 +186,59 @@
                         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/prioridad"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignStart="@+id/prioridad"
                         android:text="ENVIAR"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorAccent"
+                        android:layout_marginBottom="180dp" />
+
+                    <LinearLayout
+                        android:id="@+id/comentariosContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+
+                        <!--
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="&lt;-"
+                                        android:id="@+id/btnBack" />
+                        -->
+
+
+                        <com.labs.josemanuel.reportcenter.ui.InteractiveScrollView
+                            android:id="@+id/comentarios"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible" />
+                    </LinearLayout>
 
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado"
+                    android:id="@+id/estado"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/flag_category"
+                    android:layout_toStartOf="@+id/flag_category" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/flag_category"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/status_prop"
+                    android:layout_alignEnd="@+id/status_prop" />
 
 
             </RelativeLayout>
 
 
         </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/comentariosContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-
-            <!--
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="&lt;-"
-                            android:id="@+id/btnBack" />
-            -->
-
-
-            <com.labs.josemanuel.reportcenter.ui.InteractiveScrollView
-                android:id="@+id/comentarios"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/panoflasquesomos"
-                android:visibility="visible" />
-        </LinearLayout>
 
     </RelativeLayout>
 

@@ -23,6 +23,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     private String idNodo;
 
+
     /**
      * Inicia una nueva instancia de la actividad
      *
@@ -57,15 +58,25 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
-        //getSupportActionBar().setIcon(R.drawable.ic_menu_share);
-        if (getSupportActionBar() != null) {
+
+
+
+        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // setSupportActionBar(toolbar);
+        // getSupportActionBar().setIcon(R.drawable.ic_menu_share);
+        // getSupportActionBar().setIcon(R.drawable.ic_arrow_back);
+
+      /*  if (getSupportActionBar() != null) {
             // Dehabilitar titulo de la actividad
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             // Setear ícono "X" como Up button
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_close);
-        }
+
+        }*/
+
+
+
+
 
         // Retener instancia
         if (getIntent().getStringExtra(JsonConstants.NID) != null)

@@ -22,29 +22,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView emptyFeedTextView;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new NukeSSLCerts().nuke();
 
-        /*
-            CHECK TOOLBAR
-         */
         // Creación del Toolbar y el NavigationDrawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //emptyFeedTextView= (TextView) findViewById(R.id.empty_view);
+        emptyFeedTextView = (TextView) findViewById(R.id.empty_view);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-
-        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);*/
+        if (getSupportActionBar() != null) {
+            // Dehabilitar titulo de la actividad
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            // Setear ícono "X" como Up button
+            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_close);
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+
+
+       /* ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+*/
 
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -110,13 +114,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_inicio) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_crea_propuesta) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_mi_cuenta) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_logout) {
+            Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);
+            intentLogout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intentLogout);
 
         } else if (id == R.id.nav_share) {
 
@@ -128,11 +135,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-
-
-
 
 
 }

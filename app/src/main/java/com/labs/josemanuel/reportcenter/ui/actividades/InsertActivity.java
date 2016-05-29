@@ -22,7 +22,7 @@ public class InsertActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         if (getSupportActionBar() != null)
-            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);
+            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_done);
 
         // Creación del fragmento de inserción
         if (savedInstanceState == null) {

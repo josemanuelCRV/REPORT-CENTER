@@ -104,7 +104,7 @@ public class MainFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
-        emptyFeedTextView = (TextView) v.findViewById(R.id.empty_view);
+
 
         lista = (RecyclerView) v.findViewById(R.id.reciclador);
         lista.setHasFixedSize(true);
@@ -130,6 +130,7 @@ public class MainFragment extends Fragment {
 
         );
 
+        emptyFeedTextView = (TextView) v.findViewById(R.id.empty_view);
 
         //Data
         //Recogemos una instancia de Volley
@@ -141,6 +142,7 @@ public class MainFragment extends Fragment {
 
         return v;
     }
+
 
 
     //Metodo envoltorio de la inserción de los POJO en el array de propuestas

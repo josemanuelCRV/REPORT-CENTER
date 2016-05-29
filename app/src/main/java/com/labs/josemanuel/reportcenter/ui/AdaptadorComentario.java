@@ -20,7 +20,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
+import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Localizacion;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.Usuario;
@@ -35,12 +37,14 @@ import com.labs.josemanuel.reportcenter.ui.actividades.DetailActivity;
 public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentario.ViewHolder> {
     private final Context contexto;
     private Comentario[] comentarios;
+    private Comment[] comments;
 
 
     //Constructor de la clase
     public AdaptadorComentario(Context contexto, Comentario[] comentarios) {
         this.contexto = contexto;
         this.comentarios = comentarios;
+        this.comments = comments;
 
     }
 
@@ -85,11 +89,18 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Comentario comentario = comentarios[position];
-        //holder.viewCount.setText(comentario.getCount());
+        holder.viewCount.setText(comentario.getCount());
+        holder.viewCount.setText(comentario.toString());
         holder.viewId.setText(comentario.getId());
         holder.viewName.setText(comentario.getName());
         holder.viewStatus.setText(comentario.getStatus()); // Consultar en api el username del id
-        holder.viewTimestamp.setText(comentario.getTimestamp()); // Consultar en api el username del id
+        String fecha = PropuestaHandler.parseDate(comentario.getTimestamp());
+        holder.viewTimestamp.setText(fecha.toString());
+
+        Comment comments;
+
+
+        //holder.viewTimestamp.setText(comentario.getTimestamp()); // Consultar en api el username del id
         //holder.viewUid.setText(comentario.getUid().getTarget_id()); // Consultar en api el username del id
 
 

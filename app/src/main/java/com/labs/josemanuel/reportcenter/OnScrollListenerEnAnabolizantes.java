@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import android.widget.Toast;
  */
 @TargetApi(Build.VERSION_CODES.M)
 public class OnScrollListenerEnAnabolizantes extends RecyclerView.OnScrollListener implements RecyclerView.OnScrollChangeListener {
+
 
     LinearLayout mComentariosContainer;
     public OnScrollListenerEnAnabolizantes(LinearLayout v){
@@ -27,15 +29,18 @@ public class OnScrollListenerEnAnabolizantes extends RecyclerView.OnScrollListen
         View view = recyclerView.getChildAt(recyclerView.getChildCount()-1);
         int diff = (view.getBottom()-(recyclerView.getHeight()+recyclerView.getScrollY()));
 
+
         if(diff!=0) {
             Log.v("bla", String.valueOf(diff));
             recyclerView.setVisibility(View.VISIBLE);
             mComentariosContainer.setVisibility(View.GONE);
+
         }else {
             recyclerView.setVisibility(View.GONE);
             mComentariosContainer.setVisibility(View.VISIBLE);
-
         }
+
+
         /*if (diff == 0 && mListener != null) {
             mListener.onBottomReached();
         }

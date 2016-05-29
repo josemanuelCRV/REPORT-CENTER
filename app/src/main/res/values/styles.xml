@@ -1,45 +1,50 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--<style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/gold2_poundwater</item>
         <item name="colorPrimaryDark">@color/gold1_aoi</item>
         <item name="colorAccent">@color/gold4_giant</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="colorControlHighlight">@color/gold5_unreal</item>
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
     </style>
 
 
-    <style name="AppTheme" parent="AppTheme.Base" />
+    <!--
+    <item name="colorControlHighlight">@color/gold5_unreal</item>
+    <item name="android:windowBackground">@color/background</item>
+    -->
+
+    <!--<style name="AppTheme" parent="AppTheme.Base" />-->
 
 
     <!-- OLD Base application theme. -->
-   <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-         <item name="colorPrimary">@color/colorPrimary</item>
-         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-         <item name="colorAccent">@color/colorAccent</item>
-     </style>
-     -->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+          <item name="colorPrimary">@color/colorPrimary</item>
+          <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+          <item name="colorAccent">@color/colorAccent</item>
+      </style>
+      -->
 
     <style name="AppTheme.NoActionBar">
-         <item name="windowActionBar">false</item>
-         <item name="windowNoTitle">true</item>
-     </style>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-   <!--  Nuevo Detalle Styles -->
-    <style name="AppTheme.Detail" parent="AppTheme.Base">
-       <item name="colorPrimaryDark">@color/accent</item>
+    <!--  Nuevo Detalle Styles -->
+    <style name="AppTheme.Detail" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/accent</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="actionBarStyle">@style/ActionBar.Detail</item>
     </style>
 
+    <!-- ActionBar Detail -->
     <style name="ActionBar.Detail" parent="Widget.AppCompat.Light.ActionBar.Solid">
         <item name="colorPrimaryDark">@color/accent</item>
         <item name="background">@null</item>

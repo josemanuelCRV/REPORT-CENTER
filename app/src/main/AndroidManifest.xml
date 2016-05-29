@@ -18,8 +18,8 @@
         <!-- actividad principal NUEVA-->
         <activity
             android:name=".ui.actividades.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
             <!-- android:theme="@style/AppTheme.NoActionBar"> -->
 
@@ -43,6 +43,16 @@
         </activity>
 
 
+        <!-- Actividad Detalle -->
+        <activity
+            android:name=".ui.actividades.DetailActivity"
+            android:parentActivityName=".ui.actividades.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.actividades.MainActivity" />
+        </activity>
+
+
         <!-- Actividad Actualizar -->
         <activity
             android:name=".ui.actividades.UpdateActivity"
@@ -53,17 +63,7 @@
                 android:value=".ui.actividades.DetailActivity" />
         </activity>
 
-        <!-- Actividad Detalle -->
-        <activity
-            android:name=".ui.actividades.DetailActivity"
-            android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.actividades.MainActivity">
-            <!--android:theme="@style/AppTheme.NoActionBar">-->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.actividades.MainActivity" />
-        </activity>
+
 
         <!--Actividad Insertar -->
         <activity

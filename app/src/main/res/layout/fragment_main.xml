@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,30 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="visible"
-        android:text="No data" />
+        android:text="No data"
+        android:visibility="visible" />
 
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/reciclador"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="3dp"
-    android:scrollbars="vertical"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reciclador"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="3dp"
+        android:scrollbars="vertical" />
 
 
-<com.melnykov.fab.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"
-    android:layout_gravity="bottom|right"
-    android:layout_margin="16dp"
-    android:src="@mipmap/ic_add"
-    fab:fab_colorNormal="@color/accent"
-    fab:fab_colorPressed="@color/primary"
-    fab:fab_colorRipple="@color/ripple" />
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_add"
+        fab:fab_colorNormal="@color/accent"
+        fab:fab_colorPressed="@color/primary"
+        fab:fab_colorRipple="@color/ripple" />
 
 
 </RelativeLayout>
