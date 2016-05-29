@@ -22,14 +22,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
-import com.labs.josemanuel.reportcenter.Http.DataCallback;
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Comment;
@@ -37,14 +33,10 @@ import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
@@ -144,21 +136,22 @@ public class ActividadListaPropuestas extends AppCompatActivity
          * Misma finalidad que TrustAllSSLCerts.
          * @see TrustAllSSLCerts
          * */
-            final AsyncTask asyncTask = clienteHttp.getPropuestas();
+            final AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> loadProposalFeedTask = clienteHttp.getPropuestas(adaptador,this );
 
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Log.d("RT", "Thread t Begins");
                     try {
-                        feed = procesarRespuesta((JSONArray) asyncTask.get());
-
+                        //feed = procesarRespuesta((JSONArray) asyncTask.get());
+                        feed=loadProposalFeedTask.get();//
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 adaptador = new AdaptadorPropuestas(ActividadListaPropuestas.this, ActividadListaPropuestas.this, feed);
-                                Toast.makeText(ActividadListaPropuestas.this, "Capum!", Toast.LENGTH_SHORT).show();
                                 listaUI.setAdapter(adaptador);
+                                listaUI.setVisibility(View.VISIBLE);
+                                emptyFeedTextView.setVisibility(View.INVISIBLE);
                             }
                         });
                     } catch (InterruptedException e) {
@@ -181,7 +174,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
 
 
     //Metodo envoltorio de la inserción de los POJO en el array de propuestas
-    private Propuesta[] procesarRespuesta(JSONArray response){
+    /*private Propuesta[] procesarRespuesta(JSONArray response){
         try {
             Log.v("Respuesta!" , response.getJSONObject(0).toString());
             return jsonHandler.generatePropuestaArray(response);
@@ -189,7 +182,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     private Comment[] procesarCommentarios(Comentario[] comentarios){
         Comment[] salida = new Comment[comentarios.length];

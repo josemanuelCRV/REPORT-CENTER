@@ -70,18 +70,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         }
     }
 
-    /*
-    Retorna en el valor de la columna "idAlquiler" de la posición actual.
-    Este método es muy útil a la hora de leer los eventos de click y mostrar detalles.
-     */
-    /*private String obtenerIdAlquiler(int posicion) {
-        if (items != null) {
-            if (items.moveToPosition(posicion)) {
-                return items.getString(ConsultaAlquileres.ID_ALQUILER);
-            }
-        }
-        return null;
-    }*/
     //Identificador de la propuesta
     private String obtenerNid(int posicion) {
         if (propuestas != null) {
@@ -125,27 +113,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         holder.viewBody.setText(propuesta.getBody().getValue());
         holder.viewUsername.setText(String.format("idUsuario %s" ,propuesta.getUid().getTarget_id())); // Consultar en api el username del id
         Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);
-
-        /*items.moveToPosition(position);
-
-        String s;
-
-        // Asignación UI
-        s = items.getString(ConsultaAlquileres.NOMBRE);
-        holder.viewTitle.setText(s);
-
-        s = items.getString(ConsultaAlquileres.UBICACION);
-        holder.viewUbicacion.setText(s);
-
-        s = items.getString(ConsultaAlquileres.DESCRIPCION);
-        holder.viewBody.setText(s);
-
-        s = items.getString(ConsultaAlquileres.PRECIO);
-        holder.viewUsername.setText(String.format("%s participantes", s));
-
-        s = items.getString(ConsultaAlquileres.URL);
-        Glide.with(contexto).load(s).centerCrop().into(holder.viewFoto);*/
-
     }
 
 
@@ -167,18 +134,4 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         }
     }
 
-    // Retorna en el cursor actual para darle uso externo.
-    public Cursor getCursor() {
-        return items;
-    }
-
-    // Ten a la mano el índice de las columnas a consultar del cursor
-    interface ConsultaAlquileres {
-        int ID_ALQUILER = 1;
-        int NOMBRE = 2;
-        int UBICACION = 3;
-        int DESCRIPCION = 4;
-        int PRECIO = 5;
-        int URL = 6;
-    }
 }

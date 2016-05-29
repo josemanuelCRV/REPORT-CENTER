@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -44,7 +46,6 @@ public class ClienteHttp {
 
     String tokenURL= "/user/rest/session/token";
     Context mContext;
-    //Data
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
     VolleySingleton mVolleySingleton;
     RequestQueue mRequestQueue;
@@ -165,46 +166,10 @@ public class ClienteHttp {
     public void makePost(String data){
         mVolleySingleton.addToRequestQueue(getToken(data));
     }
-
     public void doLogin(String data){
         mVolleySingleton.addToRequestQueue(getToken(data));
     }
 
-
-    //Dar una vuelta //Cranear un poco
-    /**
-     * jsonArray
-     *
-     * */
-    JSONArray jsonArray;
-    //no funciona al ser async
-    public void pullJSONarrayFromServer(){
-        JsonArrayRequest mJsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                mUrl,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // Procesar la respuesta Json
-                        setJsonArray(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Log.d(TAG, "Error Volley: " + error.toString());
-                        error.printStackTrace();
-                    }
-                }
-        );
-        mVolleySingleton.addToRequestQueue(mJsonArrayRequest);
-    }
-    public JSONArray getJsonArray() {
-        return jsonArray;
-    }
-    public void setJsonArray(JSONArray jsonArray) {
-        this.jsonArray = jsonArray;
-    }
 
     public JSONObject getCommentFromCid(String cid){
         RequestFuture<JSONObject> future= RequestFuture.newFuture();
@@ -224,7 +189,6 @@ public class ClienteHttp {
         return null;
 
     }
-
     public static String getStringFromJSONObjectBackend(String jsonString,String fieldName){
         String output;
         JSONObject jsonObject;
@@ -237,52 +201,13 @@ public class ClienteHttp {
         }
         return output;
     }
-
-
-    public AsyncTask<RequestFuture<JSONArray>, Void, JSONArray> getPropuestas(){
+    public AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> getPropuestas(RecyclerView.Adapter recyclerView, AppCompatActivity app){
         RequestFuture<JSONArray> future= RequestFuture.newFuture();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
         mVolleySingleton.addToRequestQueue(jsonArrayRequest);
         return new GetPropuestas().execute(future);
 
     }
-    /*http://programminglife.io/android-volley-synchronous-request/
-    public void fetchData(final DataCallback callback) {
-        String url = "your-url-here";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(tag, response.toString());
-
-                        try {
-                            callback.onSuccess(response);
-                        } catch (JSONException e) {
-                            Log.e(tag, e.getMessage(), e);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(tag, "Error: " + error.getMessage());
-                    }
-                });
-
-        NetworkController.getInstance().addToRequestQueue(jsonObjectRequest);
-    }
-    public void useData() {
-        fetchData(new DataCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                try {
-                    data = result.getString("data");
-                } catch (JSONException e) {
-                    Log.e(tag, e.getMessage(), e);
-                }
-            }
-        });
-    }
-*/
 
 }
