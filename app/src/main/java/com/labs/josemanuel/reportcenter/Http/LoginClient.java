@@ -7,20 +7,8 @@ package com.labs.josemanuel.reportcenter.Http;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-
-
 import android.support.v7.app.AlertDialog;
-
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -35,6 +23,14 @@ import com.android.volley.toolbox.Volley;
 import com.labs.josemanuel.reportcenter.ActividadListaPropuestas;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 
 /**

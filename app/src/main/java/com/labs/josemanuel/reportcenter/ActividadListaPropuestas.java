@@ -1,46 +1,40 @@
 package com.labs.josemanuel.reportcenter;
 
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
-import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 
 import org.json.JSONArray;
-
-import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
 
 import java.util.concurrent.ExecutionException;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener {
     //UI
     private RecyclerView listaUI;
     private TextView emptyFeedTextView;
@@ -76,9 +70,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        // Iniciar loader
-        getSupportLoaderManager().restartLoader(1, null, this);
-        // nuevo
+
         // Preparar lista
         listaUI = (RecyclerView) findViewById(R.id.lista);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -131,12 +123,12 @@ public class ActividadListaPropuestas extends AppCompatActivity
         clienteHttp.addToRequestQueue(tag_JsonArray_req,mJsonArrayRequest);
     }*/
     private void loadProposalFeed() {
-        String tag_JsonArray_req = "mJsonArrayRequest";
+
         /**
          * Misma finalidad que TrustAllSSLCerts.
          * @see TrustAllSSLCerts
          * */
-            final AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> loadProposalFeedTask = clienteHttp.getPropuestas(adaptador,this );
+            final AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> loadProposalFeedTask = clienteHttp.getPropuestas();
 
             Thread t = new Thread(new Runnable() {
                 @Override
@@ -250,26 +242,6 @@ public class ActividadListaPropuestas extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-
-    // NUEVA SECCIÓN DE MANEJO DE RECYCLER ---------------------------------------
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, Alquileres.URI_CONTENIDO, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (adaptador != null) {
-            adaptador.swapCursor(data);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 
     @Override

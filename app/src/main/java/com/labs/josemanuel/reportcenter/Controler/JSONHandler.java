@@ -1,11 +1,7 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Model.Body;
 import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Comentario;

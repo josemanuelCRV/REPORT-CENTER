@@ -5,7 +5,6 @@ package com.labs.josemanuel.reportcenter;
  */
 
 import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,6 @@ import com.labs.josemanuel.reportcenter.Model.Propuesta;
  */
 public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuestas.ViewHolder> {
     private final Context contexto;
-    private Cursor items;
     private Propuesta[] propuestas;
 
     /*
@@ -65,7 +63,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
 
         @Override
         public void onClick(View view) {
-            //escucha.onClick(this, obtenerIdAlquiler(getAdapterPosition()));
             escucha.onClick(this, obtenerNid(getAdapterPosition()));
         }
     }
@@ -124,14 +121,5 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         return 0;
     }
 
-
-    // Intercambia el cursor actual por uno nuevo. Y
-    // Notifica que el cursor cambió con notifyDataSetChangeg()
-    public void swapCursor(Cursor nuevoCursor) {
-        if (nuevoCursor != null) {
-            items = nuevoCursor;
-            notifyDataSetChanged();
-        }
-    }
 
 }

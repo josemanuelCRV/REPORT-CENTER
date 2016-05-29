@@ -1,12 +1,9 @@
 package com.labs.josemanuel.reportcenter.Http;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -14,14 +11,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
-import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
-import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 import org.json.JSONArray;
@@ -31,7 +25,6 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -201,10 +194,11 @@ public class ClienteHttp {
         }
         return output;
     }
-    public AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> getPropuestas(RecyclerView.Adapter recyclerView, AppCompatActivity app){
+    public AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> getPropuestas(){
+        String tag_JsonArray_req = "mJsonArrayRequest";
         RequestFuture<JSONArray> future= RequestFuture.newFuture();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
-        mVolleySingleton.addToRequestQueue(jsonArrayRequest);
+        addToRequestQueue(tag_JsonArray_req,jsonArrayRequest);
         return new GetPropuestas().execute(future);
 
     }

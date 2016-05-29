@@ -8,6 +8,7 @@ import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 import org.json.JSONArray;
+
 import java.util.concurrent.ExecutionException;
 
 /**
