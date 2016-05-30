@@ -1,82 +1,181 @@
 package com.labs.josemanuel.reportcenter;
 
-import android.database.Cursor;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.RequestFuture;
+import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
+import com.labs.josemanuel.reportcenter.Model.Comentario;
+import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 
-import com.labs.josemanuel.reportcenter.provider.Contrato.Alquileres;
+import org.json.JSONArray;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
-
+        implements NavigationView.OnNavigationItemSelectedListener, AdaptadorPropuestas.OnItemClickListener {
+    //UI
     private RecyclerView listaUI;
+    private TextView emptyFeedTextView;
     private LinearLayoutManager linearLayoutManager;
     private AdaptadorPropuestas adaptador;
-
+    ClienteHttp clienteHttp;
+    //Clase manejadora de JSON
+    JSONHandler jsonHandler = new JSONHandler();
+    JsonArrayRequest mJsonArrayRequest;
+    //Array de Propuestas POJO.
+    Propuesta[] feed;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new TrustAllSSLCerts().nuke();
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+        editor.putBoolean("login", true);
+        editor.apply();
+
+        //UI
         setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        emptyFeedTextView = (TextView) findViewById(R.id.empty_view);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        // nuevo
         // Preparar lista
         listaUI = (RecyclerView) findViewById(R.id.lista);
-        listaUI.setHasFixedSize(true);
-
         linearLayoutManager = new LinearLayoutManager(this);
         listaUI.setLayoutManager(linearLayoutManager);
-
-        adaptador = new AdaptadorPropuestas(this, this);
-        listaUI.setAdapter(adaptador);
-
-        // Iniciar loader
-        getSupportLoaderManager().restartLoader(1, null, this);
-
+        //Data
+        //----------------------------------Nuevo
+        clienteHttp = new ClienteHttp(getString(R.string.URL), this);
+        clienteHttp.initiate();
+        loadProposalFeed();
 
 
+        //Una vez que tengamos la activity de addProposal activada, le pasamos al método JSONHandler.generateJSONObjectFromPropuesta() la  POJO.
+        //clienteHttp.makePost(JSONHandler.generateJsonStringFromPropuesta());
 
 
     } // fin onCreate
+
+
+    //OldSchool
+    /*private void loadProposalFeed() {
+        String  tag_JsonArray_req = "mJsonArrayRequest";
+        */
+
+    /**
+     * Misma finalidad que TrustAllSSLCerts.
+     *
+     * @see TrustAllSSLCerts
+     *//*
+        //HttpsTrustManager.allowAllSSL();
+        mJsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                getResources().getString(R.string.URL),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Procesar la respuesta Json
+                        feed=procesarRespuesta(response);//
+                        emptyFeedTextView.setVisibility(View.GONE);//
+                        listaUI.setVisibility(View.VISIBLE);//
+                        adaptador = new AdaptadorPropuestas(ActividadListaPropuestas.this, ActividadListaPropuestas.this,feed);
+                        listaUI.setAdapter(adaptador);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Log.d(TAG, "Error Volley: " + error.toString());
+                        error.printStackTrace();
+                    }
+                }
+        );
+        clienteHttp.addToRequestQueue(tag_JsonArray_req,mJsonArrayRequest);
+    }*/
+    private void loadProposalFeed() {
+
+
+        if(clienteHttp.isNetworkAvailable()){
+            final AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> loadProposalFeedTask = clienteHttp.getPropuestas();
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("RT", "Thread t Begins");
+                    try {
+                        //feed = procesarRespuesta((JSONArray) asyncTask.get());
+                        feed = loadProposalFeedTask.get();//
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adaptador = new AdaptadorPropuestas(ActividadListaPropuestas.this, ActividadListaPropuestas.this, feed);
+                                listaUI.setAdapter(adaptador);
+                                listaUI.setVisibility(View.VISIBLE);
+                                emptyFeedTextView.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            t.start();
+        }else{
+            DialogBuilder dialogBuilder= new DialogBuilder(this);
+            dialogBuilder.alertUserAboutError();
+        }
+
+
+
+    }
+
+
+    private Comment[] procesarCommentarios(Comentario[] comentarios) {
+        Comment[] salida = new Comment[comentarios.length];
+        int i = 0;
+        for (Comentario comentario : comentarios) {
+            salida[i] = JSONHandler.generateComment(clienteHttp.getCommentFromCid(comentario.getId()));
+            i++;
+        }
+        return salida;
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -135,29 +234,10 @@ public class ActividadListaPropuestas extends AppCompatActivity
         return true;
     }
 
-
-    // NUEVA SECCIÓN DE MANEJO DE RECYCLER ---------------------------------------
-
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, Alquileres.URI_CONTENIDO, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (adaptador != null) {
-            adaptador.swapCursor(data);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    @Override
-    public void onClick(AdaptadorPropuestas.ViewHolder holder, String idAlquiler) {
-        Snackbar.make(findViewById(android.R.id.content), ":id = " + idAlquiler,
+    public void onClick(AdaptadorPropuestas.ViewHolder holder, String nidPropuesta) {
+        Snackbar.make(findViewById(android.R.id.content), ":nid = " + nidPropuesta,
                 Snackbar.LENGTH_LONG).show();
     }
+
 }
