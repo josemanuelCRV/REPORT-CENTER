@@ -46,7 +46,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         public TextView viewBody;
         public TextView viewUsername;
         public ImageView viewFoto;
-        public Button viewDetalleButton;
         public TextView viewFecha;
         public TextView viewEstado;
         public ImageView viewFlagState;
@@ -59,9 +58,8 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             viewBody = (TextView) v.findViewById(R.id.descripcion);
             viewUsername = (TextView) v.findViewById(R.id.username);
             viewFoto = (ImageView) v.findViewById(R.id.foto);
-            viewDetalleButton = (Button) v.findViewById(R.id.btn_sumit_commit);
             viewFecha = (TextView) v.findViewById(R.id.fecha);
-            viewEstado = (TextView) v.findViewById(R.id.status_prop);
+            viewEstado = (TextView) v.findViewById(R.id.categoria);
             viewFlagState = (ImageView) v.findViewById(R.id.status_flag);
             viewFabFollow = (FloatingActionButton) v.findViewById(R.id.btnFollow);
 

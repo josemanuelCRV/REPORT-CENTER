@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.plus.model.people.Person;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
@@ -33,10 +44,10 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements OnMapReadyCallback {
+    // añadido OnMapReadyCallback
 
 
-    // asdfcasd
     /**
      * Etiqueta de depuración
      */
@@ -55,6 +66,10 @@ public class DetailFragment extends Fragment {
     private TextView viewDireccion;
     private TextView viewEstado;
     private ImageView viewFlagState;
+
+
+    private GoogleMap mMap;
+
 
     private String abierta = "1";
 
@@ -99,7 +114,7 @@ public class DetailFragment extends Fragment {
         viewTituloDetalle = (TextView) v.findViewById(R.id.titulo);
         viewDescripcionDetalle = (TextView) v.findViewById(R.id.descripcion);
         viewFechaDetalle = (TextView) v.findViewById(R.id.fecha);
-        viewCategoriaDetalle = (TextView) v.findViewById(R.id.status_prop);
+        viewCategoriaDetalle = (TextView) v.findViewById(R.id.categoria);
         viewDireccion = (TextView) v.findViewById(R.id.direccion);
         viewEstado = (TextView) v.findViewById(R.id.estado);
         viewFlagState = (ImageView) v.findViewById(R.id.flag_category); // Flag / Flag_Check_Done
@@ -107,6 +122,7 @@ public class DetailFragment extends Fragment {
         editButton = (ImageButton) v.findViewById(R.id.fab);
         btnVolver = (ImageButton) v.findViewById(R.id.btnBack);
         panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
+
 
         //Layout que contiene botón retroceder y comentarios
 
@@ -359,4 +375,14 @@ public class DetailFragment extends Fragment {
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+    }
 }

@@ -108,14 +108,14 @@
 
 
                 <TextView
-                    android:id="@+id/status_prop"
+                    android:id="@+id/categoria"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Categoría"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:layout_alignTop="@+id/fecha"
-                    android:layout_alignRight="@+id/linearLayout"
-                    android:layout_alignEnd="@+id/linearLayout" />
+                    android:layout_alignTop="@+id/flag_category"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
 
                 <TextView
@@ -153,6 +153,25 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="80dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estado"
+                    android:id="@+id/estado"
+                    android:layout_below="@+id/categoria"
+                    android:layout_alignRight="@+id/linearLayout"
+                    android:layout_alignEnd="@+id/linearLayout" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/flag_category"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/linearLayout"
+                    android:layout_alignEnd="@+id/linearLayout"
+                    android:layout_marginRight="53dp"
+                    android:layout_marginEnd="53dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -165,7 +184,7 @@
                     android:id="@+id/linearLayout">
 
                     <!--Boton Close-->
-                    <com.melnykov.fab.FloatingActionButton
+                    <!--<com.melnykov.fab.FloatingActionButton
                         android:id="@+id/btnComments"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -178,10 +197,17 @@
                         fab:fab_colorNormal="@color/colorNormalMiniClose"
                         fab:fab_colorPressed="@color/colorPressedMiniClose"
                         fab:fab_colorRipple="@color/colorRippleMini"
-                        fab:fab_type="mini" />
+                        fab:fab_type="mini" />-->
 
 
-                    <Button
+
+                    <!--Estado-->
+
+                    <!-- FLAG Category-->
+
+
+                    <!--btn_Enviar_Comentarios-->
+                   <!-- <Button
                         android:id="@+id/btn_sumit_commit"
                         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="wrap_content"
@@ -189,6 +215,21 @@
                         android:text="ENVIAR"
                         android:textColor="@color/colorAccent"
                         android:layout_marginBottom="180dp" />
+-->
+
+
+
+                    <!--ESPACIO PARA EL MAPA-->
+
+
+                    <!--COMENTARIOS CONTAINER CON SCROLL LISTENER-->
+
+                    <include layout="@layout/activity_maps"
+                        android:id="@+id/map_in_fragment_detail"
+                        android:layout_height="200dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="30dp"/>
 
                     <LinearLayout
                         android:id="@+id/comentariosContainer"
@@ -197,42 +238,17 @@
                         android:orientation="vertical"
                         android:visibility="gone">
 
-
-                        <!--
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="&lt;-"
-                                        android:id="@+id/btnBack" />
-                        -->
-
-
                         <com.labs.josemanuel.reportcenter.ui.InteractiveScrollView
                             android:id="@+id/comentarios"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:visibility="visible" />
+
+
                     </LinearLayout>
 
 
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estado"
-                    android:id="@+id/estado"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@+id/flag_category"
-                    android:layout_toStartOf="@+id/flag_category" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/flag_category"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/status_prop"
-                    android:layout_alignEnd="@+id/status_prop" />
 
 
             </RelativeLayout>
