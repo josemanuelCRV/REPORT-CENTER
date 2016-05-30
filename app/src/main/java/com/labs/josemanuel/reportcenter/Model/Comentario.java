@@ -1,6 +1,5 @@
 package com.labs.josemanuel.reportcenter.Model;
 
-import java.util.Date;
 
 /**
  * Created by bufigol on 14/05/16.

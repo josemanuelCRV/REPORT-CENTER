@@ -1,4 +1,4 @@
-package com.labs.josemanuel.reportcenter.Utils;
+package com.labs.josemanuel.reportcenter.Http;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -16,7 +16,7 @@ import javax.net.ssl.X509TrustManager;
  * Created by Usuario on 25/05/2016.
  * @see javax.net.ssl.TrustManager
  * @see javax.net.ssl.X509TrustManager
- * Clase más elegante que NukeSSLCerts para ir a través de SSL.
+ * Clase más elegante que TrustAllSSLCerts para ir a través de SSL.
  */
 public class HttpsTrustManager implements X509TrustManager {
 
@@ -74,8 +74,7 @@ public class HttpsTrustManager implements X509TrustManager {
             e.printStackTrace();
         }
 
-        HttpsURLConnection.setDefaultSSLSocketFactory(context
-                .getSocketFactory());
+        HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
     }
 
 }

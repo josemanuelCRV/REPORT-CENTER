@@ -1,8 +1,8 @@
 package com.labs.josemanuel.reportcenter.Http;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -12,8 +12,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,9 +25,11 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Miguel on 5/22/2016.
@@ -34,7 +39,6 @@ public class ClienteHttp {
 
     String tokenURL= "/user/rest/session/token";
     Context mContext;
-    //Data
     //Aplicamos el patrón Singleton en el uso de Volley para generar una única instancia de una RequestQueue, o cola de peticiones
     VolleySingleton mVolleySingleton;
     RequestQueue mRequestQueue;
@@ -155,48 +159,29 @@ public class ClienteHttp {
     public void makePost(String data){
         mVolleySingleton.addToRequestQueue(getToken(data));
     }
-
     public void doLogin(String data){
         mVolleySingleton.addToRequestQueue(getToken(data));
     }
 
 
+    public JSONObject getCommentFromCid(String cid){
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl + "/es/comment/" + cid + "?_format=json",future,future);
 
-    //Dar una vuelta //Cranear un poco
-    /**
-     * jsonArray
-     *
-     * */
-    JSONArray jsonArray;
-    //no funciona al ser async
-    public void pullJSONarrayFromServer(){
-        JsonArrayRequest mJsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                mUrl,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // Procesar la respuesta Json
-                        setJsonArray(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Log.d(TAG, "Error Volley: " + error.toString());
-                        error.printStackTrace();
-                    }
-                }
-        );
-        mVolleySingleton.addToRequestQueue(mJsonArrayRequest);
-    }
-    public JSONArray getJsonArray() {
-        return jsonArray;
-    }
-    public void setJsonArray(JSONArray jsonArray) {
-        this.jsonArray = jsonArray;
-    }
+        mVolleySingleton.addToRequestQueue(jsonObjectRequest);
 
+        try {
+            return future.get(2500, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
     public static String getStringFromJSONObjectBackend(String jsonString,String fieldName){
         String output;
         JSONObject jsonObject;
@@ -209,4 +194,14 @@ public class ClienteHttp {
         }
         return output;
     }
+    public AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> getPropuestas(){
+        String tag_JsonArray_req = "mJsonArrayRequest";
+        RequestFuture<JSONArray> future= RequestFuture.newFuture();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
+        addToRequestQueue(tag_JsonArray_req,jsonArrayRequest);
+        return new GetPropuestas().execute(future);
+
+    }
+
+
 }

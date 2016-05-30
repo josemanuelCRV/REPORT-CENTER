@@ -35,7 +35,8 @@
     <string name="URL_LOCALHOST">http://194.140.6.122:3000</string>
     <string name="URL_LOGIN">http://194.140.6.122:3000/login</string>
 
-    <string name="URL">https://stag.hackityapp.com/es/api/v1/proposalslogin</string>
+    <string name="URL">https://stag.hackityapp.com/es/api/v1/proposals</string>
+
 
     <string name="bg_img_botom">skyline Madrid city</string>
     <string name="logo_flat">Logo</string>

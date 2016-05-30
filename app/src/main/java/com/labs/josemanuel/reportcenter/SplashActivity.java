@@ -1,24 +1,16 @@
 package com.labs.josemanuel.reportcenter;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.labs.josemanuel.reportcenter.Http.VolleySingleton;
 
 public class SplashActivity extends AppCompatActivity {
 

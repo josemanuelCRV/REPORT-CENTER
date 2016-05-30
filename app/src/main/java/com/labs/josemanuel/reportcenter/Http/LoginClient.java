@@ -7,20 +7,8 @@ package com.labs.josemanuel.reportcenter.Http;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-
-
 import android.support.v7.app.AlertDialog;
-
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -36,6 +24,14 @@ import com.labs.josemanuel.reportcenter.ActividadListaPropuestas;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+
 
 /**
  * Created by Miguel on 5/9/2016.
@@ -43,34 +39,16 @@ import com.labs.josemanuel.reportcenter.R;
 public class LoginClient {
     public String API_URL;
     Context mContext;
-    private String first_name,password, messageFromServer;
 
     //New Era
     RequestQueue mRequestQueue;
     StringRequest stringRequest;
-
-    public String getMessageFromServer(){return messageFromServer;}
-    public void setMessageFromServer(String MessageFromServer) { this.messageFromServer=MessageFromServer;
-    }
-    public String getFirst_name() {
-        return first_name;
-    }
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public LoginClient(Context context){
         mContext=context;
         API_URL = mContext.getApplicationContext().getResources().getString(R.string.URL_LOGIN);
         mRequestQueue= Volley.newRequestQueue(mContext);
     }
-
 
     public void loginWithServer(String first_name, String password) {
         //Body params
@@ -159,7 +137,6 @@ public class LoginClient {
         stringRequest.setTag("POST"); //Permite que continue la petición POST a pesar de cambiar de actividad
         mRequestQueue.add(stringRequest);
     }
-
     private AlertDialog.Builder getBuilder(VolleyError error) {
         return new AlertDialog.Builder(mContext)
                 .setTitle(String.valueOf(error.networkResponse.statusCode))

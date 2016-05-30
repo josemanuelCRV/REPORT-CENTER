@@ -3,25 +3,20 @@ package com.labs.josemanuel.reportcenter;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.Loader;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -87,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         /**
          * La aplicación almacena la obligación de logearse en el caso de que no exista el token || no sea válido
          * */
-
+        //mClienteHttp.doLogin("Prueba!");
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -111,8 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
-                startActivity(goMain);*/
+                Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
+                startActivity(goMain);
                 // attemptLogin();
 
 //                mLoginClient.loginWithServer(mEmailView.getText().toString(),mPasswordView.getText().toString());
