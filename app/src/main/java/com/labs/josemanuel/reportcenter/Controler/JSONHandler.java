@@ -24,6 +24,7 @@ import org.json.JSONObject;
 public class JSONHandler {
     static JSONArray arrayJSON;
     static JSONObject container;
+
     public static Propuesta[] generatePropuestaArray(JSONArray jsoninput) {
         try {
             Propuesta[] output = new Propuesta[jsoninput.length()];
@@ -40,6 +41,7 @@ public class JSONHandler {
             return null;
         }
     }
+
     public static Propuesta generateCompletePropuesta(JSONObject jsoninput) {
         String nid = getStringFromNode(jsoninput, "nid");
         String uuid = getStringFromNode(jsoninput, "uuid");
@@ -88,7 +90,7 @@ public class JSONHandler {
         );
     }
 
-    public static User generateUser(JSONObject jsoninput){
+    public static User generateUser(JSONObject jsoninput) {
         String uid = getStringFromNode(jsoninput, "uid");
         String uuid = getStringFromNode(jsoninput, "uuid");
         String langcode = getStringFromNode(jsoninput, "langcode");
@@ -109,33 +111,33 @@ public class JSONHandler {
         String avatars_user_picture = getStringFromNode(jsoninput, "avatars_user_picture");
         String user_picture = getStringFromNode(jsoninput, "user_picture");
 
-        return new User(uid,uuid,langcode,preferred_language,preferred_admin_langcode,mail,timezone,status,created,changed,access
-                    ,login,init,roles,default_langcode,path,avatars_avatar_generator,avatars_user_picture,user_picture);
+        return new User(uid, uuid, langcode, preferred_language, preferred_admin_langcode, mail, timezone, status, created, changed, access
+                , login, init, roles, default_langcode, path, avatars_avatar_generator, avatars_user_picture, user_picture);
     }
 
 
-    public static Comment generateComment(JSONObject jsoninput){
+    public static Comment generateComment(JSONObject jsoninput) {
         String cid = getStringFromNode(jsoninput, "cid");
         String uuid = getStringFromNode(jsoninput, "uuid");
         String pid = getStringFromNode(jsoninput, "pid");
         JSONArray entity_id_aux;
-        JSONObject entity_id_aux_container=null;
-        Propuesta entity_id=null;
+        JSONObject entity_id_aux_container = null;
+        Propuesta entity_id = null;
         try {
-            entity_id_aux= jsoninput.getJSONArray("entity_id");
-            entity_id_aux_container=entity_id_aux.getJSONObject(0);
-            entity_id= new Propuesta (
+            entity_id_aux = jsoninput.getJSONArray("entity_id");
+            entity_id_aux_container = entity_id_aux.getJSONObject(0);
+            entity_id = new Propuesta(
                     entity_id_aux_container.getString(JsonConstants.TGID),
                     entity_id_aux_container.getString(JsonConstants.TGTY),
                     entity_id_aux_container.getString(JsonConstants.TGUD),
                     entity_id_aux_container.getString(JsonConstants.URL)
-                    );
+            );
         } catch (JSONException e) {
             e.printStackTrace();
         }
         String subject = getStringFromNode(jsoninput, "subject");
         String langcode = getStringFromNode(jsoninput, "langcode");
-        Usuario usuario = getUsuarioFromNode(jsoninput,"uid");
+        Usuario usuario = getUsuarioFromNode(jsoninput, "uid");
         String name = getStringFromNode(jsoninput, "name");
         String mail = getStringFromNode(jsoninput, "mail");
         String homepage = getStringFromNode(jsoninput, "homepage");
@@ -148,8 +150,8 @@ public class JSONHandler {
         String field_name = getStringFromNode(jsoninput, "field_name");
         String default_langcode = getStringFromNode(jsoninput, "default_langcode");
         Body comment_body = getBodyFromNode(jsoninput);
-        return new Comment(cid,uuid,pid,entity_id,subject,langcode,usuario,name,mail,homepage,created,changed,status
-                ,thread,entity_type,comment_type,field_name,default_langcode,comment_body);
+        return new Comment(cid, uuid, pid, entity_id, subject, langcode, usuario, name, mail, homepage, created, changed, status
+                , thread, entity_type, comment_type, field_name, default_langcode, comment_body);
     }
 
     public static String generateJsonStringFromPropuesta(Propuesta propuesta) {
@@ -188,9 +190,9 @@ public class JSONHandler {
             String format = container.getString(JsonConstants.FRMT);
             String summary;
             //Comprobación body de propuesta, si lo es devuelve el constructor con los 3 parámetros.
-            if (container.length()==3){
-                summary= container.getString(JsonConstants.SMRY);
-                return new Body(value,format,summary);
+            if (container.length() == 3) {
+                summary = container.getString(JsonConstants.SMRY);
+                return new Body(value, format, summary);
             }
             //Si no lo es, devuelve el constructor de un body de comentario
             return new Body(value, format);
@@ -312,12 +314,16 @@ public class JSONHandler {
         Imagen[] arrayImagenes;
         try {
             arrayImagenesJson = jsonObject.getJSONArray("field_proposal_images");
-            arrayImagenes = new Imagen[arrayImagenesJson.length()];
-            for (int index = 0; index < arrayImagenesJson.length(); index++) {
-                imagen = arrayImagenesJson.getJSONObject(index);
-                arrayImagenes[index] = getImagenFromNode(imagen);
+            if (arrayImagenesJson.length() != 0) {
+                arrayImagenes = new Imagen[arrayImagenesJson.length()];
+
+                for (int index = 0; index < arrayImagenesJson.length(); index++) {
+                    imagen = arrayImagenesJson.getJSONObject(index);
+                    arrayImagenes[index] = getImagenFromNode(imagen);
+                }
+                return arrayImagenes;
             }
-            return arrayImagenes;
+            return null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -352,8 +358,8 @@ public class JSONHandler {
              * Comprobación nodo vacío en Localización
              * Si no se ha registrado la localización de la propuesta, muestra lat= 0 lg=0
              * */
-            if (arrayLocalizacionesJson.length()==0)
-                return new Localizacion("0","0");
+            if (arrayLocalizacionesJson.length() == 0)
+                return new Localizacion("0", "0");
 
             localizacionJsonObject = arrayLocalizacionesJson.getJSONObject(0);
             String latitude = localizacionJsonObject.getString(JsonConstants.LAT);
