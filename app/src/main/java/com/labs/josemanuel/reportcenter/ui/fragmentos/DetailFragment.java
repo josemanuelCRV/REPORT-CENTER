@@ -1,7 +1,6 @@
 package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 import android.annotation.TargetApi;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +22,12 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
@@ -40,13 +38,11 @@ import com.labs.josemanuel.reportcenter.tools.Infrastructure;
 import com.labs.josemanuel.reportcenter.ui.AdaptadorComentario;
 import com.labs.josemanuel.reportcenter.ui.InteractiveScrollView;
 import com.labs.josemanuel.reportcenter.ui.actividades.UpdateActivity;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DetailFragment extends Fragment {
-    // añadido OnMapReadyCallback
 
 
     /**
@@ -67,37 +63,39 @@ public class DetailFragment extends Fragment {
     private TextView viewDireccion;
     private TextView viewEstado;
     private ImageView viewFlagState;
-
-
     private String abierta = "1";
-
     private ImageButton editButton;
     private String extra;
     private Gson gson = new Gson();
     private ScrollView panoflasquesomos;
 
+    // inicializadas en el constructor de clase.
+    private Double lat;
+    private Double lon;
+
+
     /*
     instancia global del administrador
      */
     private RecyclerView.LayoutManager lManager;
-
+    // scroll con acción Interactiva
     private InteractiveScrollView scrollView;
+    // contenedor de los comentarios
     private LinearLayout comentariosContainer;
     private ImageButton btnVolver;
-
+    // instancia SupportMapFragment para el mapa
     private SupportMapFragment mSupportMapFragment;
-
+    // Propuesta seleccionada
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
 
-
-
-   /* public Integer latitud = Integer.parseInt(PropSeleecionada.getLoc().getLatitude());
-    public Integer longitud = Integer.parseInt(PropSeleecionada.getLoc().getLongitude());*/
-
-
+    // CONSTRUCTOR DE CLASE
+    // inicializadas las variables que recogen la localización
     public DetailFragment() {
+        lon = Double.valueOf(PropSeleecionada.getLoc().getLongitude());
+        lat = Double.valueOf(PropSeleecionada.getLoc().getLatitude());
     }
 
+    // crea instancia de Detail_Fragment
     public static DetailFragment createInstance(String idNodo) {
         DetailFragment detailFragment = new DetailFragment();
         Bundle bundle = new Bundle();
@@ -112,10 +110,11 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // infla la vista con el fragment
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        // Obtención de views
-        bgCategoria = (ImageView) v.findViewById(R.id.bg_category);
+        // vinculando los componentes de la vista
+        bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
         viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
         viewTituloDetalle = (TextView) v.findViewById(R.id.titulo);
         viewDescripcionDetalle = (TextView) v.findViewById(R.id.descripcion);
@@ -125,12 +124,11 @@ public class DetailFragment extends Fragment {
         viewEstado = (TextView) v.findViewById(R.id.estado);
         viewFlagState = (ImageView) v.findViewById(R.id.flag_category); // Flag / Flag_Check_Done
 
-        editButton = (ImageButton) v.findViewById(R.id.fab);
-        btnVolver = (ImageButton) v.findViewById(R.id.btnBack);
+        editButton = (ImageButton) v.findViewById(R.id.fab); // boton para Editar Propuesta
+        btnVolver = (ImageButton) v.findViewById(R.id.btnBack); // sin uso ahora el Fab
+
+        // Scroll general que contiene los Datos Detalle Propuesta + Contenedor Comentarios
         panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
-
-
-
 
 
         // OBTENER EL MAP-FRAGMENT y colocarlo en el frame del fragment_detail
@@ -151,13 +149,13 @@ public class DetailFragment extends Fragment {
 
                         googleMap.getUiSettings().setAllGesturesEnabled(true);
 
+                        /*
+                        * En el constructor de la clase declaramos la variables (lat,lon)
+                        */
 
-                        Double lat = Double.valueOf(PropSeleecionada.getLoc().getLatitude());
-                        Double lon = Double.valueOf(PropSeleecionada.getLoc().getLongitude());
-
-                        // -> marker_latlng // MAKE THIS WHATEVER YOU WANT
+                        // -> marker_latlng recoge la latitud y longitud en formato double//
                         LatLng marker_latlng = new LatLng(lat, lon);
-
+                        // configurando la vista del mapa, setea posición, mueve la camara,aplica zoom, coloca título y controles
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(marker_latlng).zoom(15.0f).build();
                         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
                         googleMap.moveCamera(cameraUpdate);
@@ -166,27 +164,29 @@ public class DetailFragment extends Fragment {
                         googleMap.getUiSettings().setZoomControlsEnabled(true);
 
                     }
-
                 }
             });
-
 
         }
 
 
-        //Layout que contiene botón retroceder y comentarios
-
+        // Contenedor Comentarios que muestra las Cards
         comentariosContainer = (LinearLayout) v.findViewById(R.id.comentariosContainer);
+
+        // Aplica InteractiveScrollView al scroll en el que se muestran las cards de comentarios
         scrollView = (InteractiveScrollView) v.findViewById(R.id.comentarios);
 
+        // adapter recoge el Comentario seleccionado
         AdaptadorComentario adapter = new AdaptadorComentario(getContext(), Infrastructure.getComentarioSeleccionada());
 
+        // introduce en el scroll la propuesta seleccionada almacenada en el adaptador
+        scrollView.setAdapter(adapter);
 
-        scrollView.setAdapter(adapter);         // Usar un administrador para LinearLayout
-
+        // Usar un administrador para LinearLayout y aplicarlo al scroll
         lManager = new LinearLayoutManager(getContext());
         scrollView.setLayoutManager(lManager);
 
+        // Hace visible el contenedor de los comentarios
         comentariosContainer.setVisibility(View.VISIBLE);
 
         // Obtener extra del intent de envío
@@ -207,21 +207,14 @@ public class DetailFragment extends Fragment {
         );
 
 
-        // ********* Activar para evento al llegar al final del scroll
-        // y sacar el contenedor de los comentarios del Scroll-Linear que tiene el escuchador
-
-
+          /*
+          ACTIVADOR DE  para evento al llegar al final del scroll
+          y sacar el contenedor de los comentarios del Scroll-Linear que tiene el escuchador
+          */
         // panoflasquesomos.setOnScrollChangeListener(new OnScrollListenerEnAnabolizantes(comentariosContainer));
 
 
-      /*  btnVolver.setVisibility(View.VISIBLE);
-        if(panoflasquesomos.isSelected() ){
-            btnVolver.setVisibility(View.INVISIBLE);
-        }else
-            btnVolver.setVisibility(View.VISIBLE);*/
-
-
-        // ************* Boton close
+        // Boton Volver. Oculta el contenedor de los comentarios y vuelve a mostrar el contenedor Datos propuesta
 
       /*  btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,7 +311,7 @@ public class DetailFragment extends Fragment {
         String fecha = PropuestaHandler.parseDate(PropSeleecionada.getCreated());
         viewFechaDetalle.setText(fecha);
         // dirección
-        viewDireccion.setText(PropSeleecionada.getLoc().getLatitude());
+        viewDireccion.setText(PropSeleecionada.getField_proposal_formatted_address());
         // categoria
         String category = PropSeleecionada.getField_proposal_status().getUrl();
         viewCategoriaDetalle.setText(category);

@@ -104,8 +104,6 @@ public class MainFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
-
-
         lista = (RecyclerView) v.findViewById(R.id.reciclador);
         lista.setHasFixedSize(true);
 

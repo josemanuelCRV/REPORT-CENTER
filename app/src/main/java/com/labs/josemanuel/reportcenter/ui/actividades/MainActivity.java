@@ -1,7 +1,11 @@
 package com.labs.josemanuel.reportcenter.ui.actividades;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,16 +14,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.target.Target;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.NukeSSLCerts;
 import com.labs.josemanuel.reportcenter.tools.Constantes;
+import com.labs.josemanuel.reportcenter.ui.AdaptadorPropuestas;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MainFragment;
+import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView emptyFeedTextView;
+
+    private Context contexto;
+
+    // private static final String EXTRA_DRAWABLE = "com.labs.josemanuel.reportcenter.drawable";
+
+
+
+    public MainActivity() {
+
+    }
+
+    // --------------------------------------
+    // nuevo para Toldo
+   /* public static Intent getLaunchIntent(Context context) {
+        Intent intent = new Intent(context, MainFragment.class);
+        intent.putExtra(EXTRA_DRAWABLE , R.drawable.bg_city2);
+        return intent;
+    }*/
+// --------------------------------------
+
 
 
     @Override
@@ -28,21 +59,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         new NukeSSLCerts().nuke();
 
+
+       // ----------------------------------------------------------
+        // nuevo para Toldo
+    /*    setToolbar();// Añadir action bar
+        if (getSupportActionBar() != null) // Habilitar up button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        Intent i = getIntent();
+        int idDrawable = i.getIntExtra(EXTRA_DRAWABLE, -1);
+
+        CollapsingToolbarLayout collapser =
+                (CollapsingToolbarLayout) findViewById(R.id.collapser);*/
+
+//        collapser.setTitle(getPackageName().toString()); // Cambiar título
+
+
+//        loadImageParallax(idDrawable);// Cargar Imagen
+//
+        // ------------------------------------------------------
+
         // Creación del Toolbar y el NavigationDrawer
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         emptyFeedTextView = (TextView) findViewById(R.id.empty_view);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if (getSupportActionBar() != null) {
+        /*if (getSupportActionBar() != null) {
             // Dehabilitar titulo de la actividad
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             // Setear ícono "X" como Up button
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_close);
-        }
-
+        }*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
 
 
@@ -63,6 +114,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         }
     }
+
+    // METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
+
+    private void setToolbar() {
+        // Añadir la Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    /**
+     * Se carga una imagen aleatoria para el detalle
+     */
+   /* private void loadImageParallax(int id) {
+        ImageView image = (ImageView) findViewById(R.id.image_paralax);
+        // Usando Glide para la carga asíncrona
+        Glide.with(this)
+                .load(id)
+                .centerCrop()
+                .into(image);
+    }*/
+
+    // Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
+
+    // FIN METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
 
 
     @Override

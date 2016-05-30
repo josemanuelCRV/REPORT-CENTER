@@ -1,8 +1,13 @@
 package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,10 +30,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.tools.Constantes;
 import com.labs.josemanuel.reportcenter.Utils.VolleySingleton;
+import com.labs.josemanuel.reportcenter.ui.actividades.InsertActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +60,16 @@ public class InsertFragment extends Fragment {
     Spinner prioridad_spinner;
     TextView fecha_text;
     Spinner categoria_spinner;
+
+    /*
+    Instancia global del FAB
+     */
+    com.melnykov.fab.FloatingActionButton fabCamera;
+
+
+    private final String ruta_fotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/misfotos/";
+    private File file = new File(ruta_fotos);
+
 
     public InsertFragment() {
     }
@@ -73,6 +94,37 @@ public class InsertFragment extends Fragment {
         categoria_spinner = (Spinner) v.findViewById(R.id.categoria_spinner);
         prioridad_spinner = (Spinner) v.findViewById(R.id.prioridad_spinner);
 
+        //Si no existe crea la carpeta donde se guardaran las fotos
+        file.mkdirs();
+        //accion para el boton
+        // Obtener instancia del FAB
+        fabCamera = (com.melnykov.fab.FloatingActionButton) v.findViewById(R.id.fab);
+        // Asignar escucha al FAB
+        fabCamera.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String file = ruta_fotos + getCode() + ".jpg";
+                        File mi_foto = new File(file);
+                        try {
+                            mi_foto.createNewFile();
+                        } catch (IOException ex) {
+                            Log.e("ERROR ", "Error:" + ex);
+                        }
+                        //
+                        Uri uri = Uri.fromFile(mi_foto);
+                        //Abre la camara para tomar la foto
+                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //Guarda imagen
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        //Retorna a la actividad
+                        startActivityForResult(cameraIntent, 0);
+                    }
+                }
+        );
+
+
+        // Data Picker
         fecha_text.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -86,6 +138,22 @@ public class InsertFragment extends Fragment {
 
         return v;
     }
+
+
+    /**
+     * Metodo privado que genera un codigo unico segun la hora y fecha del sistema
+     * @return photoCode
+     * */
+    @SuppressLint("SimpleDateFormat")
+    private String getCode(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmmss");
+        String date = dateFormat.format(new Date());
+        String photoCode = "pic_" + date;
+        return photoCode;
+    }
+
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -123,7 +191,7 @@ public class InsertFragment extends Fragment {
 
     /**
      * Guarda los cambios de una meta editada.
-     * <p>
+     * <p/>
      * Si está en modo inserción, entonces crea una nueva
      * meta en la base de datos
      */

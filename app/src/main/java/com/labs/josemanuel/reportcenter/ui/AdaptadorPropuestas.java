@@ -94,8 +94,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
     }
 
 
-
-
     //Identificador de la propuesta
     private String obtenerNid(int posicion) {
         if (propuestas != null) {
@@ -164,9 +162,20 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Propuesta propuesta = propuestas[position];
-        holder.viewTitle.setText(propuesta.getTitle());
-        holder.viewUbicacion.setText(propuesta.getField_proposal_route_name() + ", " + propuesta.getField_proposal_locality());
 
+        // Título
+        if (propuesta.getTitle() != null) {
+            holder.viewTitle.setText(propuesta.getTitle());
+        } else {
+            holder.viewTitle.setText("Título no encontrado");
+        }
+
+        // Dirección
+        if (propuesta.getField_proposal_route_name() + ", " + propuesta.getField_proposal_locality() != null) {
+            holder.viewUbicacion.setText(propuesta.getField_proposal_route_name() + ", " + propuesta.getField_proposal_locality());
+        } else {
+            holder.viewUbicacion.setText("dirección no encontrada");
+        }
 
         // Localizacion loc = propuesta.getLoc();
         /**
@@ -186,24 +195,49 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         // propuesta.getSticky() = 0
 
 
-        if (propuesta.getStatus().equals(abierta)) {
-            holder.viewEstado.setText("Abierta");
-            holder.viewFlagState.setImageResource(R.drawable.status_open_bg);
+        // Estado
+        if (propuesta.getStatus() != null) {
+            if (propuesta.getStatus().equals(abierta)) {
+                holder.viewEstado.setText("Abierta");
+                holder.viewFlagState.setImageResource(R.drawable.status_open_bg);
+            } else {
+                holder.viewEstado.setText("Cerrada");
+                holder.viewFlagState.setImageResource(R.drawable.status_closed_bg);
+            }
         } else {
-            holder.viewEstado.setText("Cerrada");
-            holder.viewFlagState.setImageResource(R.drawable.status_closed_bg);
+            holder.viewEstado.setText("Estado no encontrado");
         }
 
-        holder.viewBody.setText(propuesta.getBody().getValue());
-        holder.viewUsername.setText(String.format("idUsuario %s", propuesta.getUid().getTarget_id()+ " propuso")); // Consultar en api el username del id
-        Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
-        String fecha = PropuestaHandler.getTimeFromToday(propuesta.getCreated());
-        holder.viewFecha.setText(fecha.toString());
+        // Descripción
+        if (propuesta.getBody().getValue() != null) {
+            holder.viewBody.setText(propuesta.getBody().getValue());
+        } else {
+            holder.viewBody.setText("Descripción no encontrada");
+        }
 
+        // ID de Usuario
+        if (propuesta.getUid().getTarget_id() != null) {
+            holder.viewUsername.setText(String.format("idUsuario %s", propuesta.getUid().getTarget_id() + " propuso")); // Consultar en api el username del id
+        } else {
+            holder.viewUsername.setText("Usuario desconocido");
+        }
 
+        // Imágen de Propuesta
+        /*if (propuesta.getImage()[0].getUrl().length() != 0) {
+            Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
+        } else {
+            Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
+        }*/
 
+        Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
 
-
+        // Fecha de Propuesta
+        if (propuesta.getCreated() != null) {
+            String fecha = PropuestaHandler.getTimeFromToday(propuesta.getCreated());
+            holder.viewFecha.setText(fecha.toString());
+        } else {
+            holder.viewFecha.setText("sin fecha");
+        }
 
 
     }
