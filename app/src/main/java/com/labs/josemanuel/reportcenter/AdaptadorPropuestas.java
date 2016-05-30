@@ -109,7 +109,10 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             holder.viewUbicacion.setText(String.format("Latitud %1s\nLongitud %2s",loc.getLatitude().substring(0,7),loc.getLongitude().substring(0,7)));
         holder.viewBody.setText(propuesta.getBody().getValue());
         holder.viewUsername.setText(String.format("idUsuario %s" ,propuesta.getUid().getTarget_id())); // Consultar en api el username del id
-        Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);
+        if(propuesta.getImage()==null)
+            Glide.with(contexto).load(R.drawable.bg_city2).into(holder.viewFoto);
+        /*else
+            Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);*/
     }
 
 
