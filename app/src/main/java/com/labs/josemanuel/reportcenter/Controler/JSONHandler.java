@@ -90,26 +90,29 @@ public class JSONHandler {
         );
     }
 
-    public static User generateUser(JSONObject jsoninput) {
-        String uid = getStringFromNode(jsoninput, "uid");
-        String uuid = getStringFromNode(jsoninput, "uuid");
-        String langcode = getStringFromNode(jsoninput, "langcode");
-        String preferred_language = getStringFromNode(jsoninput, "preferred_language");
-        String preferred_admin_langcode = getStringFromNode(jsoninput, "preferred_admin_langcode");
-        String mail = getStringFromNode(jsoninput, "mail");
-        String timezone = getStringFromNode(jsoninput, "timezone");
-        String status = getStringFromNode(jsoninput, "status");
-        String created = getStringFromNode(jsoninput, "created");
-        String changed = getStringFromNode(jsoninput, "changed");
-        String access = getStringFromNode(jsoninput, "access");
-        String login = getStringFromNode(jsoninput, "login");
-        String init = getStringFromNode(jsoninput, "init");
-        String roles = getStringFromNode(jsoninput, "roles");
-        String default_langcode = getStringFromNode(jsoninput, "default_langcode");
-        String path = getStringFromNode(jsoninput, "path");
-        String avatars_avatar_generator = getStringFromNode(jsoninput, "avatars_avatar_generator");
-        String avatars_user_picture = getStringFromNode(jsoninput, "avatars_user_picture");
-        String user_picture = getStringFromNode(jsoninput, "user_picture");
+    public static User generateUser(JSONObject jsoninput) throws JSONException {
+        JSONObject data = jsoninput.getJSONObject("data");
+        JSONObject attributes = data.getJSONObject("attributes");
+        JSONObject relationships = data.getJSONObject("relationships");
+        String links= data.getJSONObject("links").getString("self");
+
+        String id = data.getString("id");
+        String type = data.getString("type");
+        String uid = attributes.getString("uid");
+        String uuid = attributes.getString("uuid");
+        String langcode = attributes.getString("langcode");
+        String name = attributes.getString("name");
+        String created = attributes.getString("created");
+        String changed = attributes.getString("changed");
+        String path = attributes.getString("path");
+        String avatars_avatar_generator = attributes.getString("avatars_avatar_generator");
+
+        String avatars_user_picture = relationships.getJSONObject("avatars_user_picture").getString("data");
+        String user_picture= relationships.getJSONObject("user_picture").getString("data");
+        String links_= relationships.getJSONObject("links").getString("self");
+
+
+
 
         return new User(uid, uuid, langcode, preferred_language, preferred_admin_langcode, mail, timezone, status, created, changed, access
                 , login, init, roles, default_langcode, path, avatars_avatar_generator, avatars_user_picture, user_picture);
@@ -175,6 +178,8 @@ public class JSONHandler {
             return null;
         }
     }
+
+
 
     private static Body getBodyFromNode(JSONObject jsoninput) {
 

@@ -80,33 +80,8 @@ public class ClienteHttp {
             public void onResponse(String response) {
                 String token = response;//recogida token.
                 Log.v("token ", token);
-
-                //----------------REFACTOR!
-                if (token != null) {
-                    OutputStreamWriter osw=null;
-                    try {
-                        if(PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("login",true)){
-                            osw= new OutputStreamWriter(mContext.openFileOutput("clave.txt",mContext.MODE_PRIVATE));
-                            osw.write(ClienteHttp.getStringFromJSONObjectBackend(token,"tokenCSRF"));
-                            Credentials.setUserId(ClienteHttp.getStringFromJSONObjectBackend(token,"userId"));
-                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean("login",false);
-                            editor.apply();
-                        }
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }finally{
-                        try {
-                            osw.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    // can get more details such as response.headers
-                    }
-
-
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit().putBoolean("login",false);
+                editor.apply();
                 mVolleySingleton.addToRequestQueue(proposalPost(token,data));
             }
         },new Response.ErrorListener() {

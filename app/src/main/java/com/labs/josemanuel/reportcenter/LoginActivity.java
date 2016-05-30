@@ -455,7 +455,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(String s) {
             if(s!=null){
-                Credentials.setCsrfToken(s);
+                Credentials.setX_CRSF_Token(s);
                 kickOffActivity(true);
             }
             else{kickOffActivity(false);}
