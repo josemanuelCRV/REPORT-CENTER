@@ -2,6 +2,8 @@ package com.labs.josemanuel.reportcenter.Http;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -204,4 +206,22 @@ public class ClienteHttp {
     }
 
 
+    /**
+     * La clase permite comprobar si hay conexión a red.
+     *
+     * @return isAvailable true si hay red
+     */
+    public boolean isNetworkAvailable() {
+        //Gestor de conectividad
+        ConnectivityManager manager;
+        manager = (ConnectivityManager)
+                mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //Objeto que recupera el estado
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
 }

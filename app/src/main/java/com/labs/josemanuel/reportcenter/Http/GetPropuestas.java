@@ -32,7 +32,6 @@ public class GetPropuestas extends AsyncTask<RequestFuture<JSONArray>, Void, Pro
 
     @Override
     protected void onPostExecute(Propuesta[] jsonArray) {
-        Log.v("onPostExecute",String.valueOf(jsonArray.length));
         super.onPostExecute(jsonArray);
     }
 }

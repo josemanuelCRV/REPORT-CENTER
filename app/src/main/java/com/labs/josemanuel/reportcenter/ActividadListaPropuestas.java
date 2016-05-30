@@ -27,6 +27,7 @@ import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 
 import org.json.JSONArray;
 
@@ -34,7 +35,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class ActividadListaPropuestas extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AdaptadorPropuestas.OnItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdaptadorPropuestas.OnItemClickListener {
     //UI
     private RecyclerView listaUI;
     private TextView emptyFeedTextView;
@@ -48,20 +49,19 @@ public class ActividadListaPropuestas extends AppCompatActivity
     Propuesta[] feed;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new TrustAllSSLCerts().nuke();
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-        editor.putBoolean("login",false);
+        editor.putBoolean("login", false);
         editor.apply();
 
         //UI
         setContentView(R.layout.actividad_lista_propuestas);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        emptyFeedTextView= (TextView) findViewById(R.id.empty_view);
+        emptyFeedTextView = (TextView) findViewById(R.id.empty_view);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -77,7 +77,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
         listaUI.setLayoutManager(linearLayoutManager);
         //Data
         //----------------------------------Nuevo
-        clienteHttp= new ClienteHttp(getString(R.string.URL),this);
+        clienteHttp = new ClienteHttp(getString(R.string.URL), this);
         clienteHttp.initiate();
         loadProposalFeed();
 
@@ -92,10 +92,13 @@ public class ActividadListaPropuestas extends AppCompatActivity
     //OldSchool
     /*private void loadProposalFeed() {
         String  tag_JsonArray_req = "mJsonArrayRequest";
-        *//**
-         * Misma finalidad que TrustAllSSLCerts.
-         * @see TrustAllSSLCerts
-         * *//*
+        */
+
+    /**
+     * Misma finalidad que TrustAllSSLCerts.
+     *
+     * @see TrustAllSSLCerts
+     *//*
         //HttpsTrustManager.allowAllSSL();
         mJsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -124,10 +127,8 @@ public class ActividadListaPropuestas extends AppCompatActivity
     }*/
     private void loadProposalFeed() {
 
-        /**
-         * Misma finalidad que TrustAllSSLCerts.
-         * @see TrustAllSSLCerts
-         * */
+
+        if(clienteHttp.isNetworkAvailable()){
             final AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> loadProposalFeedTask = clienteHttp.getPropuestas();
 
             Thread t = new Thread(new Runnable() {
@@ -136,7 +137,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
                     Log.d("RT", "Thread t Begins");
                     try {
                         //feed = procesarRespuesta((JSONArray) asyncTask.get());
-                        feed=loadProposalFeedTask.get();//
+                        feed = loadProposalFeedTask.get();//
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -155,32 +156,21 @@ public class ActividadListaPropuestas extends AppCompatActivity
                 }
             });
             t.start();
+        }else{
+            DialogBuilder dialogBuilder= new DialogBuilder(this);
+            dialogBuilder.alertUserAboutError();
+        }
+
 
 
     }
 
 
-
-
-
-
-
-    //Metodo envoltorio de la inserción de los POJO en el array de propuestas
-    /*private Propuesta[] procesarRespuesta(JSONArray response){
-        try {
-            Log.v("Respuesta!" , response.getJSONObject(0).toString());
-            return jsonHandler.generatePropuestaArray(response);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
-    private Comment[] procesarCommentarios(Comentario[] comentarios){
+    private Comment[] procesarCommentarios(Comentario[] comentarios) {
         Comment[] salida = new Comment[comentarios.length];
         int i = 0;
-        for(Comentario comentario : comentarios){
-            salida[i]= JSONHandler.generateComment(clienteHttp.getCommentFromCid(comentario.getId()));
+        for (Comentario comentario : comentarios) {
+            salida[i] = JSONHandler.generateComment(clienteHttp.getCommentFromCid(comentario.getId()));
             i++;
         }
         return salida;
