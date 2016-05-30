@@ -3,6 +3,7 @@ package com.labs.josemanuel.reportcenter.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.tools.Infrastructure;
 import com.labs.josemanuel.reportcenter.ui.actividades.DetailActivity;
+import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
 
 /**
  * Adaptador del RecyclerView que rellena la lista
@@ -71,10 +73,10 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             viewFabFollow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*Intent goMain = new Intent(contexto, MainActivity.class);
-                    contexto.startActivity(goMain);*/
-                Snackbar.make(view, "Añadido a tus favoritos", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                    Intent goMain = new Intent(contexto, MapsActivity.class);
+                    contexto.startActivity(goMain);
+                /*Snackbar.make(view, "Añadido a tus favoritos", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
                 }
             });
         }

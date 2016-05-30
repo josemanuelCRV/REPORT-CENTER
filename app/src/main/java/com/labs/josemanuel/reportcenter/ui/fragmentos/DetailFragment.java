@@ -1,13 +1,15 @@
 package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 import android.annotation.TargetApi;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +21,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.plus.model.people.Person;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
@@ -44,7 +45,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DetailFragment extends Fragment implements OnMapReadyCallback {
+public class DetailFragment extends Fragment {
     // añadido OnMapReadyCallback
 
 
@@ -68,9 +69,6 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     private ImageView viewFlagState;
 
 
-    private GoogleMap mMap;
-
-
     private String abierta = "1";
 
     private ImageButton editButton;
@@ -87,7 +85,14 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     private LinearLayout comentariosContainer;
     private ImageButton btnVolver;
 
+    private SupportMapFragment mSupportMapFragment;
+
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
+
+
+   /* public Integer latitud = Integer.parseInt(PropSeleecionada.getLoc().getLatitude());
+    public Integer longitud = Integer.parseInt(PropSeleecionada.getLoc().getLongitude());*/
 
 
     public DetailFragment() {
@@ -100,6 +105,7 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         detailFragment.setArguments(bundle);
         return detailFragment;
     }
+
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -122,6 +128,50 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         editButton = (ImageButton) v.findViewById(R.id.fab);
         btnVolver = (ImageButton) v.findViewById(R.id.btnBack);
         panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
+
+
+
+
+
+        // OBTENER EL MAP-FRAGMENT y colocarlo en el frame del fragment_detail
+
+        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
+        if (mSupportMapFragment == null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            mSupportMapFragment = SupportMapFragment.newInstance();
+            fragmentTransaction.replace(R.id.mapwhere, mSupportMapFragment).commit();
+        }
+
+        if (mSupportMapFragment != null) {
+            mSupportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    if (googleMap != null) {
+
+                        googleMap.getUiSettings().setAllGesturesEnabled(true);
+
+
+                        Double lat = Double.valueOf(PropSeleecionada.getLoc().getLatitude());
+                        Double lon = Double.valueOf(PropSeleecionada.getLoc().getLongitude());
+
+                        // -> marker_latlng // MAKE THIS WHATEVER YOU WANT
+                        LatLng marker_latlng = new LatLng(lat, lon);
+
+                        CameraPosition cameraPosition = new CameraPosition.Builder().target(marker_latlng).zoom(15.0f).build();
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+                        googleMap.moveCamera(cameraUpdate);
+                        googleMap.addMarker(new MarkerOptions().position(marker_latlng).title(PropSeleecionada.getTitle()));
+                        googleMap.getUiSettings().setCompassEnabled(true);
+                        googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+                    }
+
+                }
+            });
+
+
+        }
 
 
         //Layout que contiene botón retroceder y comentarios
@@ -246,6 +296,10 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         // getField_proposal_status().getTarget_type --> taxonomy_term
 
 
+        // MAPA
+        // getLoc().getLatitude() --> 40.383617
+
+
         // taxonomy/term/ ----------------------->
         // term/3 --> Urban equipament
         // temr/4 --> Cleaning
@@ -264,7 +318,7 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         String fecha = PropuestaHandler.parseDate(PropSeleecionada.getCreated());
         viewFechaDetalle.setText(fecha);
         // dirección
-        viewDireccion.setText(PropSeleecionada.getField_proposal_formatted_address());
+        viewDireccion.setText(PropSeleecionada.getLoc().getLatitude());
         // categoria
         String category = PropSeleecionada.getField_proposal_status().getUrl();
         viewCategoriaDetalle.setText(category);
@@ -278,7 +332,6 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         }
         // foto
         Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(viewCabeceraDetalle);
-
 
 
         /*String fecha = PropuestaHandler.parseDate(comentario.getTimestamp());
@@ -375,14 +428,4 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-    }
 }
