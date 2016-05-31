@@ -97,7 +97,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             Infrastructure.setComentarioSeleccionada(obtenerPropuesta(getAdapterPosition()).getCom());
             if (mClienteHttp.isNetworkAvailable()) {
                 final AsyncTask<RequestFuture<JSONObject>, Void, User> getUser = mClienteHttp.getUsuario();
-
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {

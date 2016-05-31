@@ -371,4 +371,12 @@ public class JSONHandler {
             return null;
         }
     }
+
+    public static Comment[] generateCommentsArray(String[] param) {
+        Comment[] arrayComments = new Comment[param.length];
+
+
+
+        return arrayComments;
+    }
 }
