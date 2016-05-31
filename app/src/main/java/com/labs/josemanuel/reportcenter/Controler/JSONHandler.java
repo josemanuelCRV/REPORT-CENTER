@@ -111,9 +111,8 @@ public class JSONHandler {
 
 
 
-        return null;
-        /*return new User(uid, uuid, langcode, preferred_language, preferred_admin_langcode, mail, timezone, status, created, changed, access
-                , login, init, roles, default_langcode, path, avatars_avatar_generator, avatars_user_picture, user_picture);*/
+        return new User(links,id,type,uid,uuid,langcode,name,created,changed,path,avatars_avatar_generator,avatars_user_picture,user_picture,links_);
+
     }
 
 

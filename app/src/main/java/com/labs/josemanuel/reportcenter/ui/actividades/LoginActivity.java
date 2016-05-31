@@ -45,6 +45,7 @@ import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         TrustAllSSLCerts.nuke();
-        mClienteHttp= new ClienteHttp(getResources().getString(R.string.URL_LOCALHOST),this);
+        mClienteHttp = new ClienteHttp(getResources().getString(R.string.URL_LOCALHOST), this);
         mClienteHttp.initiate();
         /**
          * La aplicación almacena la obligación de logearse en el caso de que no exista el token || no sea válido
@@ -108,7 +109,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
                     return true;
                 }
                 return false;
@@ -121,20 +121,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                String output=null;
-                String input= mEmailView.getText().toString()+","+mPasswordView.getText().toString();
 
-                if(mClienteHttp.isNetworkAvailable())
-                    attemptLogin();
-                DialogBuilder dialogBuilder = new DialogBuilder(LoginActivity.this);
-                dialogBuilder.show();
-                try {
-                    output= Base64.encodeToString(input.getBytes("UTF-8"),Base64.DEFAULT);
-                    Credentials.setAuthorization(output);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                String input = mEmailView.getText().toString() + "," + mPasswordView.getText().toString();
+
+                if (mClienteHttp.isNetworkAvailable()) {
+                    try {
+                        input = Base64.encodeToString(input.getBytes("UTF-8"), Base64.DEFAULT);
+                        Credentials.setAuthorization(input);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    Log.v("Envio auth", input);
+                    attemptLogin(input);
+                } else {
+                    DialogBuilder dialogBuilder = new DialogBuilder(LoginActivity.this);
+                    dialogBuilder.alertUserAboutError();
                 }
-                Log.v("Envio auth", output);
+
             }
         });
 
@@ -253,7 +256,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptLogin(final String input) {
 
         // Reset errors.
         mEmailView.setError(null);
@@ -267,44 +270,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        /*if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
-        }
+        }*/
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
+        /**if (TextUtils.isEmpty(email)) {
+         mEmailView.setError(getString(R.string.error_field_required));
+         focusView = mEmailView;
+         cancel = true;
+         } else if (!isEmailValid(email)) {
+         mEmailView.setError(getString(R.string.error_invalid_email));
+         focusView = mEmailView;
+         cancel = true;
+         }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-           //  focusView.requestFocus();
+            //  focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            final String input = mEmailView.getText().toString()+","+mPasswordView.getText().toString();
-            Log.v("input",input);
+
             RequestFuture<String> csrfTokenFuture = RequestFuture.newFuture();
 
-            StringRequest csrfToken= new StringRequest(Request.Method.GET,
+            StringRequest csrfToken = new StringRequest(Request.Method.GET,
                     "https://stag.hackityapp.com/rest/session/token",
                     csrfTokenFuture
-                    ,csrfTokenFuture){
+                    , csrfTokenFuture) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String,String> params = new HashMap<>();
+                    Map<String, String> params = new HashMap<>();
                     try {
-                        String basicAuth= Base64.encodeToString(input.getBytes("UTF-8"),Base64.DEFAULT);
+                        String basicAuth = Base64.encodeToString(input.getBytes("UTF-8"), Base64.DEFAULT);
                         params.put("Authorization ", basicAuth);
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -314,7 +316,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             };
 
 
-            mClienteHttp.addToRequestQueue(null,csrfToken);
+            mClienteHttp.addToRequestQueue(null, csrfToken);
             UserLoginTask userLoginTask = new UserLoginTask();
             userLoginTask.execute(csrfTokenFuture);
         }
@@ -439,8 +441,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected String doInBackground(RequestFuture<String>... params) {
             // TODO: attempt authentication against a network service.
-            Log.v("doInBackground","solicitando token...");
-
+            Log.v("doInBackground", "solicitando token...");
             try {
                 return params[0].get();
             } catch (InterruptedException e) {
@@ -454,26 +455,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected void onPostExecute(String s) {
-            if(s!=null){
-                Credentials.setX_CRSF_Token(s);
-
+            if (s != null) {
+                Credentials.setX_CSRF_Token(s);
                 kickOffActivity(true);
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        kickOffActivity(false);
+                    }
+                });
             }
-            else{kickOffActivity(false);}
             super.onPostExecute(s);
         }
     }
 
-    public void kickOffActivity(boolean flag){
-        Intent intent = new Intent (LoginActivity.this,MainActivity.class);
+    public void kickOffActivity(boolean flag) {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-
         editor.apply();
-        if(flag) {
+        if (flag) {
             editor.putBoolean("login", false);
             startActivity(intent);
-        }else {
+        } else {
             showProgress(false);
             editor.putBoolean("login", true);
             DialogBuilder dialogBuilder = new DialogBuilder(this);

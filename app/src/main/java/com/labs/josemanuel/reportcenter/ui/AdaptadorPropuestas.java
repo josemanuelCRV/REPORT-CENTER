@@ -4,21 +4,35 @@ package com.labs.josemanuel.reportcenter.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.toolbox.RequestFuture;
 import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import com.labs.josemanuel.reportcenter.ui.actividades.DetailActivity;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
+import static com.google.android.gms.internal.zzir.runOnUiThread;
 
 /**
  * Adaptador del RecyclerView que rellena la lista
@@ -81,11 +95,38 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
 
         @Override
         public void onClick(View view) {
+            ClienteHttp mClienteHttp= new ClienteHttp("http://stag.hackityapp.com/en/user/331?_format=json",contexto);
             obtenerNid(getAdapterPosition());
             obtenerPropuesta(getAdapterPosition());
             //pasamos la propuesta seleccionada
             Infrastructure.setPropuestaSeleccionada(obtenerPropuesta(getAdapterPosition()));
             Infrastructure.setComentarioSeleccionada(obtenerPropuesta(getAdapterPosition()).getCom());
+            if (mClienteHttp.isNetworkAvailable()) {
+                final AsyncTask<RequestFuture<JSONObject>, Void, User>  getUser = mClienteHttp.getUsuario();
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("RT", "Thread t Begins");
+                        while(getUser.getStatus()== AsyncTask.Status.FINISHED){
+                            try {
+                                Toast.makeText(contexto, getUser.get().getName(), Toast.LENGTH_SHORT).show();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    }
+                });
+                t.start();
+            } else {
+                DialogBuilder dialogBuilder = new DialogBuilder(contexto);
+                dialogBuilder.alertUserAboutError();
+            }
+
             DetailActivity.launch(
                     (Activity) contexto, obtenerNid(getAdapterPosition()));
         }

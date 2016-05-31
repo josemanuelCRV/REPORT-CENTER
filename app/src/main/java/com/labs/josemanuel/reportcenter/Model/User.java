@@ -4,49 +4,63 @@ package com.labs.josemanuel.reportcenter.Model;
  * Created by Miguel on 5/27/2016.
  */
 public class User {
-    private String uid;
-    private String uuid;
-    private String langcode;
-    private String preferred_langcode;
-    private String preferred_admin_langcode;
-    private String name;
-    private String mail;
-    private String timezone;
-    private String status;
-    private String changed;
-    private String access;
-    private String login;
-    private String init;
-    private String roles;
-    private String default_langcode;
-    private String path;
-    private String avatars_avatar_generator;
-    private String avatars_user_picture;
-    private String user_picture;
+    String links;
+    String id;
+    String type;
+    String uid;
+    String uuid;
+    String langcode;
+    String name;
+    String created;
+    String changed;
+    String path;
+    String avatars_avatar_generator;
+    String avatars_user_picture;
+    String user_picture;
+    String links_;
 
-    public User(String uid, String uuid, String langcode, String preferred_langcode, String preferred_admin_langcode, String name, String mail, String timezone, String status, String changed, String access, String login, String init, String roles, String default_langcode, String path, String avatars_avatar_generator, String avatars_user_picture, String user_picture) {
+
+    public User(String links, String id, String type, String uid, String uuid, String langcode, String name, String created, String changed, String path, String avatars_avatar_generator, String avatars_user_picture, String user_picture, String links_) {
+        this.links = links;
+        this.id = id;
+        this.type = type;
         this.uid = uid;
         this.uuid = uuid;
         this.langcode = langcode;
-        this.preferred_langcode = preferred_langcode;
-        this.preferred_admin_langcode = preferred_admin_langcode;
         this.name = name;
-        this.mail = mail;
-        this.timezone = timezone;
-        this.status = status;
+        this.created = created;
         this.changed = changed;
-        this.access = access;
-        this.login = login;
-        this.init = init;
-        this.roles = roles;
-        this.default_langcode = default_langcode;
         this.path = path;
         this.avatars_avatar_generator = avatars_avatar_generator;
         this.avatars_user_picture = avatars_user_picture;
         this.user_picture = user_picture;
+        this.links_ = links_;
     }
 
-    public User() {
+    public User(){}
+
+    public String getLinks() {
+        return links;
+    }
+
+    public void setLinks(String links) {
+        this.links = links;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUid() {
@@ -73,22 +87,6 @@ public class User {
         this.langcode = langcode;
     }
 
-    public String getPreferred_langcode() {
-        return preferred_langcode;
-    }
-
-    public void setPreferred_langcode(String preferred_langcode) {
-        this.preferred_langcode = preferred_langcode;
-    }
-
-    public String getPreferred_admin_langcode() {
-        return preferred_admin_langcode;
-    }
-
-    public void setPreferred_admin_langcode(String preferred_admin_langcode) {
-        this.preferred_admin_langcode = preferred_admin_langcode;
-    }
-
     public String getName() {
         return name;
     }
@@ -97,28 +95,12 @@ public class User {
         this.name = name;
     }
 
-    public String getMail() {
-        return mail;
+    public String getCreated() {
+        return created;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public String getChanged() {
@@ -127,46 +109,6 @@ public class User {
 
     public void setChanged(String changed) {
         this.changed = changed;
-    }
-
-    public String getAccess() {
-        return access;
-    }
-
-    public void setAccess(String access) {
-        this.access = access;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getInit() {
-        return init;
-    }
-
-    public void setInit(String init) {
-        this.init = init;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
-    public String getDefault_langcode() {
-        return default_langcode;
-    }
-
-    public void setDefault_langcode(String default_langcode) {
-        this.default_langcode = default_langcode;
     }
 
     public String getPath() {
@@ -201,28 +143,31 @@ public class User {
         this.user_picture = user_picture;
     }
 
+    public String getLinks_() {
+        return links_;
+    }
+
+    public void setLinks_(String links_) {
+        this.links_ = links_;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "uid='" + uid + '\'' +
+                "links='" + links + '\'' +
+                ", id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", uid='" + uid + '\'' +
                 ", uuid='" + uuid + '\'' +
                 ", langcode='" + langcode + '\'' +
-                ", preferred_langcode='" + preferred_langcode + '\'' +
-                ", preferred_admin_langcode='" + preferred_admin_langcode + '\'' +
                 ", name='" + name + '\'' +
-                ", mail='" + mail + '\'' +
-                ", timezone='" + timezone + '\'' +
-                ", status='" + status + '\'' +
+                ", created='" + created + '\'' +
                 ", changed='" + changed + '\'' +
-                ", access='" + access + '\'' +
-                ", login='" + login + '\'' +
-                ", init='" + init + '\'' +
-                ", roles='" + roles + '\'' +
-                ", default_langcode='" + default_langcode + '\'' +
                 ", path='" + path + '\'' +
                 ", avatars_avatar_generator='" + avatars_avatar_generator + '\'' +
                 ", avatars_user_picture='" + avatars_user_picture + '\'' +
                 ", user_picture='" + user_picture + '\'' +
+                ", links_='" + links_ + '\'' +
                 '}';
     }
 }

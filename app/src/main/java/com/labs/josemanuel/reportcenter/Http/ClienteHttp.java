@@ -17,7 +17,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,7 +176,22 @@ public class ClienteHttp {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
         addToRequestQueue(tag_JsonArray_req,jsonArrayRequest);
         return new GetPropuestas().execute(future);
+    }
+    public AsyncTask<RequestFuture<JSONObject>, Void, User> getUsuario(){
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl,future,future){
 
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params= new HashMap<>();
+                params.put("Authorization", Credentials.getAuthorization());
+                params.put("X-CSRF-Token",Credentials.getX_CSRF_Token());
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        addToRequestQueue(null,jsonObjectRequest);
+        return new GetUsuario().execute(future);
     }
 
 
