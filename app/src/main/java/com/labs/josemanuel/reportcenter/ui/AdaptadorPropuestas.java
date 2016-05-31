@@ -83,15 +83,13 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
                 public void onClick(View view) {
                     Intent goMain = new Intent(contexto, MapsActivity.class);
                     contexto.startActivity(goMain);
-                /*Snackbar.make(view, "Añadido a tus favoritos", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 }
             });
         }
 
         @Override
         public void onClick(View view) {
-            ClienteHttp mClienteHttp = new ClienteHttp("http://stag.hackityapp.com/api/user/13?_format=api_json", contexto);
+            ClienteHttp mClienteHttp = new ClienteHttp("http://stag.hackityapp.com/api/user/"+ propuestas[getAdapterPosition()].getUid().getTarget_id()+"?_format=api_json", contexto);
             obtenerNid(getAdapterPosition());
             obtenerPropuesta(getAdapterPosition());
             //pasamos la propuesta seleccionada
