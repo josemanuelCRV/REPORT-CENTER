@@ -107,8 +107,10 @@ public class JSONHandler {
 
         String avatars_user_picture = relationships.getJSONObject("avatars_user_picture").getString("data");
         String user_picture= relationships.getJSONObject("user_picture").getString("data");
-        String links_= relationships.getJSONObject("links").getString("self");
-
+        /*if(!relationships.getJSONObject("links").isNull("self")) {
+            String links_ = relationships.getJSONObject("links").getString("self");
+        }*/
+        String links_= "links 1 2 3";
 
 
         return new User(links,id,type,uid,uuid,langcode,name,created,changed,path,avatars_avatar_generator,avatars_user_picture,user_picture,links_);

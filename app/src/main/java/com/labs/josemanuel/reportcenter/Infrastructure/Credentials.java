@@ -12,7 +12,7 @@ public class Credentials {
     }
 
     public static void setAuthorization(String authorization) {
-        Authorization = "Basic "+authorization;
+        Authorization = authorization;
     }
 
     public static String getX_CSRF_Token() {

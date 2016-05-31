@@ -36,7 +36,7 @@ public class GetUsuario extends AsyncTask<RequestFuture<JSONObject>, Void, User>
 
     @Override
     protected void onPostExecute(User user) {
-        Log.v("User",user.getName());
+       // Log.v("User",user.getName());
         super.onPostExecute(user);
     }
 }

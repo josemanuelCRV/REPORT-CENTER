@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.webkit.HttpAuthHandler;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -178,19 +179,21 @@ public class ClienteHttp {
         return new GetPropuestas().execute(future);
     }
     public AsyncTask<RequestFuture<JSONObject>, Void, User> getUsuario(){
+        String TAG= "JsonObjectRequest";
         RequestFuture<JSONObject> future= RequestFuture.newFuture();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl,future,future){
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params= new HashMap<>();
+
                 params.put("Authorization", Credentials.getAuthorization());
                 params.put("X-CSRF-Token",Credentials.getX_CSRF_Token());
-                params.put("Content-Type","application/x-www-form-urlencoded");
+                //params.put("Content-Type","application/x-www-form-urlencoded");
                 return params;
             }
         };
-        addToRequestQueue(null,jsonObjectRequest);
+
+        addToRequestQueue(TAG,jsonObjectRequest);
         return new GetUsuario().execute(future);
     }
 

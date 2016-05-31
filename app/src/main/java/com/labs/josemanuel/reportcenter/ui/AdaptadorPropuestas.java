@@ -13,26 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.RequestFuture;
 import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
-import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import com.labs.josemanuel.reportcenter.ui.actividades.DetailActivity;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
-
-import static com.google.android.gms.internal.zzir.runOnUiThread;
 
 /**
  * Adaptador del RecyclerView que rellena la lista
@@ -95,29 +91,27 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
 
         @Override
         public void onClick(View view) {
-            ClienteHttp mClienteHttp= new ClienteHttp("http://stag.hackityapp.com/en/user/331?_format=json",contexto);
+            ClienteHttp mClienteHttp = new ClienteHttp("http://stag.hackityapp.com/api/user/13?_format=api_json", contexto);
             obtenerNid(getAdapterPosition());
             obtenerPropuesta(getAdapterPosition());
             //pasamos la propuesta seleccionada
             Infrastructure.setPropuestaSeleccionada(obtenerPropuesta(getAdapterPosition()));
             Infrastructure.setComentarioSeleccionada(obtenerPropuesta(getAdapterPosition()).getCom());
             if (mClienteHttp.isNetworkAvailable()) {
-                final AsyncTask<RequestFuture<JSONObject>, Void, User>  getUser = mClienteHttp.getUsuario();
+                final AsyncTask<RequestFuture<JSONObject>, Void, User> getUser = mClienteHttp.getUsuario();
 
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Log.d("RT", "Thread t Begins");
-                        while(getUser.getStatus()== AsyncTask.Status.FINISHED){
-                            try {
-                                Toast.makeText(contexto, getUser.get().getName(), Toast.LENGTH_SHORT).show();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            }
+                        try {
+                            final User user = getUser.get();
+                            Log.v("user developer", user.getName());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
                         }
-
 
                     }
                 });
@@ -211,7 +205,7 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
         }*/
 
-        if(propuesta.getImage()!=null)
+        if (propuesta.getImage() != null)
             Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);
         else
             Glide.with(contexto).load(R.drawable.bg_city2).into(holder.viewFoto);

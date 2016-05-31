@@ -122,17 +122,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
 
-                String input = mEmailView.getText().toString() + "," + mPasswordView.getText().toString();
-
+                String creds = String.format("%s:%s", mEmailView.getText().toString(), mPasswordView.getText().toString());
                 if (mClienteHttp.isNetworkAvailable()) {
-                    try {
-                        input = Base64.encodeToString(input.getBytes("UTF-8"), Base64.DEFAULT);
-                        Credentials.setAuthorization(input);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    Log.v("Envio auth", input);
-                    attemptLogin(input);
+                    String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
+                    Credentials.setAuthorization(auth);
+                    Log.v("Envio auth", auth);
+
+
+                    attemptLogin(Credentials.getAuthorization());
                 } else {
                     DialogBuilder dialogBuilder = new DialogBuilder(LoginActivity.this);
                     dialogBuilder.alertUserAboutError();
