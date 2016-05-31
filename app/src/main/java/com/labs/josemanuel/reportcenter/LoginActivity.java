@@ -10,6 +10,7 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -32,12 +33,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Http.LoginClient;
-
+import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
+import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -79,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        TrustAllSSLCerts.nuke();
         mLoginClient= new LoginClient(this);
         mClienteHttp= new ClienteHttp(getResources().getString(R.string.URL_LOCALHOST),this);
         mClienteHttp.initiate();
@@ -113,6 +124,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 String output=null;
                 String input= mEmailView.getText().toString()+","+mPasswordView.getText().toString();
+
+                if(mClienteHttp.isNetworkAvailable())
+                    attemptLogin();
+                DialogBuilder dialogBuilder = new DialogBuilder(LoginActivity.this);
+                dialogBuilder.show();
+
+
+
 
                 try {
                     output= Base64.encodeToString(input.getBytes("UTF-8"),Base64.DEFAULT);
@@ -265,7 +284,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        /*if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
@@ -273,7 +292,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -283,8 +302,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            /*mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);*/
+            final String input = mEmailView.getText().toString()+","+mPasswordView.getText().toString();
+            Log.v("input",input);
+            RequestFuture<String> csrfTokenFuture = RequestFuture.newFuture();
+
+            StringRequest csrfToken= new StringRequest(Request.Method.GET,
+                    "https://stag.hackityapp.com/rest/session/token",
+                    csrfTokenFuture
+                    ,csrfTokenFuture){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> params = new HashMap<>();
+                    try {
+                        String basicAuth= Base64.encodeToString(input.getBytes("UTF-8"),Base64.DEFAULT);
+                        params.put("Authorization ", basicAuth);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    return params;
+                }
+            };
+
+
+            mClienteHttp.addToRequestQueue(null,csrfToken);
+            UserLoginTask userLoginTask = new UserLoginTask();
+            userLoginTask.execute(csrfTokenFuture);
         }
     }
 
@@ -402,57 +444,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    /*public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
+    public class UserLoginTask extends AsyncTask<RequestFuture<String>, Void, String> {
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(RequestFuture<String>... params) {
             // TODO: attempt authentication against a network service.
+            Log.v("doInBackground","solicitando token...");
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
+                return params[0].get();
             } catch (InterruptedException e) {
-                return false;
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
+            return null;
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+        protected void onPostExecute(String s) {
+            if(s!=null){
+                Credentials.setX_CRSF_Token(s);
+                kickOffActivity(true);
             }
+            else{kickOffActivity(false);}
+            super.onPostExecute(s);
         }
+    }
 
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
+    public void kickOffActivity(boolean flag){
+        Intent intent = new Intent (LoginActivity.this,ActividadListaPropuestas.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(flag)
+            startActivity(intent);
+        else {
             showProgress(false);
+            DialogBuilder dialogBuilder = new DialogBuilder(this);
+            dialogBuilder.setMessage("Failed to log in");
+            dialogBuilder.show();
         }
-    }*/
+    }
+
 }
 

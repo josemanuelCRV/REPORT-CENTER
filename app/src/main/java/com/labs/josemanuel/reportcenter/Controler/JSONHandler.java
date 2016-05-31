@@ -24,6 +24,7 @@ import org.json.JSONObject;
 public class JSONHandler {
     static JSONArray arrayJSON;
     static JSONObject container;
+
     public static Propuesta[] generatePropuestaArray(JSONArray jsoninput) {
         try {
             Propuesta[] output = new Propuesta[jsoninput.length()];
@@ -40,6 +41,7 @@ public class JSONHandler {
             return null;
         }
     }
+
     public static Propuesta generateCompletePropuesta(JSONObject jsoninput) {
         String nid = getStringFromNode(jsoninput, "nid");
         String uuid = getStringFromNode(jsoninput, "uuid");
@@ -88,54 +90,57 @@ public class JSONHandler {
         );
     }
 
-    public static User generateUser(JSONObject jsoninput){
-        String uid = getStringFromNode(jsoninput, "uid");
-        String uuid = getStringFromNode(jsoninput, "uuid");
-        String langcode = getStringFromNode(jsoninput, "langcode");
-        String preferred_language = getStringFromNode(jsoninput, "preferred_language");
-        String preferred_admin_langcode = getStringFromNode(jsoninput, "preferred_admin_langcode");
-        String mail = getStringFromNode(jsoninput, "mail");
-        String timezone = getStringFromNode(jsoninput, "timezone");
-        String status = getStringFromNode(jsoninput, "status");
-        String created = getStringFromNode(jsoninput, "created");
-        String changed = getStringFromNode(jsoninput, "changed");
-        String access = getStringFromNode(jsoninput, "access");
-        String login = getStringFromNode(jsoninput, "login");
-        String init = getStringFromNode(jsoninput, "init");
-        String roles = getStringFromNode(jsoninput, "roles");
-        String default_langcode = getStringFromNode(jsoninput, "default_langcode");
-        String path = getStringFromNode(jsoninput, "path");
-        String avatars_avatar_generator = getStringFromNode(jsoninput, "avatars_avatar_generator");
-        String avatars_user_picture = getStringFromNode(jsoninput, "avatars_user_picture");
-        String user_picture = getStringFromNode(jsoninput, "user_picture");
+    public static User generateUser(JSONObject jsoninput) throws JSONException {
+        JSONObject data = jsoninput.getJSONObject("data");
+        JSONObject attributes = data.getJSONObject("attributes");
+        JSONObject relationships = data.getJSONObject("relationships");
+        String links= data.getJSONObject("links").getString("self");
 
-        return new User(uid,uuid,langcode,preferred_language,preferred_admin_langcode,mail,timezone,status,created,changed,access
-                    ,login,init,roles,default_langcode,path,avatars_avatar_generator,avatars_user_picture,user_picture);
+        String id = data.getString("id");
+        String type = data.getString("type");
+        String uid = attributes.getString("uid");
+        String uuid = attributes.getString("uuid");
+        String langcode = attributes.getString("langcode");
+        String name = attributes.getString("name");
+        String created = attributes.getString("created");
+        String changed = attributes.getString("changed");
+        String path = attributes.getString("path");
+        String avatars_avatar_generator = attributes.getString("avatars_avatar_generator");
+
+        String avatars_user_picture = relationships.getJSONObject("avatars_user_picture").getString("data");
+        String user_picture= relationships.getJSONObject("user_picture").getString("data");
+        String links_= relationships.getJSONObject("links").getString("self");
+
+
+
+
+        return new User(uid, uuid, langcode, preferred_language, preferred_admin_langcode, mail, timezone, status, created, changed, access
+                , login, init, roles, default_langcode, path, avatars_avatar_generator, avatars_user_picture, user_picture);
     }
 
 
-    public static Comment generateComment(JSONObject jsoninput){
+    public static Comment generateComment(JSONObject jsoninput) {
         String cid = getStringFromNode(jsoninput, "cid");
         String uuid = getStringFromNode(jsoninput, "uuid");
         String pid = getStringFromNode(jsoninput, "pid");
         JSONArray entity_id_aux;
-        JSONObject entity_id_aux_container=null;
-        Propuesta entity_id=null;
+        JSONObject entity_id_aux_container = null;
+        Propuesta entity_id = null;
         try {
-            entity_id_aux= jsoninput.getJSONArray("entity_id");
-            entity_id_aux_container=entity_id_aux.getJSONObject(0);
-            entity_id= new Propuesta (
+            entity_id_aux = jsoninput.getJSONArray("entity_id");
+            entity_id_aux_container = entity_id_aux.getJSONObject(0);
+            entity_id = new Propuesta(
                     entity_id_aux_container.getString(JsonConstants.TGID),
                     entity_id_aux_container.getString(JsonConstants.TGTY),
                     entity_id_aux_container.getString(JsonConstants.TGUD),
                     entity_id_aux_container.getString(JsonConstants.URL)
-                    );
+            );
         } catch (JSONException e) {
             e.printStackTrace();
         }
         String subject = getStringFromNode(jsoninput, "subject");
         String langcode = getStringFromNode(jsoninput, "langcode");
-        Usuario usuario = getUsuarioFromNode(jsoninput,"uid");
+        Usuario usuario = getUsuarioFromNode(jsoninput, "uid");
         String name = getStringFromNode(jsoninput, "name");
         String mail = getStringFromNode(jsoninput, "mail");
         String homepage = getStringFromNode(jsoninput, "homepage");
@@ -148,8 +153,8 @@ public class JSONHandler {
         String field_name = getStringFromNode(jsoninput, "field_name");
         String default_langcode = getStringFromNode(jsoninput, "default_langcode");
         Body comment_body = getBodyFromNode(jsoninput);
-        return new Comment(cid,uuid,pid,entity_id,subject,langcode,usuario,name,mail,homepage,created,changed,status
-                ,thread,entity_type,comment_type,field_name,default_langcode,comment_body);
+        return new Comment(cid, uuid, pid, entity_id, subject, langcode, usuario, name, mail, homepage, created, changed, status
+                , thread, entity_type, comment_type, field_name, default_langcode, comment_body);
     }
 
     public static String generateJsonStringFromPropuesta(Propuesta propuesta) {
@@ -174,6 +179,8 @@ public class JSONHandler {
         }
     }
 
+
+
     private static Body getBodyFromNode(JSONObject jsoninput) {
 
         try {
@@ -188,9 +195,9 @@ public class JSONHandler {
             String format = container.getString(JsonConstants.FRMT);
             String summary;
             //Comprobación body de propuesta, si lo es devuelve el constructor con los 3 parámetros.
-            if (container.length()==3){
-                summary= container.getString(JsonConstants.SMRY);
-                return new Body(value,format,summary);
+            if (container.length() == 3) {
+                summary = container.getString(JsonConstants.SMRY);
+                return new Body(value, format, summary);
             }
             //Si no lo es, devuelve el constructor de un body de comentario
             return new Body(value, format);
@@ -312,12 +319,16 @@ public class JSONHandler {
         Imagen[] arrayImagenes;
         try {
             arrayImagenesJson = jsonObject.getJSONArray("field_proposal_images");
-            arrayImagenes = new Imagen[arrayImagenesJson.length()];
-            for (int index = 0; index < arrayImagenesJson.length(); index++) {
-                imagen = arrayImagenesJson.getJSONObject(index);
-                arrayImagenes[index] = getImagenFromNode(imagen);
+            if (arrayImagenesJson.length() != 0) {
+                arrayImagenes = new Imagen[arrayImagenesJson.length()];
+
+                for (int index = 0; index < arrayImagenesJson.length(); index++) {
+                    imagen = arrayImagenesJson.getJSONObject(index);
+                    arrayImagenes[index] = getImagenFromNode(imagen);
+                }
+                return arrayImagenes;
             }
-            return arrayImagenes;
+            return null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -352,8 +363,8 @@ public class JSONHandler {
              * Comprobación nodo vacío en Localización
              * Si no se ha registrado la localización de la propuesta, muestra lat= 0 lg=0
              * */
-            if (arrayLocalizacionesJson.length()==0)
-                return new Localizacion("0","0");
+            if (arrayLocalizacionesJson.length() == 0)
+                return new Localizacion("0", "0");
 
             localizacionJsonObject = arrayLocalizacionesJson.getJSONObject(0);
             String latitude = localizacionJsonObject.getString(JsonConstants.LAT);
