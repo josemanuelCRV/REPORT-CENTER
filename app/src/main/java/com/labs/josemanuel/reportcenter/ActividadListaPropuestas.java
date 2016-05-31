@@ -55,7 +55,7 @@ public class ActividadListaPropuestas extends AppCompatActivity
         new TrustAllSSLCerts().nuke();
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-        editor.putBoolean("login", false);
+        editor.putBoolean("login", true);
         editor.apply();
 
         //UI

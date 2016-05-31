@@ -19,7 +19,6 @@ public class GetPropuestas extends AsyncTask<RequestFuture<JSONArray>, Void, Pro
     @Override
     protected Propuesta[] doInBackground(RequestFuture<JSONArray>... params) {
         Log.v("disparado","desdeGetPropuestas");
-
         try {
             return JSONHandler.generatePropuestaArray(params[0].get());
         } catch (InterruptedException e) {

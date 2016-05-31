@@ -18,6 +18,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Http.LoginClient;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,13 +109,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
-                startActivity(goMain);
+                //Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
+
+                String output=null;
+                String input= mEmailView.getText().toString()+","+mPasswordView.getText().toString();
+
+                try {
+                    output= Base64.encodeToString(input.getBytes("UTF-8"),Base64.DEFAULT);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Log.v("Envio auth", output);
                 // attemptLogin();
-
 //                mLoginClient.loginWithServer(mEmailView.getText().toString(),mPasswordView.getText().toString());
-                mClienteHttp.doLogin("Prueba!");
-
+                //mClienteHttp.doLogin("Prueba!");
+                //startActivity(goMain);
 
             }
         });
