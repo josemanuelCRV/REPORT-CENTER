@@ -1,4 +1,4 @@
-package com.labs.josemanuel.reportcenter;
+package com.labs.josemanuel.reportcenter.ui.actividades;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -7,12 +7,14 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -38,10 +40,11 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
-import com.labs.josemanuel.reportcenter.Http.LoginClient;
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
+import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
+import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +85,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // private View mfabbutton;
 
     //Login cañero
-    LoginClient mLoginClient;
     ClienteHttp mClienteHttp;
 
     @Override
@@ -90,7 +92,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         TrustAllSSLCerts.nuke();
-        mLoginClient= new LoginClient(this);
         mClienteHttp= new ClienteHttp(getResources().getString(R.string.URL_LOCALHOST),this);
         mClienteHttp.initiate();
         /**
@@ -120,8 +121,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent goMain = new Intent(LoginActivity.this, ActividadListaPropuestas.class);
-
                 String output=null;
                 String input= mEmailView.getText().toString()+","+mPasswordView.getText().toString();
 
@@ -129,21 +128,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     attemptLogin();
                 DialogBuilder dialogBuilder = new DialogBuilder(LoginActivity.this);
                 dialogBuilder.show();
-
-
-
-
                 try {
                     output= Base64.encodeToString(input.getBytes("UTF-8"),Base64.DEFAULT);
+                    Credentials.setAuthorization(output);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
                 Log.v("Envio auth", output);
-                // attemptLogin();
-//                mLoginClient.loginWithServer(mEmailView.getText().toString(),mPasswordView.getText().toString());
-                //mClienteHttp.doLogin("Prueba!");
-                //startActivity(goMain);
-
             }
         });
 
@@ -170,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     .scaleY(1)
                     .setInterpolator(interpolador)
                     .setDuration(700)
-                    .setStartDelay(3000)
+                    .setStartDelay(1000)
                     .setListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -203,8 +194,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "¿Nos logueamos con Twitter?", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent goMain = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(goMain);
+                /*Snackbar.make(view, "¿Nos logueamos con Twitter?", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 
@@ -261,9 +254,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        /*if (mAuthTask != null) {
-            return;
-        }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -284,7 +274,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check for a valid email address.
-        /*if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
@@ -292,12 +282,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }*/
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            focusView.requestFocus();
+           //  focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
@@ -466,6 +456,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(String s) {
             if(s!=null){
                 Credentials.setX_CRSF_Token(s);
+
                 kickOffActivity(true);
             }
             else{kickOffActivity(false);}
@@ -474,17 +465,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void kickOffActivity(boolean flag){
-        Intent intent = new Intent (LoginActivity.this,ActividadListaPropuestas.class);
+        Intent intent = new Intent (LoginActivity.this,MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        if(flag)
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+
+        editor.apply();
+        if(flag) {
+            editor.putBoolean("login", false);
             startActivity(intent);
-        else {
+        }else {
             showProgress(false);
+            editor.putBoolean("login", true);
             DialogBuilder dialogBuilder = new DialogBuilder(this);
             dialogBuilder.setMessage("Failed to log in");
             dialogBuilder.show();
         }
     }
+
 
 }
 

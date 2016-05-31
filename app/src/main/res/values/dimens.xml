@@ -2,13 +2,22 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
+
+    <dimen name="headerbar_elevation">4dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+
+
     <!-- dimensiones para el recycler -->
     <dimen name="margen_superior_lista">8dp</dimen>
     <dimen name="altura_imagen_item">256dp</dimen>
+
+    <!-- dimensiones para bg_Category e Img_Detail -->
+    <dimen name="altura_imagen_detail">300dp</dimen>
+
 
 </resources>

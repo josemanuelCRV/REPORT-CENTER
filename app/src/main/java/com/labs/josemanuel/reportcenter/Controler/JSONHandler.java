@@ -1,7 +1,5 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.labs.josemanuel.reportcenter.Model.Body;
 import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
@@ -113,9 +111,9 @@ public class JSONHandler {
 
 
 
-
-        return new User(uid, uuid, langcode, preferred_language, preferred_admin_langcode, mail, timezone, status, created, changed, access
-                , login, init, roles, default_langcode, path, avatars_avatar_generator, avatars_user_picture, user_picture);
+        return null;
+        /*return new User(uid, uuid, langcode, preferred_language, preferred_admin_langcode, mail, timezone, status, created, changed, access
+                , login, init, roles, default_langcode, path, avatars_avatar_generator, avatars_user_picture, user_picture);*/
     }
 
 
@@ -157,10 +155,7 @@ public class JSONHandler {
                 , thread, entity_type, comment_type, field_name, default_langcode, comment_body);
     }
 
-    public static String generateJsonStringFromPropuesta(Propuesta propuesta) {
-        Gson gson = new GsonBuilder().create();
-        return gson.toJson(propuesta);
-    }
+
 
     private static String getStringFromNode(JSONObject jsoninput, String nodeName) {
 

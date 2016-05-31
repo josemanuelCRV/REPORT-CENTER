@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_vertical_margin"
+    card_view:cardCornerRadius="@dimen/cardview_default_radius"
+    card_view:cardElevation="@dimen/cardview_default_elevation"
+    card_view:cardUseCompatPadding="true">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <!-- FOTO Propuesta-->
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/foto"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/foto"
+            android:text="Titulo"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+
+        <!--foto-->
+        <ImageView
+            android:id="@+id/foto"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/altura_imagen_item"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/titulo"
+            android:layout_marginTop="21dp"
+            android:adjustViewBounds="false"
+            android:scaleType="centerCrop" />
+
+
+        <!--Boton Follow-->
+        <!--    <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnFolow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/ic_favorite_red"
+                card_view:backgroundTint="@color/background"
+
+                card_view:rippleColor="@color/colorRippleMini"
+                card_view:fabSize="mini"/>-->
+
+
+        <!--Boton Follow-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnFollow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/titulo"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_favorite_red"
+            card_view:backgroundTint="@color/background"
+            card_view:fabSize="mini"
+            fab:fab_colorNormal="@color/colorNormalMiniClose"
+            fab:fab_colorPressed="@color/colorPressedMiniClose"
+            fab:fab_colorRipple="@color/colorRippleMini" />
+
+        <!-- foto de User circle shape-->
+        <ImageView
+            android:id="@+id/fotouser"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/foto"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="6dp"
+            android:src="@android:drawable/sym_def_app_icon" />
+
+        <!-- nombre de User circle shape-->
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/fotouser"
+            android:layout_toEndOf="@+id/fotouser"
+            android:layout_toRightOf="@+id/fotouser"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:text="username"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <!-- Fecha -->
+        <TextView
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ic_time"
+            android:layout_toEndOf="@+id/ic_time"
+            android:layout_toRightOf="@+id/ic_time"
+            android:text="Fecha"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/highlighted_text_material_light" />
+
+
+        <!-- Descripcion -->
+        <TextView
+            android:id="@+id/descripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/fotouser"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet."
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+
+        <!-- status_prop Abierta/Cerrada -->
+        <TextView
+            android:id="@+id/categoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/username"
+            android:layout_alignBottom="@+id/username"
+            android:layout_alignLeft="@+id/status_flag"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/status_flag"
+            android:elegantTextHeight="false"
+            android:elevation="1dp"
+            android:gravity="top"
+            android:text="Status"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/material_grey_100" />
+
+        <!-- status_Flag -->
+        <ImageView
+            android:id="@+id/status_flag"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@+id/categoria"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/username"
+            android:adjustViewBounds="false"
+            android:nestedScrollingEnabled="false"
+            android:scaleType="fitXY" />
+
+
+        <!--direccion -->
+        <TextView
+            android:id="@+id/ubicacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ic_location"
+            android:layout_gravity="right"
+            android:layout_toEndOf="@+id/ic_location"
+            android:layout_toRightOf="@+id/ic_location"
+            android:text="ubicacion"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+
+        <!-- Prioridad -->
+
+        <!-- Icono para location -->
+        <ImageView
+            android:id="@+id/ic_location"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/descripcion"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_pin_drop" />
+
+
+        <!-- Divisor -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ubicacion"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/darker_gray" />
+
+        <!--followers-->
+        <TextView
+            android:id="@+id/followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/divider"
+            android:layout_marginTop="17dp"
+            android:text="Follow:  5"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <!--repairers-->
+        <TextView
+            android:id="@+id/repairers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/followers"
+            android:layout_centerHorizontal="true"
+            android:text="Reparir it:  2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+
+        <!--ic_Time-->
+        <ImageView
+            android:id="@+id/ic_time"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_above="@+id/descripcion"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignStart="@+id/username"
+            android:src="@android:drawable/ic_menu_recent_history" />
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

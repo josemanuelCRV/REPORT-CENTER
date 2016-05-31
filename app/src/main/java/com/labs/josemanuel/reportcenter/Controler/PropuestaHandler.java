@@ -44,7 +44,6 @@ public class PropuestaHandler {
 
         return TimeFromDate.format(date);
     }
-
     public static String getColorKey(Status status){
         String url = status.getUrl();
 

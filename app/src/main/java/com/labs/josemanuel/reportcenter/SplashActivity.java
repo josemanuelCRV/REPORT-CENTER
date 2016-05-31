@@ -12,6 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.labs.josemanuel.reportcenter.ui.actividades.LoginActivity;
+import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -58,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
                         if (sharedPreferences.getBoolean("login",true))
                             i = new Intent(SplashActivity.this, LoginActivity.class);
                         else
-                        i = new Intent(SplashActivity.this, ActividadListaPropuestas.class);
+                        i = new Intent(SplashActivity.this, MainActivity.class);
 
                         startActivity(i);
                         finish();
