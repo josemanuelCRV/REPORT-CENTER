@@ -18,7 +18,9 @@ import com.android.volley.toolbox.RequestFuture;
 import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
@@ -89,30 +91,68 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
 
         @Override
         public void onClick(View view) {
-            ClienteHttp mClienteHttp = new ClienteHttp("http://stag.hackityapp.com/api/user/"+ propuestas[getAdapterPosition()].getUid().getTarget_id()+"?_format=api_json", contexto);
-            obtenerNid(getAdapterPosition());
-            obtenerPropuesta(getAdapterPosition());
-            //pasamos la propuesta seleccionada
+            Propuesta propuesta= propuestas[getAdapterPosition()];
+            int numComentarios=0;
             Infrastructure.setPropuestaSeleccionada(obtenerPropuesta(getAdapterPosition()));
             Infrastructure.setComentarioSeleccionada(obtenerPropuesta(getAdapterPosition()).getCom());
+
+            //Recogida usuario propuesta
+            ClienteHttp mClienteHttp = new ClienteHttp("http://stag.hackityapp.com/api/user/"+propuesta.getUid().getTarget_id()+"?_format=api_json", contexto);
+            obtenerNid(getAdapterPosition());
+            obtenerPropuesta(getAdapterPosition());
+            //pasamos la propuesta seleccionada && //Recogida comentarios propuesta
             if (mClienteHttp.isNetworkAvailable()) {
                 final AsyncTask<RequestFuture<JSONObject>, Void, User> getUser = mClienteHttp.getUsuario();
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("RT", "Thread t Begins");
-                        try {
-                            final User user = getUser.get();
-                            Log.v("user developer", user.getName());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
+                numComentarios=propuesta.getCom().length;
+                //Si la propuesta no tiene comentarios, no se realiza
 
-                    }
-                });
-                t.start();
+                if(numComentarios==0) {
+                    String idComentario= propuesta.getCom()[0].getId(); //Id del primer comentario
+                    mClienteHttp.setmUrl("http://stag.hackityapp.com/api/comment/" + idComentario + "?_format=api_json");
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d("RT", "Thread t Begins");
+                            try {
+                                final User user = getUser.get();
+                                Log.v("user developer", user.getName());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                    t.start();
+                }else{
+                    final AsyncTask<RequestFuture<JSONObject>, Void, Comment> getCommentario = mClienteHttp.getComment();
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d("RT", "Thread t Begins");
+                            try {
+                                final User user = getUser.get();
+                                final Comment comment=getCommentario.get();
+                                Comment[] comments = new Comment[1];
+                                comments[0]=comment;
+                                Infrastructure.setComment(comments);
+                                Log.v("user developer", user.getName());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                    t.start();
+                }
+
+
+
+
+
             } else {
                 DialogBuilder dialogBuilder = new DialogBuilder(contexto);
                 dialogBuilder.alertUserAboutError();

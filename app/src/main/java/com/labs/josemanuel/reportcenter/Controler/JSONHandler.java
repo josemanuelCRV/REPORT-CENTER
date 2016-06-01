@@ -118,7 +118,7 @@ public class JSONHandler {
     }
 
 
-    public static Comment generateComment(JSONObject jsoninput) {
+    public static Comment generateCommentd(JSONObject jsoninput) {
         String cid = getStringFromNode(jsoninput, "cid");
         String uuid = getStringFromNode(jsoninput, "uuid");
         String pid = getStringFromNode(jsoninput, "pid");
@@ -152,8 +152,9 @@ public class JSONHandler {
         String field_name = getStringFromNode(jsoninput, "field_name");
         String default_langcode = getStringFromNode(jsoninput, "default_langcode");
         Body comment_body = getBodyFromNode(jsoninput);
-        return new Comment(cid, uuid, pid, entity_id, subject, langcode, usuario, name, mail, homepage, created, changed, status
-                , thread, entity_type, comment_type, field_name, default_langcode, comment_body);
+        /*return new Comment(cid, uuid, pid, entity_id, subject, langcode, usuario, name, mail, homepage, created, changed, status
+                , thread, entity_type, comment_type, field_name, default_langcode, comment_body);*/
+        return null;
     }
 
 
@@ -372,11 +373,67 @@ public class JSONHandler {
         }
     }
 
-    public static Comment[] generateCommentsArray(String[] param) {
-        Comment[] arrayComments = new Comment[param.length];
+    public static Comment[] generateCommentsArray(Comentario[] comentarios) {
+
+        Comment[] arrayComments = new Comment[comentarios.length];
+
+
 
 
 
         return arrayComments;
+    }
+    public static Comment generateComment(JSONObject jsoninput) throws JSONException {
+    JSONObject data = jsoninput.getJSONObject("data");
+        String id = data.getString("id");
+        String type = data.getString("type");
+        JSONObject attributes = data.getJSONObject("attributes");
+        String cid = attributes.getString("cid");
+        String uuid = attributes.getString("uuid");
+        String langcode = attributes.getString("langcode");
+        String name = attributes.getString("name");
+        String homepage = attributes.getString("homepage");
+        String created = attributes.getString("created");
+        String changed = attributes.getString("changed");
+        String status = attributes.getString("status");
+        String thread = attributes.getString("thread");
+        String entity_type = attributes.getString("entity_type");
+        String field_name = attributes.getString("field_name");
+        String default_langcode = attributes.getString("default_langcode");
+        JSONObject comment_body = attributes.getJSONObject("comment_body");
+            String value = comment_body.getString("value");
+            String format = comment_body.getString("format");
+        JSONObject relationships = data.getJSONObject("relationships");
+            JSONObject pid = relationships.getJSONObject("pid");
+                String data_pid=  pid.getString("data");
+        JSONObject entity_id = relationships.getJSONObject("entity_id");
+            JSONObject data_entity_id = entity_id.getJSONObject("data");
+                String type_data_entity_id=  data_entity_id.getString("type");
+                String id_data_entity_id=  data_entity_id.getString("id");
+            JSONObject links_entity_id=  entity_id.getJSONObject("links");
+                    String self_links_entity_id=  links_entity_id.getString("self");
+                    String related_links_entity_id=  links_entity_id.getString("related");
+        JSONObject uid = relationships.getJSONObject("uid");
+            JSONObject data_uid = uid.getJSONObject("data");
+                String type_data_uid = data_uid.getString("type");
+                String id_data_uid = data_uid.getString("id");
+            JSONObject links_uid = uid.getJSONObject("links");
+                String self_links_uid = links_uid.getString("self");
+                String related_links_uid = links_uid.getString("related");
+        JSONObject comment_type = relationships.getJSONObject("comment_type");
+            JSONObject data_comment_type=  comment_type.getJSONObject("data");
+                String type_data_comment_type=  data_comment_type.getString("type");
+                String id_data_comment_type=  data_comment_type.getString("id");
+            JSONObject links_comment_type=  comment_type.getJSONObject("links");
+                String self_links_comment_type=  links_comment_type.getString("self");
+                String related_links_comment_type=  links_comment_type.getString("related");
+        JSONObject links_data = data.getJSONObject("links");
+            String self_links_data=  links_data.getString("self");
+    JSONObject links = jsoninput.getJSONObject("links");
+        String self_links=links.getString("self");
+
+
+
+        return new Comment(cid,id,created,changed,value,format);
     }
 }

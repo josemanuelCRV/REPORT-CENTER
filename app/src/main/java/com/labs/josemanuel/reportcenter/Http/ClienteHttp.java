@@ -45,7 +45,11 @@ public class ClienteHttp {
     VolleySingleton mVolleySingleton;
     RequestQueue mRequestQueue;
 
-    public ClienteHttp(String url,Context context){
+    public static void setmUrl(String mUrl) {
+        ClienteHttp.mUrl = mUrl;
+    }
+
+    public ClienteHttp(String url, Context context){
         mUrl= url;
         mContext=context;
         initiate();
@@ -182,25 +186,16 @@ public class ClienteHttp {
     public AsyncTask<RequestFuture<JSONObject>, Void, User> getUsuario(){
         String TAG= "JsonObjectRequest";
         RequestFuture<JSONObject> future= RequestFuture.newFuture();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, mUrl,future,future){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params= new HashMap<>();
-
-                params.put("Authorization", Credentials.getAuthorization());
-                params.put("X-CSRF-Token",Credentials.getX_CSRF_Token());
-                //params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
+        JsonObjectRequestAuthorized jsonObjectRequest = new JsonObjectRequestAuthorized(Request.Method.GET, mUrl,future,future);
 
         addToRequestQueue(TAG,jsonObjectRequest);
         return new GetUsuario().execute(future);
     }
-    public AsyncTask<String [], Void, Comment[]> getComments(){
-        String TAG= "jsonArrayRequest";
-        RequestFuture<JSONArray> future= RequestFuture.newFuture();
-        JsonArrayRequest jsonArrayRequest= new JsonArrayRequest(Request.Method.GET, mUrl,future,future){
+
+    public AsyncTask<RequestFuture<JSONObject>, Void, Comment> getComment(){
+        String TAG= "commentRequest";
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequestAuthorized jsonObjectRequest= new JsonObjectRequestAuthorized(Request.Method.GET, mUrl,future,future){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params= new HashMap<>();
@@ -211,9 +206,9 @@ public class ClienteHttp {
                 return params;
             }
         };
+        addToRequestQueue(TAG,jsonObjectRequest);
 
-        addToRequestQueue(TAG,jsonArrayRequest);
-        return new GetComentarios().execute(future);
+        return new GetComentarios().execute(future); //doInBackground, onPostExecute
     }
 
 

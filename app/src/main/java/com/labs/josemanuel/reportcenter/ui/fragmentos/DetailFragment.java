@@ -33,6 +33,7 @@ import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.ui.AdaptadorComentario;
+import com.labs.josemanuel.reportcenter.ui.AdaptadorComment;
 import com.labs.josemanuel.reportcenter.ui.InteractiveScrollView;
 import com.labs.josemanuel.reportcenter.ui.actividades.UpdateActivity;
 
@@ -171,7 +172,7 @@ public class DetailFragment extends Fragment {
         scrollView = (InteractiveScrollView) v.findViewById(R.id.comentarios);
 
         // adapter recoge el Comentario seleccionado
-        AdaptadorComentario adapter = new AdaptadorComentario(getContext(), Infrastructure.getComentarioSeleccionada());
+        AdaptadorComment adapter = new AdaptadorComment(getContext(), Infrastructure.getComment());
 
         // introduce en el scroll la propuesta seleccionada almacenada en el adaptador
         scrollView.setAdapter(adapter);

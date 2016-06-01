@@ -10,29 +10,35 @@ import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Miguel on 5/31/2016.
  */
-public class GetComentarios extends AsyncTask<String[], Void, Comment[]> {
+public class GetComentarios extends AsyncTask<RequestFuture<JSONObject>, Void, Comment> {
+
 
     @Override
-    protected Comment[] doInBackground(String[]... params) {
-        Log.v("disparado","desdeGetPropuestas");
+    protected Comment doInBackground(RequestFuture<JSONObject>... params) {
+        Log.v("disparado","desde GetComentarios");
         try {
-            return JSONHandler.generateCommentsArray(params[0]);
+            return JSONHandler.generateComment(params[0].get());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    protected void onPostExecute(Comment[] comments) {
-        super.onPostExecute(comments);
+    protected void onPostExecute(Comment comment) {
+        //Log.v("CID",comment.getCid_attributes());
+        super.onPostExecute(comment);
     }
 }
