@@ -14,6 +14,7 @@ import com.labs.josemanuel.reportcenter.Controler.JsonConstants;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.CommentWithUser;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
@@ -33,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
      * Instancia global de la meta a detallar
      */
     private String idNodo;
-
+    DetailFragment mDetailFragment;
 
     /**
      * Inicia una nueva instancia de la actividad
@@ -91,10 +92,11 @@ public class DetailActivity extends AppCompatActivity {
                         try {
                             final User user = getUser.get();
                             Log.v("user developer", user.getName());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
+                        } catch (InterruptedException | ExecutionException e) {
+                            if (e instanceof ExecutionException )
+                                Log.e("Erroraco",  e.getMessage());
+                            else
+                                Log.e("ErroracoInterrupted",e.getMessage());
                         }
 
                     }
@@ -103,32 +105,37 @@ public class DetailActivity extends AppCompatActivity {
             }else{
                 String idComentario= propuesta.getCom()[0].getId(); //Id del primer comentario
                 ClienteHttp.setmUrl("http://stag.hackityapp.com/api/comment/" + idComentario + "?_format=api_json");
-                final AsyncTask<RequestFuture<JSONObject>, Void, Comment> getCommentario = mClienteHttp.getComment();
+                final AsyncTask<RequestFuture<JSONObject>, Void, CommentWithUser> getCommentario = mClienteHttp.getCommentWithUser();
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("RT", "Thread t Begins");
+                        Log.d("RT", "HiloRecogeComentarios Begins");
                         try {
+
                             final User user = getUser.get();
-                            final Comment comment=getCommentario.get();
-                            Comment[] comments = new Comment[1];
-                            comments[0]=comment;
+                            Log.v("user developer", user.getName());
+                            final CommentWithUser commentWithUser=getCommentario.get();
+                            CommentWithUser[] comments = new CommentWithUser[1];
+                            comments[0]=commentWithUser;
                             Infrastructure.setComment(comments);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    DetailFragment detailActivity= (DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
-                                    detailActivity.notifyWhenDataChanged();
+                                    mDetailFragment= (DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
+                                    mDetailFragment.notifyWhenDataChanged();
+                                    Log.d("RT", "!notifyWhenDataChanged!!");
                                 }
                             });
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
+                        } catch (InterruptedException | ExecutionException e) {
+                            if (e instanceof ExecutionException )
+                                Log.e("Erroraco", ((ExecutionException) e).getMessage());
+                            else
+                                Log.e("ErroracoInterrupted",e.getMessage());
                         }
 
                     }
                 });
+                t.setName("HiloRecogeComentarios");
                 t.start();
             }
         } else {

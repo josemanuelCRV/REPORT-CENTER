@@ -440,7 +440,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
             Log.v("doInBackground", "solicitando token...");
             try {
-                return params[0].get();
+                String token = params[0].get();
+                Credentials.setX_CSRF_Token(token);
+                return token;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -453,7 +455,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(String s) {
             if (s != null) {
-                Credentials.setX_CSRF_Token(s);
+                //Credentials.setX_CSRF_Token(s);
                 kickOffActivity(true);
             } else {
                 runOnUiThread(new Runnable() {
@@ -471,13 +473,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.apply();
+
         if (flag) {
             editor.putBoolean("login", false);
+            editor.putString("Authorization",Credentials.getAuthorization());
+            editor.putString("X_CSRF_Token",Credentials.getX_CSRF_Token());
+            editor.apply();
             startActivity(intent);
         } else {
             showProgress(false);
             editor.putBoolean("login", true);
+            editor.apply();
             DialogBuilder dialogBuilder = new DialogBuilder(this);
             dialogBuilder.setMessage("Failed to log in");
             dialogBuilder.show();

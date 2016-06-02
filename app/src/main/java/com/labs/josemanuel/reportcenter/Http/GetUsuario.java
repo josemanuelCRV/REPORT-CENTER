@@ -25,7 +25,9 @@ public class GetUsuario extends AsyncTask<RequestFuture<JSONObject>, Void, User>
     protected User doInBackground(RequestFuture<JSONObject>... params) {
         Log.v("disparado","desdeGetUsuario");
         try {
-            return JSONHandler.generateUser(params[0].get());
+            User user = JSONHandler.generateUser(params[0].get());
+            Log.v("User",user.getName());
+            return user;
         } catch (InterruptedException | ExecutionException |  JSONException e) {
             //Verifica que el error se ha producido por parte de Volley
             if (e.getCause() instanceof VolleyError){
@@ -33,12 +35,12 @@ public class GetUsuario extends AsyncTask<RequestFuture<JSONObject>, Void, User>
                 VolleyError volleyError = (VolleyError)e.getCause();
                 //Mostramos el error por el log
                 Log.v("ErrorfromGetComentarios",String.valueOf(volleyError.networkResponse.statusCode));
-                //Devolvemos un comentario con todos sus campos a -1
+                //Devolvemos un usuario con todos sus campos a -1
                 return User.userFactory(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
             }else{
                 //Si el error no lo ha producido algún mecanismo de VolleyError, dispara la causa por la que se ha producido
                 Log.v("OtherError",e.getCause().getMessage());
-                ////Devolvemos un comentario con todos sus campos a -1
+                ////Devolvemos un usuario con todos sus campos a -1
                 return User.userFactory(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
             }
         }

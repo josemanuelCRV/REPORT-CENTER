@@ -129,25 +129,24 @@ public class DetailFragment extends Fragment {
 
         // OBTENER EL MAP-FRAGMENT y colocarlo en el frame del fragment_detail
 
-        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
+       /* mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
         if (mSupportMapFragment == null) {
             FragmentManager fragmentManager = getFragmentManager();
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mSupportMapFragment = SupportMapFragment.newInstance();
             fragmentTransaction.replace(R.id.mapwhere, mSupportMapFragment).commit();
-        }
+        }*/
 
-        if (mSupportMapFragment != null) {
+        /*if (mSupportMapFragment != null) {
             mSupportMapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     if (googleMap != null) {
 
                         googleMap.getUiSettings().setAllGesturesEnabled(true);
-
-                        /*
+                        *//*
                         * En el constructor de la clase declaramos la variables (lat,lon)
-                        */
+                        *//*
 
                         // -> marker_latlng recoge la latitud y longitud en formato double//
                         LatLng marker_latlng = new LatLng(lat, lon);
@@ -163,7 +162,7 @@ public class DetailFragment extends Fragment {
                 }
             });
 
-        }
+        }*/
 
 
         // Contenedor Comentarios que muestra las Cards
@@ -172,11 +171,11 @@ public class DetailFragment extends Fragment {
         // Aplica InteractiveScrollView al scroll en el que se muestran las cards de comentarios
         scrollView = (InteractiveScrollView) v.findViewById(R.id.comentarios);
 
-        /*// adapter recoge el Comentario seleccionado
+        // adapter recoge el Comentario seleccionado
         mAdapter = new AdaptadorComment(getContext(), Infrastructure.getComment());
 
         // introduce en el scroll la propuesta seleccionada almacenada en el adaptador
-        scrollView.setAdapter(mAdapter);*/
+        scrollView.setAdapter(mAdapter);
 
 
         // Usar un administrador para LinearLayout y aplicarlo al scroll

@@ -15,9 +15,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.CommentWithUser;
 import com.labs.josemanuel.reportcenter.R;
 
 /*
@@ -25,11 +27,11 @@ import com.labs.josemanuel.reportcenter.R;
         */
 public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.ViewHolder> {
     private final Context contexto;
-    private Comment[] mComments;
+    private CommentWithUser[] mComments;
 
 
     //Constructor de la clase
-    public AdaptadorComment(Context contexto,Comment[] comments) {
+    public AdaptadorComment(Context contexto,CommentWithUser[] comments) {
         this.contexto = contexto;
         this.mComments = comments;
 
@@ -73,14 +75,16 @@ public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.View
      */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Comment comment = mComments[position];
+        CommentWithUser comment = mComments[position];
 
         //Hace falta realiar una peticion get con los datos del usuario del comentario
-        //holder.viewImagenUser.setText(comment.getId_data_uid_relationships());
-        holder.viewName.setText(comment.getId_data_uid_relationships());
+        Glide.with(contexto).load(comment.getPic_user()).into(holder.viewImagenUser);
+
+        holder.viewName.setText(comment.getName_user());
         holder.viewTimestamp.setText(PropuestaHandler.getTimeFromToday(comment.getCreated_attributes()));
         holder.viewBodyComment.setText(comment.getValue_comment_body_attributes()); // Consultar en api el username del id
         holder.viewCid.setText(comment.getCid_attributes());
+
 
     }
 

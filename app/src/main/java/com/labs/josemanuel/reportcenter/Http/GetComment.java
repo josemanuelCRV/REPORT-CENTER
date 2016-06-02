@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Miguel on 5/31/2016.
  */
-public class GetComentarios extends AsyncTask<RequestFuture<JSONObject>, Void, Comment> {
+public class GetComment extends AsyncTask<RequestFuture<JSONObject>, Void, Comment> {
 
 
     @Override
@@ -43,8 +43,13 @@ public class GetComentarios extends AsyncTask<RequestFuture<JSONObject>, Void, C
                 Log.v("OtherError",e.getCause().getMessage());
                 ////Devolvemos un comentario con todos sus campos a -1
                 return Comment.commentFactory(null,null,null,null,null,null);
-         }
+            }
         }
     }
 
+    @Override
+    protected void onPostExecute(Comment comment) {
+        super.onPostExecute(comment);
+
+    }
 }

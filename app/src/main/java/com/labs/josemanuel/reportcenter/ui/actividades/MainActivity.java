@@ -1,8 +1,11 @@
 package com.labs.josemanuel.reportcenter.ui.actividades;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,8 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MainFragment;
 
@@ -47,9 +52,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new TrustAllSSLCerts().nuke();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-       // ----------------------------------------------------------
+        Credentials.setAuthorization(preferences.getString("Authorization","-1"));
+        Credentials.setX_CSRF_Token(preferences.getString("X_CSRF_Token","-1"));
+        String cadena = Credentials.getAuthorization() + Credentials.getX_CSRF_Token();
+        Toast.makeText(MainActivity.this, cadena, Toast.LENGTH_LONG).show();
+
+
+        // ----------------------------------------------------------
         // nuevo para Toldo
     /*    setToolbar();// Añadir action bar
         if (getSupportActionBar() != null) // Habilitar up button
