@@ -15,44 +15,75 @@
         android:text="No data"
         android:visibility="visible" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/reciclador"
+ <!--
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="3dp"
-        android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="58dp" />
+        android:layout_below="@+id/app_bar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-   <!-- <include
-        layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
--->
+        -->
 
-    <!-- AppBar-->
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reciclador"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="58dp"
+            android:padding="3dp"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <!-- App Bar -->
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!-- Toolbar -->
+        <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+        <!-- <include
+             layout="@layout/app_bar_main"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
+     -->
+
+<!--
+    </android.support.v4.widget.NestedScrollView>
+-->
+
+    <!-- App Bar -->
+ <!--   <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-
-        <!-- Collapser -->
+        &lt;!&ndash; Collapser &ndash;&gt;
         <android.support.design.widget.CollapsingToolbarLayout
-
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
             android:id="@+id/collapser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-            <!-- Imagen del detalle -->
+            &lt;!&ndash; Imagen del detalle &ndash;&gt;
             <ImageView
                 android:id="@+id/image_paralax"
                 android:layout_width="match_parent"
@@ -61,20 +92,74 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
-            <android.support.v7.widget.Toolbar
+            &lt;!&ndash; Toolbar &ndash;&gt;
+            <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:theme="@style/AppTheme.AppBarOverlay"/>
+                app:theme="@style/CustomActionBar"
+
+                />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
+
     </android.support.design.widget.AppBarLayout>
 
+-->
+    <!-- *************************************************************************************-->
+
+
+    <!-- AppBar-->
+    <!--
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Light">
+
+            &lt;!&ndash;android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"&ndash;&gt;
+
+            &lt;!&ndash; Collapser &ndash;&gt;
+            <android.support.design.widget.CollapsingToolbarLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                android:id="@+id/collapser"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                &lt;!&ndash; Imagen del detalle &ndash;&gt;
+                <ImageView
+                    android:id="@+id/image_paralax"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@android:color/transparent"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:theme="@style/AppTheme.AppBarOverlay"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+    -->
 
 
     <com.melnykov.fab.FloatingActionButton
@@ -86,8 +171,8 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@mipmap/ic_add"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/primary"
+        fab:fab_colorNormal="@color/colorAccent"
+        fab:fab_colorPressed="@color/colorPrimary"
         fab:fab_colorRipple="@color/ripple" />
 
 

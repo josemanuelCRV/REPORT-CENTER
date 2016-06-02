@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,17 +25,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Context contexto;
 
-    // private static final String EXTRA_DRAWABLE = "com.labs.josemanuel.reportcenter.drawable";
-
-
-
     public MainActivity() {
 
     }
 
     // --------------------------------------
     // nuevo para Toldo
-   /* public static Intent getLaunchIntent(Context context) {
+     /*public static Intent getLaunchIntent(Context context) {
         Intent intent = new Intent(context, MainFragment.class);
         intent.putExtra(EXTRA_DRAWABLE , R.drawable.bg_city2);
         return intent;
@@ -51,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
        // ----------------------------------------------------------
         // nuevo para Toldo
-    /*    setToolbar();// Añadir action bar
+/*
+        setToolbar();// Añadir action bar
         if (getSupportActionBar() != null) // Habilitar up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,13 +59,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int idDrawable = i.getIntExtra(EXTRA_DRAWABLE, -1);
 
         CollapsingToolbarLayout collapser =
-                (CollapsingToolbarLayout) findViewById(R.id.collapser);*/
+                (CollapsingToolbarLayout) findViewById(R.id.collapser);
 
-//        collapser.setTitle(getPackageName().toString()); // Cambiar título
+*/
+/*
+        collapser.setTitle(); // Cambiar título
+*//*
 
 
-//        loadImageParallax(idDrawable);// Cargar Imagen
-//
+
+        loadImageParallax(idDrawable);// Cargar Imagen
+*/
+
         // ------------------------------------------------------
 
         // Creación del Toolbar y el NavigationDrawer
@@ -106,23 +110,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
 
+/*
     private void setToolbar() {
         // Añadir la Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
-    /**
+    */
+/**
      * Se carga una imagen aleatoria para el detalle
-     */
-   /* private void loadImageParallax(int id) {
+     *//*
+
+     private void loadImageParallax(int id) {
         ImageView image = (ImageView) findViewById(R.id.image_paralax);
         // Usando Glide para la carga asíncrona
-        Glide.with(this)
+        Glide.with(getApplicationContext())
                 .load(id)
                 .centerCrop()
                 .into(image);
-    }*/
+    }
+*/
 
     // Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
 
