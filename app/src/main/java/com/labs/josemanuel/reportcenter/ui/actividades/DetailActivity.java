@@ -3,13 +3,26 @@ package com.labs.josemanuel.reportcenter.ui.actividades;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.android.volley.toolbox.RequestFuture;
 import com.labs.josemanuel.reportcenter.Controler.JsonConstants;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.DetailFragment;
+
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Usuario on 25/04/2016.
@@ -53,24 +66,75 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+        //Comienzan las tareas asíncronas a recoger información del servidor
+        //Recogida usuario propuesta
+        Propuesta propuesta= Infrastructure.getPropuestaSeleccionada();
+        int numComentarios=0;
+        ClienteHttp mClienteHttp = new ClienteHttp("http://stag.hackityapp.com/api/user/"+propuesta.getUid().getTarget_id()+"?_format=api_json", this);
 
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
-        // getSupportActionBar().setIcon(R.drawable.ic_menu_share);
-        // getSupportActionBar().setIcon(R.drawable.ic_arrow_back);
+        //pasamos la propuesta seleccionada && //Recogida comentarios propuesta
+        if (mClienteHttp.isNetworkAvailable()) {
+            final AsyncTask<RequestFuture<JSONObject>, Void, User> getUser = mClienteHttp.getUsuario();
+            numComentarios=propuesta.getCom().length;
+            //Si la propuesta no tiene comentarios, no se realiza
 
-      /*  if (getSupportActionBar() != null) {
-            // Dehabilitar titulo de la actividad
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            // Setear ícono "X" como Up button
-            getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_close);
+            if(numComentarios==0) {
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("RT", "Thread t Begins");
+                        try {
+                            final User user = getUser.get();
+                            Log.v("user developer", user.getName());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
 
-        }*/
+                    }
+                });
+                t.start();
+            }else{
+                String idComentario= propuesta.getCom()[0].getId(); //Id del primer comentario
+                ClienteHttp.setmUrl("http://stag.hackityapp.com/api/comment/" + idComentario + "?_format=api_json");
+                final AsyncTask<RequestFuture<JSONObject>, Void, Comment> getCommentario = mClienteHttp.getComment();
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("RT", "Thread t Begins");
+                        try {
+                            final User user = getUser.get();
+                            final Comment comment=getCommentario.get();
+                            Comment[] comments = new Comment[1];
+                            comments[0]=comment;
+                            Infrastructure.setComment(comments);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    DetailFragment detailActivity= (DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
+                                    detailActivity.notifyWhenDataChanged();
+                                }
+                            });
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+                t.start();
+            }
+        } else {
+            DialogBuilder dialogBuilder = new DialogBuilder(this);
+            dialogBuilder.alertUserAboutError();
+        }
 
 
 

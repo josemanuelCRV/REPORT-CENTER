@@ -3,7 +3,10 @@ package com.labs.josemanuel.reportcenter.Http;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.Volley;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
 import com.labs.josemanuel.reportcenter.Model.Comment;
@@ -26,19 +29,22 @@ public class GetComentarios extends AsyncTask<RequestFuture<JSONObject>, Void, C
         Log.v("disparado","desde GetComentarios");
         try {
             return JSONHandler.generateComment(params[0].get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException |  JSONException e) {
+            //Verifica que el error se ha producido por parte de Volley
+            if (e.getCause() instanceof VolleyError){
+                //Referenciamos el error como un Volley Error (Casteo)
+                VolleyError volleyError = (VolleyError)e.getCause();
+                //Mostramos el error por el log
+                Log.v("ErrorfromGetComentarios",String.valueOf(volleyError.networkResponse.statusCode));
+                //Devolvemos un comentario con todos sus campos a -1
+                return Comment.commentFactory(null,null,null,null,null,null);
+            }else{
+                //Si el error no lo ha producido algún mecanismo de VolleyError, dispara la causa por la que se ha producido
+                Log.v("OtherError",e.getCause().getMessage());
+                ////Devolvemos un comentario con todos sus campos a -1
+                return Comment.commentFactory(null,null,null,null,null,null);
+         }
         }
-        return null;
     }
 
-    @Override
-    protected void onPostExecute(Comment comment) {
-        //Log.v("CID",comment.getCid_attributes());
-        super.onPostExecute(comment);
-    }
 }

@@ -110,6 +110,25 @@ public class Comment {
         this.format_comment_body_attributes = format_comment_body_attributes;
     }
 
+    public static Comment commentFactory(String cid_attributes, String id_data_uid_relationships, String created_attributes, String changed_attributes, String value_comment_body_attributes, String format_comment_body_attributes) throws NullPointerException{
+        Comment comment =  new Comment("-1","-1","-1","-1","-1","-1");
+
+        if(cid_attributes!=null)
+            comment.setCid_attributes(cid_attributes);
+        if(id_data_uid_relationships!=null)
+            comment.setId_data_uid_relationships(id_data_uid_relationships);
+        if(created_attributes !=null)
+            comment.setCreated_attributes(created_attributes);
+        if(changed_attributes!=null)
+            comment.setChanged_attributes(changed_attributes);
+        if(value_comment_body_attributes!=null)
+            comment.setValue_comment_body_attributes(value_comment_body_attributes);
+        if(format_comment_body_attributes!=null)
+            comment.setFormat_comment_body_attributes(format_comment_body_attributes);
+
+        return comment;
+    }
+
     public String getType_data() {
         return type_data;
     }

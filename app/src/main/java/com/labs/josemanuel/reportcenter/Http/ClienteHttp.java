@@ -199,7 +199,6 @@ public class ClienteHttp {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params= new HashMap<>();
-
                 params.put("Authorization", Credentials.getAuthorization());
                 params.put("X-CSRF-Token",Credentials.getX_CSRF_Token());
                 //params.put("Content-Type","application/x-www-form-urlencoded");
@@ -213,7 +212,7 @@ public class ClienteHttp {
 
 
     /**
-     * La clase permite comprobar si hay conexión a red.
+     * El método permite comprobar si hay conexión a red.
      *
      * @return isAvailable true si hay red
      */

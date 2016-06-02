@@ -74,6 +74,7 @@ public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Comment comment = mComments[position];
+
         //Hace falta realiar una peticion get con los datos del usuario del comentario
         //holder.viewImagenUser.setText(comment.getId_data_uid_relationships());
         holder.viewName.setText(comment.getId_data_uid_relationships());

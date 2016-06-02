@@ -44,7 +44,7 @@ public class DetailFragment extends Fragment {
     /**
      * Etiqueta de depuración
      */
-    private static final String TAG = DetailFragment.class.getSimpleName();
+    public static final String TAG = DetailFragment.class.getSimpleName();
 
 
     /*
@@ -68,6 +68,7 @@ public class DetailFragment extends Fragment {
     private Double lat;
     private Double lon;
 
+    AdaptadorComment mAdapter;
 
     /*
     instancia global del administrador
@@ -171,11 +172,12 @@ public class DetailFragment extends Fragment {
         // Aplica InteractiveScrollView al scroll en el que se muestran las cards de comentarios
         scrollView = (InteractiveScrollView) v.findViewById(R.id.comentarios);
 
-        // adapter recoge el Comentario seleccionado
-        AdaptadorComment adapter = new AdaptadorComment(getContext(), Infrastructure.getComment());
+        /*// adapter recoge el Comentario seleccionado
+        mAdapter = new AdaptadorComment(getContext(), Infrastructure.getComment());
 
         // introduce en el scroll la propuesta seleccionada almacenada en el adaptador
-        scrollView.setAdapter(adapter);
+        scrollView.setAdapter(mAdapter);*/
+
 
         // Usar un administrador para LinearLayout y aplicarlo al scroll
         lManager = new LinearLayoutManager(getContext());
@@ -203,48 +205,6 @@ public class DetailFragment extends Fragment {
         );
 
 
-          /*
-          ACTIVADOR DE  para evento al llegar al final del scroll
-          y sacar el contenedor de los comentarios del Scroll-Linear que tiene el escuchador
-          */
-        // panoflasquesomos.setOnScrollChangeListener(new OnScrollListenerEnAnabolizantes(comentariosContainer));
-
-
-        // Boton Volver. Oculta el contenedor de los comentarios y vuelve a mostrar el contenedor Datos propuesta
-
-      /*  btnVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                panoflasquesomos.setVisibility(View.VISIBLE);
-                comentariosContainer.setVisibility(View.GONE);
-                // btnVolver.setVisibility(View.GONE);
-            }
-        });*/
-
-
-//        scrollView.setOnBottomReachedListener(new InteractiveScrollView.OnBottomReachedListener() {
-//            @Override
-//            public void onBottomReached() {
-//                Log.v("EVENTO!","LLEGUE AL FINAL");
-//            }
-//        });
-//
-
-
-        /*scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Log.v("ScrollMOved","Up&down");
-                *//*View view = scrollView.getChildAt(scrollView.getChildCount()-1);
-                int diff = (view.getBottom()-(scrollView.getHeight()+scrollView.getScrollY()));
-
-                if (diff == 0 && scrollView.getOnBottomReachedListener()!= null) {
-                    scrollView.getOnBottomReachedListener();
-                }*//*
-        }}
-        );*/
-
-        //scrollView.setOnScrollChangeListener(new OnScrollListenerEnAnabolizantes());
 
         // Cargar datos desde el web service
         cargarDatos();
@@ -326,6 +286,12 @@ public class DetailFragment extends Fragment {
     }
 
 
+    public void notifyWhenDataChanged(){
+        //adapter recoge el Comentario seleccionado
+        mAdapter = new AdaptadorComment(getContext(), Infrastructure.getComment());
+        scrollView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
 
+    }
 
 }

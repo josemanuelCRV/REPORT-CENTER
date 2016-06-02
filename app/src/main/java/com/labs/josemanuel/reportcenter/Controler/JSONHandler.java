@@ -433,7 +433,6 @@ public class JSONHandler {
         String self_links=links.getString("self");
 
 
-
-        return new Comment(cid,id,created,changed,value,format);
+        return Comment.commentFactory(cid,id,created,changed,value,format);
     }
 }

@@ -10,6 +10,8 @@ import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import org.json.JSONArray;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Miguel on 5/28/2016.
@@ -20,10 +22,12 @@ public class GetPropuestas extends AsyncTask<RequestFuture<JSONArray>, Void, Pro
     protected Propuesta[] doInBackground(RequestFuture<JSONArray>... params) {
         Log.v("disparado","desdeGetPropuestas");
         try {
-            return JSONHandler.generatePropuestaArray(params[0].get());
+            return JSONHandler.generatePropuestaArray(params[0].get(10000, TimeUnit.SECONDS));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
             e.printStackTrace();
         }
         return null;
