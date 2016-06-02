@@ -4,13 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.JsonConstants;
 import com.labs.josemanuel.reportcenter.tools.Constantes;
+import com.labs.josemanuel.reportcenter.tools.Infrastructure;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.DetailFragment;
 
 /**
@@ -22,6 +28,14 @@ public class DetailActivity extends AppCompatActivity {
      * Instancia global de la meta a detallar
      */
     private String idNodo;
+    private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
+    DetailFragment mDetailFragment= null;
+
+
+    private ImageView viewImageParalax;
+
+    public static final String EXTRA_DRAWABLE = "com.labs.josemanuel.reportcenter.drawable";
 
 
     /**
@@ -60,6 +74,32 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        // ----------------------------------------------------------
+        // nuevo para Toldo
+
+       setToolbar();// Añadir action bar
+        if (getSupportActionBar() != null) // Habilitar up button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+       /* Intent i = getIntent();
+        int idDrawable = i.getIntExtra(EXTRA_DRAWABLE, -1);*/
+
+        CollapsingToolbarLayout collapser =
+                (CollapsingToolbarLayout) findViewById(R.id.collapser);
+
+/*
+        collapser.setTitle(); // Cambiar título
+*/
+        // viewImageParalax = (ImageView) findViewById(R.id.image_paralax);
+
+
+       // loadImageParallax();// Cargar Imagen
+
+        // ------------------------------------------------------
+
+
+        // Antiguo ------------------------------------------
 
         // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
@@ -74,8 +114,7 @@ public class DetailActivity extends AppCompatActivity {
 
         }*/
 
-
-
+        // Antiguo ------------------------------------------
 
 
         // Retener instancia
@@ -87,8 +126,46 @@ public class DetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, DetailFragment.createInstance(idNodo), "DetailFragment")
                     .commit();
+
+            // mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
         }
+
     }
+
+
+    // METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
+
+    private void setToolbar() {
+        // Añadir la Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    /**
+     * Se carga una imagen aleatoria para el detalle
+     */
+    /*public void loadImageParallax() {
+        ImageView image = (ImageView) findViewById(R.id.image_paralax);
+
+        DetailFragment mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
+
+
+        // Usando Glide para la carga asíncrona
+        Glide.with(mDetailFragment.getContext())
+                .load(PropSeleecionada.getImage()[0].getUrl())
+                .centerCrop()
+                .into(image);
+    }*/
+
+    // Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(image);
+    // Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
+
+    // FIN METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
+
+
+
+
+    // FINN onCreate
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

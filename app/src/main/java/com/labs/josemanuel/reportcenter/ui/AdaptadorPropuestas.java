@@ -223,13 +223,15 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         }
 
         // Imágen de Propuesta
-        /*if (propuesta.getImage()[0].getUrl().length() != 0) {
+        if (propuesta.getImage()[0].getUrl().length() != 0) {
             Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
         } else {
             Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
-        }*/
+        }
 
+/*
         Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
+*/
 
         // Fecha de Propuesta
         if (propuesta.getCreated() != null) {

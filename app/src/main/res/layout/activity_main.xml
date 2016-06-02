@@ -29,9 +29,7 @@
         android:orientation="vertical"
         tools:context=".ui.actividades.MainActivity"
         android:layout_below="@+id/include"
-        android:background="@color/gold3_beachStorm" />
-
-
+        android:background="@color/colorPrimary_light" />
 
 
 

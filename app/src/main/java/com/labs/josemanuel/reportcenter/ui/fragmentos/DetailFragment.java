@@ -48,7 +48,7 @@ public class DetailFragment extends Fragment {
     /**
      * Etiqueta de depuración
      */
-    private static final String TAG = DetailFragment.class.getSimpleName();
+    public static final String TAG = DetailFragment.class.getSimpleName();
 
 
     /*
@@ -69,6 +69,10 @@ public class DetailFragment extends Fragment {
     private Gson gson = new Gson();
     private ScrollView panoflasquesomos;
 
+    private ImageView viewImageParalax;
+
+
+
     // inicializadas en el constructor de clase.
     private Double lat;
     private Double lon;
@@ -87,6 +91,9 @@ public class DetailFragment extends Fragment {
     private SupportMapFragment mSupportMapFragment;
     // Propuesta seleccionada
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
+
+
 
     // CONSTRUCTOR DE CLASE
     // inicializadas las variables que recogen la localización
@@ -114,8 +121,8 @@ public class DetailFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
 
         // vinculando los componentes de la vista
-        bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
-        viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
+      //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
+      //  viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
         viewTituloDetalle = (TextView) v.findViewById(R.id.titulo);
         viewDescripcionDetalle = (TextView) v.findViewById(R.id.descripcion);
         viewFechaDetalle = (TextView) v.findViewById(R.id.fecha);
@@ -125,10 +132,14 @@ public class DetailFragment extends Fragment {
         viewFlagState = (ImageView) v.findViewById(R.id.flag_category); // Flag / Flag_Check_Done
 
         editButton = (ImageButton) v.findViewById(R.id.fab); // boton para Editar Propuesta
-        btnVolver = (ImageButton) v.findViewById(R.id.btnBack); // sin uso ahora el Fab
+//        btnVolver = (ImageButton) v.findViewById(R.id.btnBack); // sin uso ahora el Fab
 
         // Scroll general que contiene los Datos Detalle Propuesta + Contenedor Comentarios
         panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
+
+
+        viewImageParalax = (ImageView) v.findViewById(R.id.image_paralax);
+
 
 
         // OBTENER EL MAP-FRAGMENT y colocarlo en el frame del fragment_detail
@@ -253,7 +264,11 @@ public class DetailFragment extends Fragment {
         // Cargar datos desde el web service
         cargarDatos();
 
+
+        loadImageParallax();// Cargar Imagen
+
         return v;
+
 
 
     } // fin onCreate
@@ -324,7 +339,7 @@ public class DetailFragment extends Fragment {
             viewFlagState.setImageResource(R.drawable.bookmark_check);
         }
         // foto
-        Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(viewCabeceraDetalle);
+//        Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(viewCabeceraDetalle);
 
 
         /*String fecha = PropuestaHandler.parseDate(comentario.getTimestamp());
@@ -419,6 +434,23 @@ public class DetailFragment extends Fragment {
         }
 
     }
+
+
+    /**
+     * Se carga una imagen aleatoria para el detalle
+     */
+    public void loadImageParallax() {
+
+        // DetailFragment mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
+       // ImageView image = (ImageView) findViewById(R.id.image_paralax);
+
+        // Usando Glide para la carga asíncrona
+        Glide.with(this)
+                .load(PropSeleecionada.getImage()[0].getUrl())
+                .centerCrop()
+                .into(viewImageParalax);
+    }
+
 
 
 }
