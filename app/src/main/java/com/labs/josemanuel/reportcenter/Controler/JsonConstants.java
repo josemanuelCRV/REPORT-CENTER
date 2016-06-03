@@ -1,6 +1,9 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
 /**
+ * Clase desde la cual es obtienen los nombres de los distintos objetos existentes
+ * en los ficheros JSON que son obtenidos desde una llamada al servidor.
+ * 
  * Created by Miguel on 5/16/2016.
  */
 public class JsonConstants {
