@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.webkit.HttpAuthHandler;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -17,7 +18,11 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
+import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.CommentWithUser;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,9 +46,13 @@ public class ClienteHttp {
     VolleySingleton mVolleySingleton;
     RequestQueue mRequestQueue;
 
-    public ClienteHttp(String url,Context context){
-        mUrl= url;
-        mContext=context;
+    public static void setmUrl(String mUrl) {
+        ClienteHttp.mUrl = mUrl;
+    }
+
+    public ClienteHttp(String url, Context context){
+        mUrl = url;
+        mContext = context;
         initiate();
 
     }
@@ -174,12 +183,36 @@ public class ClienteHttp {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
         addToRequestQueue(tag_JsonArray_req,jsonArrayRequest);
         return new GetPropuestas().execute(future);
+    }
+    public AsyncTask<RequestFuture<JSONObject>, Void, User> getUsuario(){
+        String TAG= "JsonObjectRequest";
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequestAuthorized jsonObjectRequest = new JsonObjectRequestAuthorized(Request.Method.GET, mUrl,future,future);
 
+        addToRequestQueue(TAG,jsonObjectRequest);
+        return new GetUsuario().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,future);
+    }
+
+    public AsyncTask<RequestFuture<JSONObject>, Void, CommentWithUser> getCommentWithUser(){
+        String TAG= "commentWithUserRequest";
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequestAuthorized jsonObjectRequest= new JsonObjectRequestAuthorized(Request.Method.GET, mUrl,future,future);
+        addToRequestQueue(TAG,jsonObjectRequest);
+
+        return new GetCommentWithUser(mContext).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,future); //doInBackground, onPostExecute
+    }
+    public AsyncTask<RequestFuture<JSONObject>, Void, Comment> getComment(){
+        String TAG= "commentRequest";
+        RequestFuture<JSONObject> future= RequestFuture.newFuture();
+        JsonObjectRequestAuthorized jsonObjectRequest= new JsonObjectRequestAuthorized(Request.Method.GET, mUrl,future,future);
+        addToRequestQueue(TAG,jsonObjectRequest);
+
+        return new GetComment().execute(future); //doInBackground, onPostExecute
     }
 
 
     /**
-     * La clase permite comprobar si hay conexión a red.
+     * El método permite comprobar si hay conexión a red.
      *
      * @return isAvailable true si hay red
      */

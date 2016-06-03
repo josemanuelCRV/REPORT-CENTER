@@ -5,6 +5,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.ConfirmDialogFragment;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.DatePickerFragment;
@@ -15,6 +17,7 @@ public class UpdateActivity extends AppCompatActivity
         implements DatePickerFragment.OnDateSelectedListener,
         ConfirmDialogFragment.ConfirmDialogListener {
 
+    private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
 
 
     /**

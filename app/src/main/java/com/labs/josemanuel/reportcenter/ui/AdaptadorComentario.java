@@ -55,7 +55,7 @@ public class AdaptadorComentario extends RecyclerView.Adapter<AdaptadorComentari
             viewId = (TextView) v.findViewById(R.id.id);
             viewTimestamp = (TextView) v.findViewById(R.id.timestamp);
             viewName = (TextView) v.findViewById(R.id.name);
-            viewUid = (TextView) v.findViewById(R.id.uid);
+            viewUid = (TextView) v.findViewById(R.id.cid);
             viewCount = (TextView) v.findViewById(R.id.count);
 
 

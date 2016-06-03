@@ -2,6 +2,8 @@ package com.labs.josemanuel.reportcenter.Infrastructure;
 
 
 import com.labs.josemanuel.reportcenter.Model.Comentario;
+import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.CommentWithUser;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 
 /**
@@ -12,7 +14,15 @@ public class Infrastructure {
 
     public static Propuesta propuestaSeleccionada;
     public static Comentario[] comentarioSeleccionada;
+    public static CommentWithUser[] comment;
 
+    public static void setComment(CommentWithUser[] comment) {
+        Infrastructure.comment = comment;
+    }
+
+    public static CommentWithUser[] getComment() {
+        return comment;
+    }
 
     public static Propuesta getPropuestaSeleccionada() {
         return propuestaSeleccionada;

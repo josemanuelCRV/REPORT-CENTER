@@ -5,7 +5,7 @@ package com.labs.josemanuel.reportcenter.Infrastructure;
  */
 public class Credentials {
     public static String Authorization;
-    public static String X_CRSF_Token;
+    public static String X_CSRF_Token;
 
     public static String getAuthorization() {
         return Authorization;
@@ -15,12 +15,12 @@ public class Credentials {
         Authorization = authorization;
     }
 
-    public static String getX_CRSF_Token() {
-        return X_CRSF_Token;
+    public static String getX_CSRF_Token() {
+        return X_CSRF_Token;
     }
 
-    public static void setX_CRSF_Token(String x_CRSF_Token) {
-        X_CRSF_Token = x_CRSF_Token;
+    public static void setX_CSRF_Token(String x_CSRF_Token) {
+        X_CSRF_Token = x_CSRF_Token;
     }
 }
 

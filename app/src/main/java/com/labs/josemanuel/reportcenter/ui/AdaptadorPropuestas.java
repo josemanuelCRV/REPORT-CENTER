@@ -4,21 +4,35 @@ package com.labs.josemanuel.reportcenter.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.RequestFuture;
 import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
-import com.labs.josemanuel.reportcenter.Model.Propuesta;
-import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Model.Comment;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Model.User;
+import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import com.labs.josemanuel.reportcenter.ui.actividades.DetailActivity;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
+
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Adaptador del RecyclerView que rellena la lista
@@ -73,17 +87,12 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
                 public void onClick(View view) {
                     Intent goMain = new Intent(contexto, MapsActivity.class);
                     contexto.startActivity(goMain);
-                /*Snackbar.make(view, "Añadido a tus favoritos", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 }
             });
         }
 
         @Override
         public void onClick(View view) {
-            obtenerNid(getAdapterPosition());
-            obtenerPropuesta(getAdapterPosition());
-            //pasamos la propuesta seleccionada
             Infrastructure.setPropuestaSeleccionada(obtenerPropuesta(getAdapterPosition()));
             Infrastructure.setComentarioSeleccionada(obtenerPropuesta(getAdapterPosition()).getCom());
             DetailActivity.launch(
@@ -170,7 +179,7 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
         }*/
 
-        if(propuesta.getImage()!=null)
+        if (propuesta.getImage() != null)
             Glide.with(contexto).load(propuesta.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).into(holder.viewFoto);
         else
             Glide.with(contexto).load(R.drawable.bg_city2).into(holder.viewFoto);

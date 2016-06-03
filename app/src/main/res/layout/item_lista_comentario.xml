@@ -34,8 +34,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="49dp"
             android:text="status"
-            android:layout_toRightOf="@+id/uid"
-            android:layout_toEndOf="@+id/uid" />
+            android:layout_toRightOf="@+id/cid"
+            android:layout_toEndOf="@+id/cid" />
 
 
         <!-- ID-->
@@ -67,14 +67,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name"
-            android:layout_alignBottom="@+id/uid"
+            android:layout_alignBottom="@+id/cid"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
 
         <!-- UUID -->
         <TextView
-            android:id="@+id/uid"
+            android:id="@+id/cid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="UUID"
