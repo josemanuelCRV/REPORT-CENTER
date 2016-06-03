@@ -14,6 +14,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.labs.josemanuel.reportcenter.Controler.ConstantsTransition;
+import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
+import com.labs.josemanuel.reportcenter.Http.VolleySingleton;
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.modelo.Meta;
 
@@ -59,6 +68,7 @@ public class UpdateFragment extends Fragment {
      * Instancia Gson para el parsing Json
      */
 
+    private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
 
 
     public UpdateFragment() {
@@ -73,7 +83,7 @@ public class UpdateFragment extends Fragment {
     public static Fragment createInstance(String extra) {
         UpdateFragment detailFragment = new UpdateFragment();
         Bundle bundle = new Bundle();
-        //bundle.putString(Constantes.EXTRA_ID, extra);
+        bundle.putString(ConstantsTransition.EXTRA_ID, extra);
         detailFragment.setArguments(bundle);
         return detailFragment;
     }
@@ -104,7 +114,7 @@ public class UpdateFragment extends Fragment {
         );
 
         // Obtener valor extra
-        //idMeta = getArguments().getString(Constantes.EXTRA_ID);
+        idMeta = getArguments().getString(ConstantsTransition.EXTRA_ID);
 
         if (idMeta != null) {
             cargarDatos();
@@ -117,9 +127,22 @@ public class UpdateFragment extends Fragment {
      * Obtiene los datos desde el servidor
      */
     private void cargarDatos() {
-        // Añadiendo idMeta como parámetro a la URL
-    /*    String newURL = Constantes.GET_BY_ID + "?idMeta=" + idMeta;
 
+        Infrastructure.getPropuestaSeleccionada();
+
+        // título
+        titulo_input.setText(PropSeleecionada.getTitle());
+        // descripción
+        descripcion_input.setText(PropSeleecionada.getBody().getValue());
+        // fecha
+        String fecha = PropuestaHandler.parseDate(PropSeleecionada.getCreated());
+        fecha_text.setText(fecha);
+
+
+
+
+        // Añadiendo idMeta como parámetro a la URL
+     /*    String newURL = ConstantsTransition.GET_BY_ID + "?idMeta=" + idMeta;
         // Consultar el detalle de la meta
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(
                 new JsonObjectRequest(
@@ -127,7 +150,6 @@ public class UpdateFragment extends Fragment {
                         newURL,
                         null,
                         new Response.Listener<JSONObject>() {
-
                             @Override
                             public void onResponse(JSONObject response) {
                                 // Procesa la respuesta GET_BY_ID
@@ -141,17 +163,15 @@ public class UpdateFragment extends Fragment {
                             }
                         }
                 )
-        );*/
+        ); */
     }
 
     /**
      * Procesa la respuesta de obtención obtenida desde el sevidor     *
      */
     /*private void procesarRespuestaGet(JSONObject response) {
-
         try {
             String estado = response.getString("estado");
-
             switch (estado) {
                 case "1":
                     JSONObject meta = response.getJSONObject("meta");
@@ -160,7 +180,6 @@ public class UpdateFragment extends Fragment {
                     // Setear valores de la meta
                     cargarViews(metaOriginal);
                     break;
-
                 case "2":
                     String mensaje = response.getString("mensaje");
                     // Mostrar mensaje
@@ -294,29 +313,23 @@ public class UpdateFragment extends Fragment {
      * meta en la base de datos
      */
     /*private void guardarMeta() {
-
         // Obtener valores actuales de los controles
         final String titulo = titulo_input.getText().toString();
         final String descripcion = descripcion_input.getText().toString();
         final String fecha = fecha_text.getText().toString();
         final String categoria = categoria_spinner.getSelectedItem().toString();
         final String prioridad = prioridad_spinner.getSelectedItem().toString();
-
         HashMap<String, String> map = new HashMap<>();// Mapeo previo
-
         map.put("idMeta", idMeta);
         map.put("titulo", titulo);
         map.put("descripcion", descripcion);
         map.put("fechaLim", fecha);
         map.put("categoria", categoria);
         map.put("prioridad", prioridad);
-
         // Crear nuevo objeto Json basado en el mapa
         JSONObject jobject = new JSONObject(map);
-
         // Depurando objeto Json...
         Log.d(TAG, jobject.toString());
-
         // Actualizar datos en el servidor
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(
                 new JsonObjectRequest(
@@ -335,7 +348,6 @@ public class UpdateFragment extends Fragment {
                                 Log.d(TAG, "Error Volley: " + error.getMessage());
                             }
                         }
-
                 ) {
                     @Override
                     public Map<String, String> getHeaders() {
@@ -344,14 +356,12 @@ public class UpdateFragment extends Fragment {
                         headers.put("Accept", "application/json");
                         return headers;
                     }
-
                     @Override
                     public String getBodyContentType() {
                         return "application/json; charset=utf-8" + getParamsEncoding();
                     }
                 }
         );
-
     }*/
 
     /**
@@ -360,13 +370,9 @@ public class UpdateFragment extends Fragment {
      * en la edición
      */
     /*public void eliminarMeta() {
-
         HashMap<String, String> map = new HashMap<>();// MAPEO
-
         map.put("idMeta", idMeta);// Identificador
-
         JSONObject jobject = new JSONObject(map);// Objeto Json
-
         // Eliminar datos en el servidor
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(
                 new JsonObjectRequest(
@@ -378,7 +384,6 @@ public class UpdateFragment extends Fragment {
                             public void onResponse(JSONObject response) {
                                 // Procesar la respuesta
                                 procesarRespuestaEliminar(response);
-
                             }
                         },
                         new Response.ErrorListener() {
@@ -387,7 +392,6 @@ public class UpdateFragment extends Fragment {
                                 Log.d(TAG, "Error Volley: " + error.getMessage());
                             }
                         }
-
                 ) {
                     @Override
                     public Map<String, String> getHeaders() {
@@ -396,7 +400,6 @@ public class UpdateFragment extends Fragment {
                         headers.put("Accept", "application/json");
                         return headers;
                     }
-
                     @Override
                     public String getBodyContentType() {
                         return "application/json; charset=utf-8" + getParamsEncoding();

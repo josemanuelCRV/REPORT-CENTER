@@ -5,18 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.labs.josemanuel.reportcenter.Controler.ConstantsTransition;
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Controler.JsonConstants;
 import com.labs.josemanuel.reportcenter.R;
-import com.labs.josemanuel.reportcenter.Utils.JsonConstants;
-import com.labs.josemanuel.reportcenter.tools.Constantes;
-import com.labs.josemanuel.reportcenter.tools.Infrastructure;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.DetailFragment;
 
 /**
@@ -46,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     public static void launch(Activity activity, String idNodo) {
         Intent intent = getLaunchIntent(activity, idNodo);
-        activity.startActivityForResult(intent, Constantes.CODIGO_DETALLE);
+        activity.startActivity(intent);
     }
 
     /**
@@ -74,6 +76,17 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        // oculta el progressBar
+        /*spinner = (ProgressBar)
+                v.findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.SwipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);*/
+
+
+
+
+
         // ----------------------------------------------------------
         // nuevo para Toldo
 
@@ -81,9 +94,6 @@ public class DetailActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) // Habilitar up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-       /* Intent i = getIntent();
-        int idDrawable = i.getIntExtra(EXTRA_DRAWABLE, -1);*/
 
         CollapsingToolbarLayout collapser =
                 (CollapsingToolbarLayout) findViewById(R.id.collapser);
@@ -182,7 +192,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constantes.CODIGO_ACTUALIZACION) {
+        if (requestCode == ConstantsTransition.CODIGO_ACTUALIZACION) {
             if (resultCode == RESULT_OK) {
                 DetailFragment fragment = (DetailFragment) getSupportFragmentManager().
                         findFragmentByTag("DetailFragment");

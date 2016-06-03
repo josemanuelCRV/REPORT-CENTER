@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -113,6 +115,7 @@ public class DetailFragment extends Fragment {
 
         // infla la vista con el fragment
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
+
 
         // vinculando los componentes de la vista
       //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
@@ -262,6 +265,11 @@ public class DetailFragment extends Fragment {
 
         loadImageParallax();// Cargar Imagen
 
+
+
+
+
+
         return v;
 
 
@@ -280,8 +288,6 @@ public class DetailFragment extends Fragment {
         // getField_proposal_locality --> Madrid
         // getField_proposal_postal_code --> 28023
         // getField_proposal_route_name --> Calle del Puerto de Balbarrán
-
-
         // getDefault_langcode --> 1 ¿?
         // getField_proposal_id_aviso --> ¿?
         // getChanged --> 1463892295 milisegundos
@@ -297,12 +303,8 @@ public class DetailFragment extends Fragment {
         // getField_proposal_status().getUrl() --> en/taxonomy/term/1
         // getField_proposal_status().getTarget_id --> 1, ¿?
         // getField_proposal_status().getTarget_type --> taxonomy_term
-
-
         // MAPA
         // getLoc().getLatitude() --> 40.383617
-
-
         // taxonomy/term/ ----------------------->
         // term/3 --> Urban equipament
         // temr/4 --> Cleaning

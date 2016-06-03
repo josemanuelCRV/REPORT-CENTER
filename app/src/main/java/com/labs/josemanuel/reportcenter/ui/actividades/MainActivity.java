@@ -1,20 +1,15 @@
 package com.labs.josemanuel.reportcenter.ui.actividades;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MainFragment;
@@ -23,21 +18,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private TextView emptyFeedTextView;
 
-    private Context contexto;
 
     public MainActivity() {
 
     }
-
-    // --------------------------------------
-    // nuevo para Toldo
-     /*public static Intent getLaunchIntent(Context context) {
-        Intent intent = new Intent(context, MainFragment.class);
-        intent.putExtra(EXTRA_DRAWABLE , R.drawable.bg_city2);
-        return intent;
-    }*/
-// --------------------------------------
-
 
 
     @Override
@@ -46,30 +30,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         new TrustAllSSLCerts().nuke();
 
-
-       // ----------------------------------------------------------
-        // nuevo para Toldo
-/*
-        setToolbar();// Añadir action bar
-        if (getSupportActionBar() != null) // Habilitar up button
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        Intent i = getIntent();
-        int idDrawable = i.getIntExtra(EXTRA_DRAWABLE, -1);
-
-        CollapsingToolbarLayout collapser =
-                (CollapsingToolbarLayout) findViewById(R.id.collapser);
-
-*/
-/*
-        collapser.setTitle(); // Cambiar título
-*//*
-
-
-
-        loadImageParallax(idDrawable);// Cargar Imagen
-*/
 
         // ------------------------------------------------------
 
@@ -87,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
 
 
        /* ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -207,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 
 }
