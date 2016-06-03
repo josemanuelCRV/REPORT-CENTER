@@ -1,6 +1,8 @@
 package com.labs.josemanuel.reportcenter.Model;
 
 /**
+ * Clase que representa la infromacion general de una sola imagen existente en una propuesta.
+ * 
  * Created by bufigol on 14/05/16.
  */
 public class Imagen {
@@ -11,7 +13,7 @@ public class Imagen {
     private String height;
     private String target_type;
     private String target_uuid;
-    private String url;
+    private String url; // dirección URL desde donde se tiene que rescatar la imagen para poder ser mostrada.
 
     public Imagen(String target_id, String alt, String title, String width, String height, String target_type, String target_uuid, String url) {
         this.target_id = target_id;
