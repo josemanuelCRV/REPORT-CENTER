@@ -1,6 +1,8 @@
 package com.labs.josemanuel.reportcenter.Model;
 
 /**
+ * Clase que representa el cuerpo de una propuesta. En esta clase se guarda 
+ * el fromato del texto, y el propio texto vinculado a una propuesta.
  * Created by bufigol on 14/05/16.
  */
 public class Body {
@@ -40,7 +42,6 @@ public class Body {
     }
 
     public void setSummary(boolean summary) {
-        ;
         this.summary = String.valueOf(summary);
     }
 
