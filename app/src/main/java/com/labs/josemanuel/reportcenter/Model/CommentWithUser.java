@@ -18,7 +18,7 @@ public class CommentWithUser extends Comment {
                                                          String changed_attributes, String value_comment_body_attributes,
                                                          String format_comment_body_attributes, String name_user,
                                                          String pic_user) throws NullPointerException{
-        CommentWithUser comment =  new CommentWithUser("-1","-1","-1","-1","-1","-1","-1","-1");
+        CommentWithUser comment =  new CommentWithUser("-1","-1","-1","-1","-1","-1","chuck norris","http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1MjQ5OTc4ODk1.jpg");
 
         if(cid_attributes!=null)
             comment.setCid_attributes(cid_attributes);

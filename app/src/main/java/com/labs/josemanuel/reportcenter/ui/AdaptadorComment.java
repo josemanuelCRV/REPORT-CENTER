@@ -77,8 +77,12 @@ public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         CommentWithUser comment = mComments[position];
 
-        //Hace falta realiar una peticion get con los datos del usuario del comentario
-        Glide.with(contexto).load(comment.getPic_user()).into(holder.viewImagenUser);
+        //Los recursos de una aplicación Android son integer de longitud 10, por tanto para cargar la imagen de un randonHero, guardada en memoria, es necesaria
+        //hacer la comprobación, para realizar el casteo correspondiente
+        if(comment.getPic_user().length()==10)
+            Glide.with(contexto).load(Integer.parseInt(comment.getPic_user())).into(holder.viewImagenUser);
+        else
+            Glide.with(contexto).load(comment.getPic_user()).into(holder.viewImagenUser);
 
         holder.viewName.setText(comment.getName_user());
         holder.viewTimestamp.setText(PropuestaHandler.getTimeFromToday(comment.getCreated_attributes()));
