@@ -1,5 +1,8 @@
 package com.labs.josemanuel.reportcenter.Controler;
-
+/*
+ * Importacion de todas las clases que representan cada
+ * parte de una sola propuesta.
+ */
 import com.labs.josemanuel.reportcenter.Model.Body;
 import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
@@ -13,20 +16,31 @@ import com.labs.josemanuel.reportcenter.Model.Type;
 import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.Model.Usuario;
 
+/*
+ * Importaciones necesartias dada la finalidad de esta clase.
+ */
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * Clase que manipula los objetos JSON obtenidos desde una peticion al servidor,
+ * la cual representan las propuestas existentes en el momento de hacer la llamada.
  * Created by bufigol on 15/05/16.
  */
 public class JSONHandler {
     static JSONArray arrayJSON;
     static JSONObject container;
-
+/**
+ * Metodo estatico que tiene como finalidad hacer el tratamiento uno por uno de un JSONArray 
+ * en el cual estan almacenadas al menos una propuesta
+ */
     public static Propuesta[] generatePropuestaArray(JSONArray jsoninput) {
         try {
-            Propuesta[] output = new Propuesta[jsoninput.length()];
+            Propuesta[] output = new Propuesta[jsoninput.length()]; //inicializacion de la salida del metodo.
+            /*
+             *
+             */
             for (int i = 0; i < output.length; i++) {
                 output[i] = generateCompletePropuesta(jsoninput.getJSONObject(i));
                 //PropuestaHandler.parseDate(output[i].getCreated());
