@@ -3,6 +3,11 @@ package com.labs.josemanuel.reportcenter.Model;
 import java.util.Arrays;
 
 /**
+ * Clase que une todas las partes de una propuesta que la aplicación recibe de la llamada al servidor.
+ * Los atributos de esta clase se diferencian en que pueden ser de dos tipos. Estan los que son Strings
+ * y los que estan referenciados a otra clase dentro del Modelo. Los que son de tipo String representan solo un valor,
+ * mientras lo que estan referenciados a otra clase del modelo estan compuestos por mas de un atributo.
+ * 
  * Created by bufigol on 14/05/16.
  */
 public class Propuesta {
@@ -11,10 +16,10 @@ public class Propuesta {
     private String nid;
     private String uuid;
     private String vid;
-    private String langcode;
-    private Type type;
-    private String title;
-    private Usuario uid;
+    private String langcode; // Codigo de lenguaje de la propuesta
+    private Type type;       
+    private String title;    // Titulo de la propuesta
+    private Usuario uid;     // Usuario que ha creado la propuesta.
     private String status;
     private String created;
     private String changed;
@@ -28,11 +33,11 @@ public class Propuesta {
     private String path;
     private String content_translation_source;
     private String content_translation_outdated;
-    private Body body;
+    private Body body;    // El cuerpo de la propuesta.
     private String field_proposal_aal1;
     private String field_proposal_aal2;
     private Categoria field_proposal_category;
-    private Comentario[] com;
+    private Comentario[] com;  //Lista de los comentarios
     private String field_proposal_country;
     private String field_proposal_formatted_address;
     private String field_proposal_id_aviso;
