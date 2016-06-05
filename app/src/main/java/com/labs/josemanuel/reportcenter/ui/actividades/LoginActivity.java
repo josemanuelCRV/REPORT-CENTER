@@ -52,6 +52,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -440,12 +442,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
             Log.v("doInBackground", "solicitando token...");
             try {
-                String token = params[0].get();
+                String token = params[0].get(10000, TimeUnit.MILLISECONDS);
                 Credentials.setX_CSRF_Token(token);
                 return token;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
                 e.printStackTrace();
             }
             return null;

@@ -5,11 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.android.volley.toolbox.RequestFuture;
+import com.bumptech.glide.Glide;
+import com.labs.josemanuel.reportcenter.Controler.ConstantsTransition;
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
+import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Controler.JsonConstants;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
@@ -34,7 +44,15 @@ public class DetailActivity extends AppCompatActivity {
      * Instancia global de la meta a detallar
      */
     private String idNodo;
-    DetailFragment mDetailFragment;
+    private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
+    DetailFragment mDetailFragment= null;
+
+
+    private ImageView viewImageParalax;
+
+    public static final String EXTRA_DRAWABLE = "com.labs.josemanuel.reportcenter.drawable";
+
 
     /**
      * Inicia una nueva instancia de la actividad
@@ -71,6 +89,41 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        // oculta el progressBar
+        /*spinner = (ProgressBar)
+                v.findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.SwipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);*/
+
+
+
+
+
+        // ----------------------------------------------------------
+        // nuevo para Toldo
+
+       setToolbar();// Añadir action bar
+        if (getSupportActionBar() != null) // Habilitar up button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        CollapsingToolbarLayout collapser =
+                (CollapsingToolbarLayout) findViewById(R.id.collapser);
+
+/*
+        collapser.setTitle(); // Cambiar título
+*/
+        // viewImageParalax = (ImageView) findViewById(R.id.image_paralax);
+
+
+       // loadImageParallax();// Cargar Imagen
+
+        // ------------------------------------------------------
+
+
+        // Antiguo ------------------------------------------
 
         //Comienzan las tareas asíncronas a recoger información del servidor
         //Recogida usuario propuesta
@@ -143,8 +196,7 @@ public class DetailActivity extends AppCompatActivity {
             dialogBuilder.alertUserAboutError();
         }
 
-
-
+        // Antiguo ------------------------------------------
 
 
         // Retener instancia
@@ -156,8 +208,46 @@ public class DetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, DetailFragment.createInstance(idNodo), "DetailFragment")
                     .commit();
+
+            // mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
         }
+
     }
+
+
+    // METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
+
+    private void setToolbar() {
+        // Añadir la Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    /**
+     * Se carga una imagen aleatoria para el detalle
+     */
+    /*public void loadImageParallax() {
+        ImageView image = (ImageView) findViewById(R.id.image_paralax);
+
+        DetailFragment mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
+
+
+        // Usando Glide para la carga asíncrona
+        Glide.with(mDetailFragment.getContext())
+                .load(PropSeleecionada.getImage()[0].getUrl())
+                .centerCrop()
+                .into(image);
+    }*/
+
+    // Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(image);
+    // Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
+
+    // FIN METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
+
+
+
+
+    // FINN onCreate
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -172,5 +262,21 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ConstantsTransition.CODIGO_ACTUALIZACION) {
+            if (resultCode == RESULT_OK) {
+                DetailFragment fragment = (DetailFragment) getSupportFragmentManager().
+                        findFragmentByTag("DetailFragment");
+                fragment.cargarDatos();
 
+                setResult(RESULT_OK); // Propagar código para actualizar
+            } else if (resultCode == 203) {
+                setResult(203);
+                finish();
+            } else {
+                setResult(RESULT_CANCELED);
+            }
+        }
+    }
 }

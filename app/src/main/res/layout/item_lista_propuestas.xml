@@ -70,7 +70,7 @@
             android:layout_below="@+id/titulo"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_favorite_red"
-            card_view:backgroundTint="@color/background"
+            card_view:backgroundTint="@color/colorPrimary_light"
             card_view:fabSize="mini"
             fab:fab_colorNormal="@color/colorNormalMiniClose"
             fab:fab_colorPressed="@color/colorPressedMiniClose"

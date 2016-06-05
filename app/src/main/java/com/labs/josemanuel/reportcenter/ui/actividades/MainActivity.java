@@ -26,25 +26,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private TextView emptyFeedTextView;
 
-    private Context contexto;
-
-    // private static final String EXTRA_DRAWABLE = "com.labs.josemanuel.reportcenter.drawable";
-
-
 
     public MainActivity() {
 
     }
-
-    // --------------------------------------
-    // nuevo para Toldo
-   /* public static Intent getLaunchIntent(Context context) {
-        Intent intent = new Intent(context, MainFragment.class);
-        intent.putExtra(EXTRA_DRAWABLE , R.drawable.bg_city2);
-        return intent;
-    }*/
-// --------------------------------------
-
 
 
     @Override
@@ -61,24 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(MainActivity.this, cadena, Toast.LENGTH_LONG).show();
 
 
-        // ----------------------------------------------------------
-        // nuevo para Toldo
-    /*    setToolbar();// Añadir action bar
-        if (getSupportActionBar() != null) // Habilitar up button
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        Intent i = getIntent();
-        int idDrawable = i.getIntExtra(EXTRA_DRAWABLE, -1);
-
-        CollapsingToolbarLayout collapser =
-                (CollapsingToolbarLayout) findViewById(R.id.collapser);*/
-
-//        collapser.setTitle(getPackageName().toString()); // Cambiar título
-
-
-//        loadImageParallax(idDrawable);// Cargar Imagen
-//
         // ------------------------------------------------------
 
         // Creación del Toolbar y el NavigationDrawer
@@ -95,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
 
 
        /* ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -116,41 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
 
-    private void setToolbar() {
-        // Añadir la Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
-
-    /**
-     * Se carga una imagen aleatoria para el detalle
-     */
-   /* private void loadImageParallax(int id) {
-        ImageView image = (ImageView) findViewById(R.id.image_paralax);
-        // Usando Glide para la carga asíncrona
-        Glide.with(this)
-                .load(id)
-                .centerCrop()
-                .into(image);
-    }*/
-
-    // Glide.with(contexto).load(R.drawable.bg_city2).centerCrop().into(holder.viewFoto);
-
-    // FIN METODOS DEL TOOLBAR NUEVO ----------------------------------------------------
-
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constantes.CODIGO_DETALLE || requestCode == 3) {
-            if (resultCode == RESULT_OK || resultCode == 203) {
-                MainFragment fragment = (MainFragment) getSupportFragmentManager().
-                        findFragmentByTag("MainFragment");
-                fragment.cargarAdaptador();
-            }
-        }
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -211,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 
 }

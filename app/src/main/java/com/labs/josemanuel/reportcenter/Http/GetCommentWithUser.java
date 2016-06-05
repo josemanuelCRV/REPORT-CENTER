@@ -8,7 +8,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.RequestFuture;
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Model.CommentWithUser;
+import com.labs.josemanuel.reportcenter.Model.RandomHero;
 import com.labs.josemanuel.reportcenter.Model.User;
+import com.labs.josemanuel.reportcenter.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,18 +32,17 @@ public class GetCommentWithUser extends AsyncTask<RequestFuture<JSONObject>, Voi
         try {
             CommentWithUser commentWithUser = JSONHandler.generateCommentWithUser(params[0].get());
             String mUrl= String.format("http://stag.hackityapp.com/api/user/%s?_format=api_json",commentWithUser.getId_data_uid_relationships());
-            User mUser;
-            ClienteHttp mClienteHttp = new ClienteHttp(mUrl,mContext);
+            User mUser;            ClienteHttp mClienteHttp = new ClienteHttp(mUrl,mContext);
             try {
                 mUser = mClienteHttp.getUsuario().get();
                 commentWithUser.setName_user(mUser.getName());
                 commentWithUser.setPic_user(mUser.getUser_picture());
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
-                commentWithUser.setPic_user("http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1MjQ5OTc4ODk1.jpg");
-                commentWithUser.setName_user("chuck norris");
             }
-            commentWithUser.setPic_user("http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1MjQ5OTc4ODk1.jpg");
+            RandomHero randomHero = RandomHero.getHero();
+            commentWithUser.setName_user(randomHero.getName());
+            commentWithUser.setPic_user(String.valueOf(randomHero.getResourceId()));
 
             Log.v("desdeGetCommentWith", commentWithUser.getName_user());
             Log.v("desdeGetCommentWith", commentWithUser.getPic_user());

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +66,10 @@ public class DetailFragment extends Fragment {
     private String extra;
     private ScrollView panoflasquesomos;
 
+    private ImageView viewImageParalax;
+
+
+
     // inicializadas en el constructor de clase.
     private Double lat;
     private Double lon;
@@ -83,6 +89,9 @@ public class DetailFragment extends Fragment {
     private SupportMapFragment mSupportMapFragment;
     // Propuesta seleccionada
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
+
+
 
     // CONSTRUCTOR DE CLASE
     // inicializadas las variables que recogen la localización
@@ -109,9 +118,10 @@ public class DetailFragment extends Fragment {
         // infla la vista con el fragment
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
 
+
         // vinculando los componentes de la vista
-        bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
-        viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
+      //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
+      //  viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
         viewTituloDetalle = (TextView) v.findViewById(R.id.titulo);
         viewDescripcionDetalle = (TextView) v.findViewById(R.id.descripcion);
         viewFechaDetalle = (TextView) v.findViewById(R.id.fecha);
@@ -121,32 +131,36 @@ public class DetailFragment extends Fragment {
         viewFlagState = (ImageView) v.findViewById(R.id.flag_category); // Flag / Flag_Check_Done
 
         editButton = (ImageButton) v.findViewById(R.id.fab); // boton para Editar Propuesta
-        btnVolver = (ImageButton) v.findViewById(R.id.btnBack); // sin uso ahora el Fab
+//        btnVolver = (ImageButton) v.findViewById(R.id.btnBack); // sin uso ahora el Fab
 
         // Scroll general que contiene los Datos Detalle Propuesta + Contenedor Comentarios
         panoflasquesomos = (ScrollView) v.findViewById(R.id.panoflasquesomos);
 
 
+        viewImageParalax = (ImageView) v.findViewById(R.id.image_paralax);
+
+
+
         // OBTENER EL MAP-FRAGMENT y colocarlo en el frame del fragment_detail
 
-       /* mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
+        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
         if (mSupportMapFragment == null) {
             FragmentManager fragmentManager = getFragmentManager();
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mSupportMapFragment = SupportMapFragment.newInstance();
             fragmentTransaction.replace(R.id.mapwhere, mSupportMapFragment).commit();
-        }*/
+        }
 
-        /*if (mSupportMapFragment != null) {
+        if (mSupportMapFragment != null) {
             mSupportMapFragment.getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     if (googleMap != null) {
 
                         googleMap.getUiSettings().setAllGesturesEnabled(true);
-                        *//*
-                        * En el constructor de la clase declaramos la variables (lat,lon)
-                        *//*
+                        /*
+                         En el constructor de la clase declaramos la variables (lat,lon)
+                        */
 
                         // -> marker_latlng recoge la latitud y longitud en formato double//
                         LatLng marker_latlng = new LatLng(lat, lon);
@@ -162,7 +176,7 @@ public class DetailFragment extends Fragment {
                 }
             });
 
-        }*/
+        }
 
 
         // Contenedor Comentarios que muestra las Cards
@@ -208,7 +222,16 @@ public class DetailFragment extends Fragment {
         // Cargar datos desde el web service
         cargarDatos();
 
+
+        loadImageParallax();// Cargar Imagen
+
+
+
+
+
+
         return v;
+
 
 
     } // fin onCreate
@@ -225,8 +248,6 @@ public class DetailFragment extends Fragment {
         // getField_proposal_locality --> Madrid
         // getField_proposal_postal_code --> 28023
         // getField_proposal_route_name --> Calle del Puerto de Balbarrán
-
-
         // getDefault_langcode --> 1 ¿?
         // getField_proposal_id_aviso --> ¿?
         // getChanged --> 1463892295 milisegundos
@@ -242,12 +263,8 @@ public class DetailFragment extends Fragment {
         // getField_proposal_status().getUrl() --> en/taxonomy/term/1
         // getField_proposal_status().getTarget_id --> 1, ¿?
         // getField_proposal_status().getTarget_type --> taxonomy_term
-
-
         // MAPA
         // getLoc().getLatitude() --> 40.383617
-
-
         // taxonomy/term/ ----------------------->
         // term/3 --> Urban equipament
         // temr/4 --> Cleaning
@@ -279,7 +296,7 @@ public class DetailFragment extends Fragment {
             viewFlagState.setImageResource(R.drawable.bookmark_check);
         }
         // foto
-        Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(viewCabeceraDetalle);
+//        Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(viewCabeceraDetalle);
 
 
     }
@@ -292,5 +309,22 @@ public class DetailFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
 
     }
+
+    /**
+     * Se carga una imagen aleatoria para el detalle
+     */
+    public void loadImageParallax() {
+
+        // DetailFragment mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
+       // ImageView image = (ImageView) findViewById(R.id.image_paralax);
+
+        // Usando Glide para la carga asíncrona
+        Glide.with(this)
+                .load(PropSeleecionada.getImage()[0].getUrl())
+                .centerCrop()
+                .into(viewImageParalax);
+    }
+
+
 
 }
