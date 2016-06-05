@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new TrustAllSSLCerts().nuke();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
+        //
         Credentials.setAuthorization(preferences.getString("Authorization","-1"));
         Credentials.setX_CSRF_Token(preferences.getString("X_CSRF_Token","-1"));
         String cadena = Credentials.getAuthorization() + Credentials.getX_CSRF_Token();

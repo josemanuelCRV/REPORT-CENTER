@@ -439,14 +439,8 @@ public class JSONHandler {
 
     public static CommentWithUser generateCommentWithUser(JSONObject jsoninput) throws JSONException {
         JSONObject data = jsoninput.getJSONObject("data");
-        String id = data.getString("id");
-        String type = data.getString("type");
         JSONObject attributes = data.getJSONObject("attributes");
         String cid = attributes.getString("cid");
-        String uuid = attributes.getString("uuid");
-        String langcode = attributes.getString("langcode");
-        String name = attributes.getString("name");
-        String homepage = attributes.getString("homepage");
         String created = attributes.getString("created");
         String changed = attributes.getString("changed");
         JSONObject comment_body = attributes.getJSONObject("comment_body");
