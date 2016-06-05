@@ -445,21 +445,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String token = params[0].get(10000, TimeUnit.MILLISECONDS);
                 Credentials.setX_CSRF_Token(token);
                 return token;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (TimeoutException e) {
+            } catch (InterruptedException | ExecutionException| TimeoutException e) {
                 e.printStackTrace();
             }
-            return null;
+            return "El proveedor no devuelve un token";
 
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            if (s != null) {
-                //Credentials.setX_CSRF_Token(s);
+        protected void onPostExecute(String token) {
+            if (token != null) {
                 kickOffActivity(true);
             } else {
                 runOnUiThread(new Runnable() {
@@ -469,7 +464,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 });
             }
-            super.onPostExecute(s);
+            super.onPostExecute(token);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.labs.josemanuel.reportcenter.Controler;
 
+import android.util.Log;
+
 import com.labs.josemanuel.reportcenter.Model.Body;
 import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Comentario;
@@ -456,4 +458,41 @@ public class JSONHandler {
         //null,null son los valores provenientes del usuario, name y pic
         return CommentWithUser.commentWithUserFactory(cid,id_data_uid,created,changed,value,format,null,null);
     }
+
+    public static void setJsonArrayNodeByName(JSONObject input,String nodeKey) throws JSONException {
+        input.put(nodeKey,new JSONArray().put(new JSONObject()));
+    }
+
+    public static void setJsonObjectNode(JSONObject input,String nodeKey) throws JSONException {
+        input.put(nodeKey,new JSONObject());
+    }
+    public static void setValueJsonObject(JSONObject input,String jsonObjectName,String key,String value){
+        try {
+            input.getJSONObject(jsonObjectName).put(key,value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void setValueJsonObject(JSONObject input,String jsonObjectName,String key,JSONObject value){
+        try {
+            input.getJSONObject(jsonObjectName).put(key,value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void setValueJsonArray(JSONObject input,String jsonArrayName,String key,String value){
+        try {
+            JSONArray jsonArrayToBeSet=input.getJSONArray(jsonArrayName);
+            JSONObject jsonObjectWithinJSONArray= jsonArrayToBeSet.getJSONObject(0);
+            jsonObjectWithinJSONArray.put(key,value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

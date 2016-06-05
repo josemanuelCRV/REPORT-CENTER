@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.R;
 
 import org.json.JSONException;
@@ -57,6 +58,7 @@ public class InsertFragment extends Fragment {
      */
     com.melnykov.fab.FloatingActionButton fabCamera;
 
+    ClienteHttp mClienteHttp= new ClienteHttp("bla",getContext());
 
     private final String ruta_fotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/misfotos/";
     private File file = new File(ruta_fotos);
@@ -127,6 +129,7 @@ public class InsertFragment extends Fragment {
                 }
         );
 
+        mClienteHttp.postProposal(mClienteHttp.generateProposal());
         return v;
     }
 
@@ -315,5 +318,8 @@ public class InsertFragment extends Fragment {
                                 getString(R.string.dialog_discard_msg));
         dialogo.show(getFragmentManager(), "ConfirmDialog");
     }
+
+
+
 
 }
