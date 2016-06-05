@@ -1,6 +1,7 @@
 package com.labs.josemanuel.reportcenter.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Sebastian on 05/06/2016.
@@ -80,7 +81,7 @@ public class Taxnonomia {
     public void setLinks(String links) {
         this.links = links;
     }
-    public static ArrayList<Taxnonomia> getAllTaxonomias(){
+    public static ArrayList<Taxnonomia> getAllTaxonomiasArryaList(){
         ArrayList<Taxnonomia> output = new ArrayList<Taxnonomia>();
         output.add(getCleaning());
         output.add(getGreenAreas());
@@ -88,6 +89,17 @@ public class Taxnonomia {
         output.add(getNeighborhoodLife());
         output.add(getOther());
         output.add(getUrbanEquipment());
+        return output;
+    }
+    public static HashMap<Integer,Taxnonomia> getAllTaxonomiasHashMap(){
+        HashMap<Integer,Taxnonomia> output = new HashMap<>();
+        output.put(getCleaning().getTid(),getCleaning());
+        output.put(getGreenAreas().getTid(),getGreenAreas());
+        output.put(getMobility().getTid(),getMobility());
+        output.put(getNeighborhoodLife().getTid(),getNeighborhoodLife());
+        output.put(getOther().getTid(),getOther());
+        output.put(getUrbanEquipment().getTid(),getUrbanEquipment());
+
         return output;
     }
     public static Taxnonomia getCleaning(){
@@ -104,16 +116,25 @@ public class Taxnonomia {
         return GreenAreas;
     }
     public static Taxnonomia getMobility(){
-        return null;
+        String[] relationshipsLinks ={"http://stag.hackityapp.com/en/api/category/5/relationships/vid?_format=api_json","http://stag.hackityapp.com/en/api/category/5/vid?_format=api_json"};
+        Taxnonomia Mobility = new Taxnonomia(5,"318ceee3-7894-4b82-a377-d9d1a7e225d4","en","Mobility",DATA,relationshipsLinks,"http://stag.hackityapp.com/en/api/category/5?_format=api_json" );
+        return Mobility;
     }
+
     public static Taxnonomia getNeighborhoodLife(){
-        return null;
+        String[] relationshipsLinks ={"http://stag.hackityapp.com/en/api/category/7/relationships/vid?_format=api_json","http://stag.hackityapp.com/en/api/category/7/vid?_format=api_json"};
+        Taxnonomia NeighborhoodLife = new Taxnonomia(7,"6fd17cdd-9b46-48b3-ae2e-9185e4b807ff","en","Neighborhood life",DATA,relationshipsLinks,"http://stag.hackityapp.com/en/api/category/7?_format=api_json");
+        return NeighborhoodLife;
     }
     public static Taxnonomia getOther(){
-        return null;
+        //Integer tid, String uuid, String langcode, String name, String[] relationshipsData, String[] relationshipsLinks, String links
+        String[] relationshipsLinks ={"http://stag.hackityapp.com/en/api/category/8/relationships/vid?_format=api_json","http://stag.hackityapp.com/en/api/category/8/vid?_format=api_json"};
+        Taxnonomia Other = new Taxnonomia(8,"87579216-04df-4b15-b9f4-facc4a0bb34b","en","Other",DATA,relationshipsLinks,"http://stag.hackityapp.com/en/api/category/8?_format=api_json");
+        return Other;
     }
     public static Taxnonomia getUrbanEquipment(){
+        String[] relationshipsLinks = {"http://stag.hackityapp.com/en/api/category/3/relationships/vid?_format=api_json","http://stag.hackityapp.com/en/api/category/3/vid?_format=api_json"};
+        Taxnonomia UrbanEquipment = new Taxnonomia(3,"239c0953-e898-4ecc-9d23-9414b06bb3a3","en","Urban equipment",DATA,relationshipsLinks,"http://stag.hackityapp.com/en/api/category/3?_format=api_json");
         return null;
     }
 }
-
