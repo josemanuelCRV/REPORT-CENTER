@@ -162,7 +162,7 @@ public class JSONHandler {
 
 
 
-    private static String getStringFromNode(JSONObject jsoninput, String nodeName) {
+    public static String getStringFromNode(JSONObject jsoninput, String nodeName) {
 
         try {
             arrayJSON = jsoninput.getJSONArray(nodeName);

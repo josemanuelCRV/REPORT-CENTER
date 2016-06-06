@@ -31,7 +31,7 @@ public class PropuestasTask extends AsyncTask<RequestFuture<JSONArray>, Void, Pr
                 //Referenciamos el error como un Volley Error (Casteo)
                 VolleyError volleyError = (VolleyError)e.getCause();
                 //Mostramos el error por el log
-                Log.v("ErrorfromPropuestasTask",String.valueOf(volleyError.networkResponse.statusCode));
+                //Log.v("ErrorfromPropuestasTask",String.valueOf(volleyError.networkResponse.statusCode));
                 //Devolvemos un comentario con todos sus campos a -1
                 return null;
             }else{

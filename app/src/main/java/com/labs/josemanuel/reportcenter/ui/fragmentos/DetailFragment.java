@@ -319,6 +319,7 @@ public class DetailFragment extends Fragment {
        // ImageView image = (ImageView) findViewById(R.id.image_paralax);
 
         // Usando Glide para la carga asíncrona
+        if(PropSeleecionada.getImage()!=null)
         Glide.with(this)
                 .load(PropSeleecionada.getImage()[0].getUrl())
                 .centerCrop()

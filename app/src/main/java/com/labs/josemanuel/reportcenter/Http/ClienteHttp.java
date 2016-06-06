@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -20,6 +21,9 @@ import com.labs.josemanuel.reportcenter.Model.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Miguel on 5/22/2016.
@@ -82,7 +86,7 @@ public class ClienteHttp {
 
         return new CommentWithUserTask(mContext).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,future); //doInBackground, onPostExecute
     }
-    public AsyncTask<RequestFuture<JSONObject>, Void, Integer> postProposal(JSONObject postBody){
+    public AsyncTask<RequestFuture<JSONObject>, Void, String> postProposal(JSONObject postBody){
         String TAG= "postProposal";
         RequestFuture<JSONObject> future= RequestFuture.newFuture();
         mUrl= "http://stag.hackityapp.com/entity/node?_format=hal_json";

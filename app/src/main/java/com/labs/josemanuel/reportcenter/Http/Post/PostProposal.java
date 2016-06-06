@@ -18,20 +18,19 @@ import java.util.concurrent.TimeoutException;
 /**
  * Created by Miguel on 6/5/2016.
  */
-public class PostProposal extends AsyncTask<RequestFuture<JSONObject>, Void, Integer> {
+public class PostProposal extends AsyncTask<RequestFuture<JSONObject>, Void, String> {
     Context mContext;
     public PostProposal(Context context){
         mContext=context;
     }
 
     @Override
-    protected Integer doInBackground(RequestFuture<JSONObject>... params) {
+    protected String doInBackground(RequestFuture<JSONObject>... params) {
         Log.v("Flag","PostProposal");
 
         try {
-            JSONObject respuesta= params[0].get(10000, TimeUnit.MILLISECONDS);
-            return Integer.parseInt(respuesta.getString("statusCode"));
-        } catch (InterruptedException | TimeoutException |ExecutionException | JSONException e) {
+            return JSONHandler.getStringFromNode(params[0].get(10000,TimeUnit.MILLISECONDS),"nid");
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
             if( e instanceof ExecutionException){
                 //Referenciamos el error como un Volley Error
@@ -39,19 +38,19 @@ public class PostProposal extends AsyncTask<RequestFuture<JSONObject>, Void, Int
                 //Mostramos el error por el log
                 Log.v("ErrorfromPropuestasTask",String.valueOf(volleyError.networkResponse.statusCode));
                 //Se devuelve el código de estado de la petición
-                return volleyError.networkResponse.statusCode;
+                return String.valueOf(volleyError.networkResponse.statusCode);
             }else{
                 //Si el error no lo ha producido algún mecanismo de VolleyError, dispara la causa por la que se ha producido
                 Log.v("OtherError",e.getCause().getMessage());
                 //Devuelve -1 como señal de que es una JSONException
-                return -1;
+                return String.valueOf(-1);
             }
         }
     }
 
     @Override
-    protected void onPostExecute(Integer newPostId) {
-        Log.v("newPostId", newPostId.toString());
+    protected void onPostExecute(String newPostId) {
+        Log.v("newPostId", newPostId);
         super.onPostExecute(newPostId);
     }
 }

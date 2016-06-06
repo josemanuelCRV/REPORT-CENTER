@@ -1,5 +1,7 @@
 package com.labs.josemanuel.reportcenter.Http;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -27,13 +29,25 @@ public class JsonPostObjectRequestAuthorized extends JsonObjectRequest {
         Map<String,String> params= new HashMap<>();
         params.put("Authorization", Credentials.getAuthorization());
         params.put("X-CSRF-Token",Credentials.getX_CSRF_Token());
-        params.put("Content-Type", "application/hal+json");
+        return params;
+    }
+
+    @Override
+    public String getBodyContentType() {
+        return "application/hal+json";
+    }
+
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
+        HashMap <String,String> params= new HashMap<>();
+        params.put("_format","hal_json");
         return params;
     }
 
     @Override
     public byte[] getBody() {
         try {
+            Log.v("JsonObject",mProposalData.toString());
             return mProposalData.toString().getBytes("utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
