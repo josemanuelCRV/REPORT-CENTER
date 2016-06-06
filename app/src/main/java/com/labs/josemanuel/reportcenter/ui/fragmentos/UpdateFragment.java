@@ -91,7 +91,7 @@ public class UpdateFragment extends Fragment {
         descripcion_input = (EditText) v.findViewById(R.id.descripcion_input);
         fecha_text = (TextView) v.findViewById(R.id.fecha_ejemplo_text);
         categoria_spinner = (Spinner) v.findViewById(R.id.categoria_spinner);
-        prioridad_spinner = (Spinner) v.findViewById(R.id.prioridad_spinner);
+       // prioridad_spinner = (Spinner) v.findViewById(R.id.prioridad_spinner);
 
         fecha_text.setOnClickListener(
                 new View.OnClickListener() {

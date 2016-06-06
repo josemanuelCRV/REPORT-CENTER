@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.actividades.MainActivity">
+    tools:context=".ui.actividades.MainActivity"
+    tools:openDrawer="start">
 
 
     <android.support.design.widget.NavigationView
@@ -17,8 +18,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
-
+        app:menu="@menu/activity_main_drawer"
+        android:contextClickable="false"
+        android:clickable="true" />
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,12 +28,10 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".ui.actividades.MainActivity"
         android:layout_below="@+id/include"
-        android:background="@color/colorPrimary_light" />
-
-
+        android:background="@color/colorPrimary_light"
+        android:orientation="vertical"
+        tools:context=".ui.actividades.MainActivity" />
 
 
     <!-- <RelativeLayout
@@ -60,8 +60,6 @@
      </RelativeLayout>
  -->
 </android.support.v4.widget.DrawerLayout>
-
-
 
 
     <!--

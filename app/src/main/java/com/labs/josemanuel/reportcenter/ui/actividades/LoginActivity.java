@@ -148,6 +148,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Floatting button
         // mfabbutton = findViewById(R.id.fab);
+
         // Floatting button
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         // atributos establecidos para el efecto

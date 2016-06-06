@@ -205,11 +205,12 @@ public class MainFragment extends Fragment {
         lista.setVisibility(View.VISIBLE);
         adapter = new AdaptadorPropuestas(MainFragment.this.getContext(), feed);
         lista.setAdapter(adapter);
-        // mSwipeRefreshLayout.setRefreshing(false);  // parar animación Swipe
+        mSwipeRefreshLayout.setRefreshing(false);  // parar animación Swipe
 
     }
 
 
+    // Listener de SwipeRefresh con cambio de color durante el progreso
     protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {

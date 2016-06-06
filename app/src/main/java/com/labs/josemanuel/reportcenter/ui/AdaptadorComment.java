@@ -6,20 +6,23 @@ package com.labs.josemanuel.reportcenter.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
-import com.labs.josemanuel.reportcenter.Model.Comment;
-import com.labs.josemanuel.reportcenter.Model.Comment;
 import com.labs.josemanuel.reportcenter.Model.CommentWithUser;
+import com.labs.josemanuel.reportcenter.Model.RandomHero;
 import com.labs.josemanuel.reportcenter.R;
 
 /*
@@ -31,7 +34,7 @@ public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.View
 
 
     //Constructor de la clase
-    public AdaptadorComment(Context contexto,CommentWithUser[] comments) {
+    public AdaptadorComment(Context contexto, CommentWithUser[] comments) {
         this.contexto = contexto;
         this.mComments = comments;
 
@@ -47,16 +50,32 @@ public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.View
         public TextView viewCid;
 
 
-
         @TargetApi(Build.VERSION_CODES.M)
         public ViewHolder(View v) {
             super(v);
-            viewImagenUser=(ImageView)v.findViewById(R.id.fotoGravatar);
+            viewImagenUser = (ImageView) v.findViewById(R.id.fotoGravatar);
             viewName = (TextView) v.findViewById(R.id.name);
             viewCid = (TextView) v.findViewById(R.id.cid);
             viewTimestamp = (TextView) v.findViewById(R.id.timestamp);
             viewBodyComment = (TextView) v.findViewById(R.id.body);
 
+
+
+
+            //extraemos el drawable en un bitmap
+            /*Drawable originalDrawable = v.getResources().getDrawable(RandomHero.getHero().getResourceId());*/
+            Drawable originalDrawable = v.getResources().getDrawable(R.drawable.photo_profile);
+            Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+            //creamos el drawable redondeado
+            RoundedBitmapDrawable roundedDrawable =
+                    RoundedBitmapDrawableFactory.create(v.getResources(), originalBitmap);
+
+            //asignamos el CornerRadius
+            roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+            // seteamos el contenido mas abajo
+            viewImagenUser.setImageDrawable(roundedDrawable);
 
         }
 
@@ -77,12 +96,19 @@ public class AdaptadorComment extends RecyclerView.Adapter<AdaptadorComment.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         CommentWithUser comment = mComments[position];
 
-        //Los recursos de una aplicación Android son integer de longitud 10, por tanto para cargar la imagen de un randonHero, guardada en memoria, es necesaria
+
+
+       /* //Los recursos de una aplicación Android son integer de longitud 10, por tanto para cargar la imagen de un randonHero, guardada en memoria, es necesaria
         //hacer la comprobación, para realizar el casteo correspondiente
         if(comment.getPic_user().length()==10)
-            Glide.with(contexto).load(Integer.parseInt(comment.getPic_user())).into(holder.viewImagenUser);
+           Glide.with(contexto).load(Integer.parseInt(comment.getPic_user())).into(holder.viewImagenUser);
+           // holder.viewImagenUser.setImageDrawable(roundImage);
+
         else
             Glide.with(contexto).load(comment.getPic_user()).into(holder.viewImagenUser);
+            // holder.viewImagenUser.setImageDrawable(roundImage);
+        */
+
 
         holder.viewName.setText(comment.getName_user());
         holder.viewTimestamp.setText(PropuestaHandler.getTimeFromToday(comment.getCreated_attributes()));

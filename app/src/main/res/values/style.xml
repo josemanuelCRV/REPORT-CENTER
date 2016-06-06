@@ -38,15 +38,15 @@
 
     <!-- Base application theme. -->
     <!--<style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">-->
-   <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/gold2_poundwater</item>
-        <item name="colorPrimaryDark">@color/gold1_aoi</item>
-        <item name="colorAccent">@color/gold4_giant</item>
-        <item name="colorControlHighlight">@color/gold5_unreal</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">false</item>
-    </style>-->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+         <item name="colorPrimary">@color/gold2_poundwater</item>
+         <item name="colorPrimaryDark">@color/gold1_aoi</item>
+         <item name="colorAccent">@color/gold4_giant</item>
+         <item name="colorControlHighlight">@color/gold5_unreal</item>
+         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+         <item name="windowActionBar">true</item>
+         <item name="windowNoTitle">false</item>
+     </style>-->
 
 
     <!--
@@ -66,11 +66,11 @@
       -->
 
     <!--AKII-->
-   <!-- <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
--->
+    <!-- <style name="AppTheme.NoActionBar">
+         <item name="windowActionBar">false</item>
+         <item name="windowNoTitle">true</item>
+     </style>
+ -->
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -89,6 +89,13 @@
         <item name="background">@null</item>
     </style>
 
+    <!-- ActionBar Formulario insertar -->
+    <style name="ActionBar.Form" parent="AppTheme.AppBarOverlay">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="background">@null</item>
+    </style>
+
+
 
     <!-- botones de Sign Up - Sign In -->
     <style name="Btn_Sign" parent="Theme.AppCompat.Light">
@@ -98,3 +105,5 @@
 
 
 </resources>
+
+

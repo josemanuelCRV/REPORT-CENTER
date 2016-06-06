@@ -11,7 +11,7 @@ import android.support.v7.app.AlertDialog;
 import com.labs.josemanuel.reportcenter.R;
 
 
-public class ConfirmDialogFragment extends DialogFragment {
+public class ConfirmLocationFragment extends DialogFragment {
 
     /**
      * Etiqueta del valor extra
@@ -26,11 +26,11 @@ public class ConfirmDialogFragment extends DialogFragment {
      * @return Nuevo Diálogo
      */
     public static DialogFragment createInstance(String extra) {
-        DialogFragment fragment = new ConfirmDialogFragment();
+        DialogFragment fragmentLocation = new ConfirmLocationFragment();
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_NOMBRE, extra);
-        fragment.setArguments(bundle);
-        return fragment;
+        fragmentLocation.setArguments(bundle);
+        return fragmentLocation;
     }
 
     @Override
@@ -42,13 +42,13 @@ public class ConfirmDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Enviar evento de aceptar a la actividad
-                        listener.onDialogPositiveClick(ConfirmDialogFragment.this);
+                        listener.onDialogPositiveClickLocation(ConfirmLocationFragment.this);
                     }
                 })
                 .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Enviar evento de cancelar a la actividad
-                        listener.onDialogNegativeClick(ConfirmDialogFragment.this);
+                        listener.onDialogNegativeClickLocation(ConfirmLocationFragment.this);
                     }
                 });
         return builder.create();
@@ -59,15 +59,15 @@ public class ConfirmDialogFragment extends DialogFragment {
      * Ambos métodos deben ser implementados en la actividad
      * huesped para el manejo de los botones del dialogo.
      */
-    public interface ConfirmDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
+    public interface ConfirmDialogListenerLocation {
+        public void onDialogPositiveClickLocation(DialogFragment dialogLocation);
 
-        public void onDialogNegativeClick(DialogFragment dialog);
+        public void onDialogNegativeClickLocation(DialogFragment dialogLocation);
 
     }
 
     // Interfaz para la comunicación de eventos con la actividad
-    ConfirmDialogListener listener;
+    ConfirmDialogListenerLocation listener;
 
     @Override
     public void onAttach(Activity activity) {
@@ -75,7 +75,7 @@ public class ConfirmDialogFragment extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the ConfirmDialogListenerLocation so we can send events to the host
-            listener = (ConfirmDialogListener) activity;
+            listener = (ConfirmDialogListenerLocation) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()

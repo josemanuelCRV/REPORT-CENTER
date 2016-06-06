@@ -17,24 +17,24 @@ public class CommentWithUser extends Comment {
                                                          String id_data_uid_relationships, String created_attributes,
                                                          String changed_attributes, String value_comment_body_attributes,
                                                          String format_comment_body_attributes, String name_user,
-                                                         String pic_user) throws NullPointerException{
-        CommentWithUser comment =  new CommentWithUser("-1","-1","-1","-1","-1","-1","chuck norris","http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1MjQ5OTc4ODk1.jpg");
+                                                         String pic_user) throws NullPointerException {
+        CommentWithUser comment = new CommentWithUser("-1", "-1", "-1", "-1", "-1", "-1", "chuck norris", "http://a1.files.biography.com/image/upload/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU1MjQ5OTc4ODk1.jpg");
 
-        if(cid_attributes!=null)
+        if (cid_attributes != null)
             comment.setCid_attributes(cid_attributes);
-        if(id_data_uid_relationships!=null)
+        if (id_data_uid_relationships != null)
             comment.setId_data_uid_relationships(id_data_uid_relationships);
-        if(created_attributes !=null)
+        if (created_attributes != null)
             comment.setCreated_attributes(created_attributes);
-        if(changed_attributes!=null)
+        if (changed_attributes != null)
             comment.setChanged_attributes(changed_attributes);
-        if(value_comment_body_attributes!=null)
+        if (value_comment_body_attributes != null)
             comment.setValue_comment_body_attributes(value_comment_body_attributes);
-        if(format_comment_body_attributes!=null)
+        if (format_comment_body_attributes != null)
             comment.setFormat_comment_body_attributes(format_comment_body_attributes);
-        if(name_user!=null)
+        if (name_user != null)
             comment.setName_user(name_user);
-        if(pic_user!=null)
+        if (pic_user != null)
             comment.setPic_user(pic_user);
 
         return comment;

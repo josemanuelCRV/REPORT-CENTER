@@ -1,12 +1,15 @@
 package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdate;
@@ -33,11 +34,11 @@ import com.labs.josemanuel.reportcenter.Controler.JsonConstants;
 import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
+import com.labs.josemanuel.reportcenter.Model.RandomHero;
+import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
-import com.labs.josemanuel.reportcenter.ui.AdaptadorComentario;
 import com.labs.josemanuel.reportcenter.ui.AdaptadorComment;
 import com.labs.josemanuel.reportcenter.ui.InteractiveScrollView;
-import com.labs.josemanuel.reportcenter.ui.actividades.UpdateActivity;
 
 
 public class DetailFragment extends Fragment {
@@ -69,6 +70,10 @@ public class DetailFragment extends Fragment {
     private ImageView viewImageParalax;
 
 
+    // para identificacion de usuario
+    private TextView viewUsername;
+    private ImageView viewFoto;
+
 
     // inicializadas en el constructor de clase.
     private Double lat;
@@ -89,8 +94,6 @@ public class DetailFragment extends Fragment {
     private SupportMapFragment mSupportMapFragment;
     // Propuesta seleccionada
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
-
-
 
 
     // CONSTRUCTOR DE CLASE
@@ -120,8 +123,14 @@ public class DetailFragment extends Fragment {
 
 
         // vinculando los componentes de la vista
-      //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
-      //  viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
+        //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
+        //  viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
+
+        // nuevo para usuario nombre y foto
+        viewUsername = (TextView) v.findViewById(R.id.username_detail);
+        viewFoto = (ImageView) v.findViewById(R.id.fotouser_detail);
+
+
         viewTituloDetalle = (TextView) v.findViewById(R.id.titulo);
         viewDescripcionDetalle = (TextView) v.findViewById(R.id.descripcion);
         viewFechaDetalle = (TextView) v.findViewById(R.id.fecha);
@@ -129,6 +138,7 @@ public class DetailFragment extends Fragment {
         viewDireccion = (TextView) v.findViewById(R.id.direccion);
         viewEstado = (TextView) v.findViewById(R.id.estado);
         viewFlagState = (ImageView) v.findViewById(R.id.flag_category); // Flag / Flag_Check_Done
+
 
         editButton = (ImageButton) v.findViewById(R.id.fab); // boton para Editar Propuesta
 //        btnVolver = (ImageButton) v.findViewById(R.id.btnBack); // sin uso ahora el Fab
@@ -138,7 +148,6 @@ public class DetailFragment extends Fragment {
 
 
         viewImageParalax = (ImageView) v.findViewById(R.id.image_paralax);
-
 
 
         // OBTENER EL MAP-FRAGMENT y colocarlo en el frame del fragment_detail
@@ -204,7 +213,7 @@ public class DetailFragment extends Fragment {
 
 
         // Setear escucha para el fab
-        editButton.setOnClickListener(
+     /*   editButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -215,8 +224,7 @@ public class DetailFragment extends Fragment {
                         getActivity().startActivity(i);
                     }
                 }
-        );
-
+        );*/
 
 
         // Cargar datos desde el web service
@@ -226,12 +234,7 @@ public class DetailFragment extends Fragment {
         loadImageParallax();// Cargar Imagen
 
 
-
-
-
-
         return v;
-
 
 
     } // fin onCreate
@@ -275,6 +278,7 @@ public class DetailFragment extends Fragment {
 
         Infrastructure.getPropuestaSeleccionada();
 
+
         // título
         viewTituloDetalle.setText(PropSeleecionada.getTitle());
         // descripción
@@ -299,10 +303,37 @@ public class DetailFragment extends Fragment {
 //        Glide.with(this).load(PropSeleecionada.getImage()[0].getUrl()).placeholder(R.drawable.bg_city2).centerCrop().into(viewCabeceraDetalle);
 
 
+        //   viewUsername.setText(String.format("idUsuario %s", PropSeleecionada.getUid().getTarget_id() + " propuso"));
+
+
+        //  viewFoto.setImageDrawable(RandomHero.getHero().getResourceId(R.id.));
+
+
+        //extraemos el drawable en un bitmap
+            /*Drawable originalDrawable = v.getResources().getDrawable(RandomHero.getHero().getResourceId());*/
+
+        Drawable originalDrawable = getResources().getDrawable(RandomHero.getHero().getResourceId());
+        // Drawable originalDrawable = v.getResources().getDrawable(R.drawable.photo_profile);
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+        // seteamos el contenido mas abajo
+        viewFoto.setImageDrawable(roundedDrawable);
+
+
+        viewUsername.setText(RandomHero.getHero().getName());
+
+
     }
 
 
-    public void notifyWhenDataChanged(){
+    public void notifyWhenDataChanged() {
         //adapter recoge el Comentario seleccionado
         mAdapter = new AdaptadorComment(getContext(), Infrastructure.getComment());
         scrollView.setAdapter(mAdapter);
@@ -316,7 +347,7 @@ public class DetailFragment extends Fragment {
     public void loadImageParallax() {
 
         // DetailFragment mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
-       // ImageView image = (ImageView) findViewById(R.id.image_paralax);
+        // ImageView image = (ImageView) findViewById(R.id.image_paralax);
 
         // Usando Glide para la carga asíncrona
         Glide.with(this)
@@ -324,7 +355,6 @@ public class DetailFragment extends Fragment {
                 .centerCrop()
                 .into(viewImageParalax);
     }
-
 
 
 }

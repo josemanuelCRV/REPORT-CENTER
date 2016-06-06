@@ -23,32 +23,33 @@ public class GetUsuario extends AsyncTask<RequestFuture<JSONObject>, Void, User>
 
     @Override
     protected User doInBackground(RequestFuture<JSONObject>... params) {
-        Log.v("disparado","desdeGetUsuario");
+        Log.v("disparado", "desdeGetUsuario");
         try {
             User user = JSONHandler.generateUser(params[0].get());
-            Log.v("User",user.getName());
+            Log.v("User", user.getName());
             return user;
-        } catch (InterruptedException | ExecutionException |  JSONException e) {
+        } catch (InterruptedException | ExecutionException | JSONException e) {
             //Verifica que el error se ha producido por parte de Volley
-            if (e.getCause() instanceof VolleyError){
+            if (e.getCause() instanceof VolleyError) {
                 //Referenciamos el error como un Volley Error (Casteo)
-                VolleyError volleyError = (VolleyError)e.getCause();
+                VolleyError volleyError = (VolleyError) e.getCause();
                 //Mostramos el error por el log
-                Log.v("ErrorfromGetComentarios",String.valueOf(volleyError.networkResponse.statusCode));
+                Log.v("ErrorfromGetComentarios", String.valueOf(volleyError.networkResponse.statusCode));
                 //Devolvemos un usuario con todos sus campos a -1
-                return User.userFactory(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-            }else{
+                return User.userFactory(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+            } else {
                 //Si el error no lo ha producido algún mecanismo de VolleyError, dispara la causa por la que se ha producido
-                Log.v("OtherError",e.getCause().getMessage());
+                Log.v("OtherError", e.getCause().getMessage());
                 ////Devolvemos un usuario con todos sus campos a -1
-                return User.userFactory(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                return User.userFactory(null, null, null, null, null, null, null, null, null, null, null, null, null, null);
             }
         }
     }
 
+
     @Override
     protected void onPostExecute(User user) {
-       // Log.v("User",user.getName());
+        // Log.v("User",user.getName());
         super.onPostExecute(user);
     }
 }

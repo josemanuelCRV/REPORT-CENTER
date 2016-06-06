@@ -1,99 +1,143 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorInsert"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ui.fragmentos.UpdateFragment">
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-        <!-- Titulo-->
-        <EditText
-            android:id="@+id/titulo_input"
+    <!--
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    -->
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="false"
-            android:hint="Título"
-            android:maxLength="55"
-            android:maxLines="1"
-            android:minLines="1"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
-            android:phoneNumber="false"
-            android:singleLine="true" />
+            android:layout_height="wrap_content">
 
-        <!-- Descripción -->
-        <EditText
-            android:id="@+id/descripcion_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/titulo_input"
-            android:layout_centerHorizontal="true"
-            android:hint="Descripción"
-            android:maxLength="128"
-            android:nestedScrollingEnabled="true"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp" />
+            <!-- Titulo-->
+            <EditText
+                android:id="@+id/titulo_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="false"
+                android:hint="Título"
+                android:maxLength="55"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:phoneNumber="false"
+                android:singleLine="true" />
 
-        <!-- Etiqueta Fecha -->
-        <TextView
-            android:id="@+id/fecha_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/descripcion_input"
-            android:paddingTop="16dp"
-            android:text="Fecha"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
+            <!-- Descripción -->
+            <EditText
+                android:id="@+id/descripcion_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titulo_input"
+                android:layout_centerHorizontal="true"
+                android:hint="Descripción"
+                android:maxLength="128"
+                android:nestedScrollingEnabled="true"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp" />
 
-        <!-- Fecha -->
-        <TextView
-            android:id="@+id/fecha_ejemplo_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fecha_text"
-            android:text="2015/05/17"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <!-- Etiqueta Fecha -->
+            <TextView
+                android:id="@+id/fecha_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/descripcion_input"
+                android:paddingTop="16dp"
+                android:text="Fecha"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black" />
 
-        <!-- Categoría -->
-        <Spinner
-            android:id="@+id/categoria_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/categoria_texto"
-            android:entries="@array/entradas_categoria" />
+            <!-- Fecha -->
+            <TextView
+                android:id="@+id/fecha_ejemplo_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fecha_text"
+                android:text="2015/05/17"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <!-- Etiqueta Categoría -->
-        <TextView
-            android:id="@+id/categoria_texto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/fecha_ejemplo_text"
-            android:paddingTop="16dp"
-            android:text="Categoría"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
 
-        <!-- Etiqueta Prioridad -->
-        <TextView
-            android:id="@+id/prioridad_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/categoria_spinner"
-            android:paddingTop="16dp"
-            android:text="Prioridad"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
+            <!-- Etiqueta Categoría -->
+            <TextView
+                android:id="@+id/categoria_texto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/fecha_ejemplo_text"
+                android:paddingTop="16dp"
+                android:text="Categoría"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black" />
+
+
+            <!-- Categoría -->
+            <Spinner
+                android:id="@+id/categoria_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/categoria_texto"
+                android:layout_marginBottom="30dp"
+                android:entries="@array/entradas_categoria" />
+
+            <!-- Boton seleccionar imagen-->
+            <Button
+                android:id="@+id/btn_select_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/categoria_spinner"
+                android:layout_marginBottom="30dp"
+                android:text="Select Image" />
+
+
+            <!-- Prioridad -->
+
+
+            <!--ESPACIO PARA EL MAPA-->
+
+
+            <!-- Divisor 2 -->
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_select_img"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray" />
+
+            <FrameLayout
+                android:id="@+id/mapwhere"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/divider2"
+                android:layout_marginBottom="60dp"
+                android:layout_marginTop="40dp" />
 
 
             <com.melnykov.fab.FloatingActionButton
@@ -110,16 +154,8 @@
                 fab:fab_colorRipple="@color/ripple" />
 
 
+        </RelativeLayout>
 
+    </ScrollView>
 
-
-
-            <!-- Prioridad -->
-        <Spinner
-            android:id="@+id/prioridad_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/prioridad_text"
-            android:entries="@array/entradas_prioridad" />
-
-    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

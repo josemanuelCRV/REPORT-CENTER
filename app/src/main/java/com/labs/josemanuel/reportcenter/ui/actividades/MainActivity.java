@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.ActionBar; //Incluye la dependencia
+
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new TrustAllSSLCerts().nuke();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-
         Credentials.setAuthorization(preferences.getString("Authorization","-1"));
         Credentials.setX_CSRF_Token(preferences.getString("X_CSRF_Token","-1"));
         String cadena = Credentials.getAuthorization() + Credentials.getX_CSRF_Token();
@@ -52,27 +53,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         emptyFeedTextView = (TextView) findViewById(R.id.empty_view);
 //        setSupportActionBar(toolbar);
+
+
+
+   // desde aki
+/*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        /*if (getSupportActionBar() != null) {
+       */
+/*
+       ActionBar actionBar = getActionBar();
+        //Escondiendo la Action Bar
+        // actionBar.hide();
+
+        //Mostrando de nuevo la Action Bar
+        actionBar.show();
+
+        *//*
+
+
+
+        if (getSupportActionBar() != null) {
             // Dehabilitar titulo de la actividad
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             // Setear ícono "X" como Up button
             getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_close);
-        }*/
+        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
 
-       /* ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+       */
+/* ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-*/
+*//*
+
 
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+*/
+// hasta aki
 
         // Creación del fragmento principal
         if (savedInstanceState == null) {
@@ -80,7 +102,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .add(R.id.container, new MainFragment(), "MainFragment")
                     .commit();
         }
-    }
+
+      /*  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);*/
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+    } // FIN onCreate
 
 
 
