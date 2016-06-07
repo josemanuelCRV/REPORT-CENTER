@@ -23,12 +23,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Utils.ObtenerImagen;
+import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -315,5 +319,11 @@ public class InsertFragment extends Fragment {
                                 getString(R.string.dialog_discard_msg));
         dialogo.show(getFragmentManager(), "ConfirmDialog");
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        byte[] datos = ObtenerImagen.getByteArrayFromFile(this.getContext(),data.getData());
+        Toast.makeText(this.getContext(),"aqui", Toast.LENGTH_LONG).show();
 
+    }
 }
