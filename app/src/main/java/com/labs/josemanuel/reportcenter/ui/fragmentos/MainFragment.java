@@ -205,7 +205,7 @@ public class MainFragment extends Fragment {
         lista.setVisibility(View.VISIBLE);
         adapter = new AdaptadorPropuestas(MainFragment.this.getContext(), feed);
         lista.setAdapter(adapter);
-        // mSwipeRefreshLayout.setRefreshing(false);  // parar animación Swipe
+        mSwipeRefreshLayout.setRefreshing(false);  // parar animación Swipe
 
     }
 

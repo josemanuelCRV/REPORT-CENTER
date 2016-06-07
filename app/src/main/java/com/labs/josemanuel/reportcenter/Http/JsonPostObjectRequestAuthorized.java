@@ -47,8 +47,8 @@ public class JsonPostObjectRequestAuthorized extends JsonObjectRequest {
     @Override
     public byte[] getBody() {
         try {
-            Log.v("JsonObject",mProposalData.toString());
-            return mProposalData.toString().getBytes("utf-8");
+            String body = mProposalData.toString();
+            return body .getBytes("utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

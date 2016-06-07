@@ -30,8 +30,10 @@ public class CommentWithUserTask extends AsyncTask<RequestFuture<JSONObject>, Vo
     @Override
     protected CommentWithUser doInBackground(RequestFuture<JSONObject>... params) {
         Log.v("disparado","desde GetComentarios");
+        CommentWithUser commentWithUser;
+        RandomHero randomHero = RandomHero.getHero();
         try {
-            CommentWithUser commentWithUser = JSONHandler.generateCommentWithUser(params[0].get());
+            commentWithUser = JSONHandler.generateCommentWithUser(params[0].get());
             String mUrl= String.format("http://stag.hackityapp.com/api/user/%s?_format=api_json",commentWithUser.getId_data_uid_relationships());
             User mUser;
             ClienteHttp mClienteHttp = new ClienteHttp(mUrl,mContext);
@@ -41,7 +43,6 @@ public class CommentWithUserTask extends AsyncTask<RequestFuture<JSONObject>, Vo
                 commentWithUser.setPic_user(mUser.getUser_picture());
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
-                RandomHero randomHero = RandomHero.getHero();
                 commentWithUser.setName_user(randomHero.getName());
                 commentWithUser.setPic_user(String.valueOf(randomHero.getResourceId()));
             }
@@ -54,12 +55,18 @@ public class CommentWithUserTask extends AsyncTask<RequestFuture<JSONObject>, Vo
                 //Mostramos el error por el log
                 Log.v("ErrorfromGetComentarios",String.valueOf(volleyError.networkResponse.statusCode));
                 //Devolvemos un comentario con todos sus campos a -1
-                return CommentWithUser.commentWithUserFactory(null,null,null,null,null,null,null,null);
+                commentWithUser=CommentWithUser.commentWithUserFactory(null,null,null,null,null,null,null,null);
+                commentWithUser.setName_user(randomHero.getName());
+                commentWithUser.setPic_user(String.valueOf(randomHero.getResourceId()));
+                return commentWithUser;
             }else{
                 //Si el error no lo ha producido algún mecanismo de VolleyError, dispara la causa por la que se ha producido
                 Log.v("OtherError",e.getCause().getMessage());
                 ////Devolvemos un comentario con todos sus campos a -1
-                return CommentWithUser.commentWithUserFactory(null,null,null,null,null,null,null,null);
+                commentWithUser=CommentWithUser.commentWithUserFactory(null,null,null,null,null,null,null,null);
+                commentWithUser.setName_user(randomHero.getName());
+                commentWithUser.setPic_user(String.valueOf(randomHero.getResourceId()));
+                return commentWithUser;
             }
         }
     }
