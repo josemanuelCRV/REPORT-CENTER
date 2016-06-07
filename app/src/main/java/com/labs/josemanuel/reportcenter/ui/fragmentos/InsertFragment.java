@@ -3,6 +3,8 @@ package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,7 +48,8 @@ public class InsertFragment extends Fragment {
      * Etiqueta para depuración
      */
     private static final String TAG = InsertFragment.class.getSimpleName();
-
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int PICK_PHOTO_REQUEST = 1;
     /*
     Controles
     */
@@ -95,8 +98,16 @@ public class InsertFragment extends Fragment {
         // Obtener instancia del FAB
         fabCamera = (com.melnykov.fab.FloatingActionButton) v.findViewById(R.id.fab);
         // Asignar escucha al FAB
-        fabCamera.setOnClickListener(
-                new View.OnClickListener() {
+        fabCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)setAction("Action", null).show();
+                dialogCameraChoices();
+            }
+        });
+
+                /*new View.OnClickListener() {
+                    ;}
                     @Override
                     public void onClick(View v) {
                         String file = ruta_fotos + getCode() + ".jpg";
@@ -116,7 +127,7 @@ public class InsertFragment extends Fragment {
                         startActivityForResult(cameraIntent, 0);
                     }
                 }
-        );
+        )*/
 
 
         // Data Picker
@@ -323,7 +334,42 @@ public class InsertFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         byte[] datos = ObtenerImagen.getByteArrayFromFile(this.getContext(),data.getData());
-        Toast.makeText(this.getContext(),"aqui", Toast.LENGTH_LONG).show();
+        String todosLosBytes = String.valueOf(datos[0]);
+        for(int i=1;i<datos.length;i++){
+            todosLosBytes.concat(String.valueOf(datos[i]));
+        }
+        Toast.makeText(this.getContext(),todosLosBytes, Toast.LENGTH_LONG).show();
 
     }
+    public void dialogCameraChoices() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setItems(R.array.camera_choices, mDialogListener());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private DialogInterface.OnClickListener mDialogListener() {
+
+        DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: // Take photo
+                        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                        break;
+
+                    case 1: // Choose photo
+                        Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        choosePhotoIntent.setType("image/*");
+                        startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
+                        Log.i(TAG, "Choice Photo Option is selected");
+                        break;
+
+                }
+
+            }
+        };
+        return dialogListener;
+    }
+
 }
