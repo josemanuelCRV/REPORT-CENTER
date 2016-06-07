@@ -36,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -50,6 +51,7 @@ public class InsertFragment extends Fragment {
     private static final String TAG = InsertFragment.class.getSimpleName();
     public static final int TAKE_PHOTO_REQUEST = 0;
     public static final int PICK_PHOTO_REQUEST = 1;
+    private static ArrayList<byte[]> listaDeFotos = new ArrayList<>();
     /*
     Controles
     */
@@ -338,7 +340,11 @@ public class InsertFragment extends Fragment {
         for(int i=1;i<datos.length;i++){
             todosLosBytes.concat(String.valueOf(datos[i]));
         }
-        Toast.makeText(this.getContext(),todosLosBytes, Toast.LENGTH_LONG).show();
+        listaDeFotos.add(datos);
+
+       /*
+            Aqui hay que manipular la propuesta
+        */
 
     }
     public void dialogCameraChoices() {
