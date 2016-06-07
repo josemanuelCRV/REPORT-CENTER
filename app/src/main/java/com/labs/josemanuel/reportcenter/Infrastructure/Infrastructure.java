@@ -30,7 +30,7 @@ public class Infrastructure {
 
     public static void setDummyProposal() {
         try {
-            /*
+            /*Definición objeto que se envía en POST a Drupal
             * _links es un objeto que se integra en el formato hal_json.
             * Gracias a este objeto, el sistema permite relacionar este objeto JSON con otras entidades.
             * Es una versión relacional del json (HAL => Hypertext Application Language)
