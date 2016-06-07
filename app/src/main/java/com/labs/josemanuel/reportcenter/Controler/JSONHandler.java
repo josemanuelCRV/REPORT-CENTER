@@ -121,45 +121,6 @@ public class JSONHandler {
     }
 
 
-    public static Comment generateCommentd(JSONObject jsoninput) {
-        String cid = getStringFromNode(jsoninput, "cid");
-        String uuid = getStringFromNode(jsoninput, "uuid");
-        String pid = getStringFromNode(jsoninput, "pid");
-        JSONArray entity_id_aux;
-        JSONObject entity_id_aux_container = null;
-        Propuesta entity_id = null;
-        try {
-            entity_id_aux = jsoninput.getJSONArray("entity_id");
-            entity_id_aux_container = entity_id_aux.getJSONObject(0);
-            entity_id = new Propuesta(
-                    entity_id_aux_container.getString(JsonConstants.TGID),
-                    entity_id_aux_container.getString(JsonConstants.TGTY),
-                    entity_id_aux_container.getString(JsonConstants.TGUD),
-                    entity_id_aux_container.getString(JsonConstants.URL)
-            );
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String subject = getStringFromNode(jsoninput, "subject");
-        String langcode = getStringFromNode(jsoninput, "langcode");
-        Usuario usuario = getUsuarioFromNode(jsoninput, "uid");
-        String name = getStringFromNode(jsoninput, "name");
-        String mail = getStringFromNode(jsoninput, "mail");
-        String homepage = getStringFromNode(jsoninput, "homepage");
-        String created = getStringFromNode(jsoninput, "created");
-        String changed = getStringFromNode(jsoninput, "changed");
-        String status = getStringFromNode(jsoninput, "status");
-        String thread = getStringFromNode(jsoninput, "thread");
-        String entity_type = getStringFromNode(jsoninput, "entity_type");
-        String comment_type = getStringFromNode(jsoninput, "comment_type");
-        String field_name = getStringFromNode(jsoninput, "field_name");
-        String default_langcode = getStringFromNode(jsoninput, "default_langcode");
-        Body comment_body = getBodyFromNode(jsoninput);
-        /*return new Comment(cid, uuid, pid, entity_id, subject, langcode, usuario, name, mail, homepage, created, changed, status
-                , thread, entity_type, comment_type, field_name, default_langcode, comment_body);*/
-        return null;
-    }
-
 
 
     public static String getStringFromNode(JSONObject jsoninput, String nodeName) {
@@ -492,6 +453,7 @@ public class JSONHandler {
             e.printStackTrace();
         }
     }
+
 
 
 

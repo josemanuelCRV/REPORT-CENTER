@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +25,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
+import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.ObtenerImagen;
 import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
@@ -146,7 +149,6 @@ public class InsertFragment extends Fragment {
                 }
         );
 
-        mClienteHttp.postProposal(mClienteHttp.generateProposal());
         return v;
     }
 
@@ -267,49 +269,6 @@ public class InsertFragment extends Fragment {
 
     }
 
-    /**
-     * Procesa la respuesta obtenida desde el sevidor
-     *
-     * @param response Objeto Json
-     */
-    private void procesarRespuesta(JSONObject response) {
-
-        try {
-            // Obtener estado
-            String estado = response.getString("estado");
-            // Obtener mensaje
-            String mensaje = response.getString("mensaje");
-
-            switch (estado) {
-                case "1":
-                    // Mostrar mensaje
-                    Toast.makeText(
-                            getActivity(),
-                            mensaje,
-                            Toast.LENGTH_LONG).show();
-                    // Enviar código de éxito
-                    getActivity().setResult(Activity.RESULT_OK);
-                    // Terminar actividad
-                    getActivity().finish();
-                    break;
-
-                case "2":
-                    // Mostrar mensaje
-                    Toast.makeText(
-                            getActivity(),
-                            mensaje,
-                            Toast.LENGTH_LONG).show();
-                    // Enviar código de falla
-                    getActivity().setResult(Activity.RESULT_CANCELED);
-                    // Terminar actividad
-                    getActivity().finish();
-                    break;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
     public boolean camposVacios() {
@@ -340,6 +299,7 @@ public class InsertFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         byte[] datos = ObtenerImagen.getByteArrayFromFile(this.getContext(),data.getData());
         String todosLosBytes = String.valueOf(datos[0]);
+
         for(int i=1;i<datos.length;i++){
             todosLosBytes.concat(String.valueOf(datos[i]));
         }
@@ -348,6 +308,32 @@ public class InsertFragment extends Fragment {
        /*
             Aqui hay que manipular la propuesta
         */
+
+        /*Infrastructure.setDummyProposal();
+
+        JSONObject jsonObject = Infrastructure.getDummyProposal();
+        try {
+            JSONHandler.setJsonArrayNodeByName(jsonObject.getJSONObject("_links"),"filename");
+            JSONHandler.setValueJsonArray(jsonObject.getJSONObject("_links"),"filename","value","input.jpg");
+            JSONHandler.setJsonArrayNodeByName(jsonObject.getJSONObject("_links"),"filemime");
+            JSONHandler.setValueJsonArray(jsonObject.getJSONObject("_links"),"filemime","value","image/jpeg");
+            JSONHandler.setJsonArrayNodeByName(jsonObject.getJSONObject("_links"),"data");
+            JSONHandler.setValueJsonArray(jsonObject.getJSONObject("_links"),"data","value",Base64.encodeToString(datos,Base64.DEFAULT));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+        /*{"_links":
+{
+  "type":{"href":"http://drupal.url/rest/type/file/file"}
+},
+  "filename":[{"value":"input.jpg"}],
+  "filemime":[{"value":"image/jpeg"}],
+  "data":[{"value":"insert-output-from-base64-here"}] }
+        * */
+
+        mClienteHttp.postProposal(mClienteHttp.generateProposal());
+
 
     }
     public void dialogCameraChoices() {
