@@ -122,14 +122,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        /*if (id == R.id.nav_inicio) {
+        if (id == R.id.nav_inicio) {
             // Handle the camera action
         } else if (id == R.id.nav_crea_propuesta) {
 
         } else if (id == R.id.nav_mi_cuenta) {
-            Intent intentProfile = new Intent(this, ProfileActivity.class);
-            intentProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intentProfile);
+
         } else if (id == R.id.nav_logout) {
             Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);
             intentLogout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -139,16 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_send) {
 
-        }*/
-
-        switch (id) {
-            case R.id.nav_mi_cuenta:
-                Intent intent = new Intent(this, ProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                this.startActivity(intent);
-                break;
-            case 1:
-                // etc.
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

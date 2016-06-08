@@ -120,8 +120,8 @@ public class DetailFragment extends Fragment {
 
 
         // vinculando los componentes de la vista
-      //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
-      //  viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
+        //  bgCategoria = (ImageView) v.findViewById(R.id.bg_category);  // preparada para taxonomy
+        //  viewCabeceraDetalle = (ImageView) v.findViewById(R.id.cabecera);
         viewTituloDetalle = (TextView) v.findViewById(R.id.titulo);
         viewDescripcionDetalle = (TextView) v.findViewById(R.id.descripcion);
         viewFechaDetalle = (TextView) v.findViewById(R.id.fecha);
@@ -316,7 +316,7 @@ public class DetailFragment extends Fragment {
     public void loadImageParallax() {
 
         // DetailFragment mDetailFragment=(DetailFragment)getSupportFragmentManager().findFragmentByTag(DetailFragment.TAG);
-       // ImageView image = (ImageView) findViewById(R.id.image_paralax);
+        // ImageView image = (ImageView) findViewById(R.id.image_paralax);
 
         // Usando Glide para la carga asíncrona
         Glide.with(this)
