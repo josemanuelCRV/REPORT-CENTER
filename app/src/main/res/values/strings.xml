@@ -84,4 +84,17 @@
     <string name="URL_LOGIN">http://194.140.6.122:3000/login</string>
 
 
+
+    <!-- Fragment_details -->
+    <string name="Fecha">Fecha</string>
+    <string name="categoria">Categoria</string>
+    <string name="direccion">C/...</string>
+    <string name="Titulo">Titulo</string>
+    <string name="Descripción">Descripción</string>
+    <string name="Estado">Estado</string>
+    <string name="Prioridad">Prioridad</string>
+    <string name="noData">No hay datos</string>
+    <string name="Timestamp">Marca de tiempo</string>
+    <string name="name">Nombre</string>
+    <string name="ubicacion">Ubicación</string>
 </resources>

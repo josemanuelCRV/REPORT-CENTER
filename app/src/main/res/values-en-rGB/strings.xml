@@ -84,5 +84,15 @@
     <string name="URL_LOCALHOST">http://194.140.6.122:3000</string>
     <string name="URL_LOGIN">http://194.140.6.122:3000/login</string>
 
-
+    <!-- Fragment_details -->
+    <string name="Fecha">Date</string>
+    <string name="categoria">Category</string>
+    <string name="Titulo">Title</string>
+    <string name="Descripción">Description</string>
+    <string name="Estado">Status</string>
+    <string name="Prioridad">Priority</string>
+    <string name="noData">There is no data</string>
+    <string name="Timestamp">Timestamp</string>
+    <string name="name">Name</string>
+    <string name="ubicacion">Location</string>
 </resources>
