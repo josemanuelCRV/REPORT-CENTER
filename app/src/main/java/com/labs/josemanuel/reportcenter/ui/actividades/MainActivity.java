@@ -26,7 +26,7 @@ import com.labs.josemanuel.reportcenter.ui.fragmentos.MainFragment;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView emptyFeedTextView;
-
+    DrawerLayout drawer;
 
     public MainActivity() {
 
@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         new TrustAllSSLCerts().nuke();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-
         Credentials.setAuthorization(preferences.getString("Authorization","-1"));
         Credentials.setX_CSRF_Token(preferences.getString("X_CSRF_Token","-1"));
         String cadena = Credentials.getAuthorization() + Credentials.getX_CSRF_Token();
@@ -50,9 +48,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // ------------------------------------------------------
 
         // Creación del Toolbar y el NavigationDrawer
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         emptyFeedTextView = (TextView) findViewById(R.id.empty_view);
-//        setSupportActionBar(toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setSupportActionBar(toolbar);
 
 
 
@@ -84,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
        */
-/* ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+ ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-*//*
+/*
 
 
         drawer.setDrawerListener(toggle);
@@ -107,9 +106,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setHomeButtonEnabled(true);*/
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);*/
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 

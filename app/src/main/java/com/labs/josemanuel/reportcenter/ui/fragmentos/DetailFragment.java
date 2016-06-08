@@ -292,7 +292,7 @@ public class DetailFragment extends Fragment {
         String category = PropSeleecionada.getField_proposal_status().getUrl();
         viewCategoriaDetalle.setText(category);
         // Stado abierta/cerrada
-        if (PropSeleecionada.getStatus().equals(abierta)) {
+        if (abierta.equals(PropSeleecionada.getStatus())) {
             viewEstado.setText("Abierta");
             viewFlagState.setImageResource(R.drawable.ic_bookmark); // cambia la bandera
         } else {

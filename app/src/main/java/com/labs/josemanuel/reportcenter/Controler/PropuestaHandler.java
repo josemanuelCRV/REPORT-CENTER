@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class PropuestaHandler {
     Propuesta[] mPropuestas=null;
     static SimpleDateFormat  formatter = new SimpleDateFormat("E, M d, yyyy - h:mm a");
-    static SimpleDateFormat TimeFromDate = new SimpleDateFormat("d 'horas y '  h:mm 'horas'");
+    static SimpleDateFormat TimeFromDate = new SimpleDateFormat("d 'días y '  h 'horas'");
     static Date date=null;
     public PropuestaHandler(Propuesta[] propuestas){
         mPropuestas= propuestas;
