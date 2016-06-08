@@ -19,53 +19,49 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
+        <!-- foto-->
+        <ImageView
+            android:id="@+id/fotoGravatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="8dp"
+            android:scaleType="centerCrop" />
 
-
-
-        <!-- Status-->
-
-
-        <!-- ID-->
-
-        <!-- TimeStamp-->
 
         <!-- Name -->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fotoGravatar"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true" />
-
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentStart="true"
-            android:layout_toRightOf="@+id/fotoGravatar" />
+            android:layout_alignTop="@+id/fotoGravatar"
+            android:layout_toEndOf="@+id/fotoGravatar"
+            android:layout_toRightOf="@+id/fotoGravatar"
+            android:text="name" />
 
-
-        <!-- UUID -->
+        <!-- TimeStamp-->
         <TextView
             android:id="@+id/timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginBottom="8dp"
+            android:layout_toRightOf="@+id/fotoGravatar"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:text="Timestamp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:layout_below="@+id/name"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
+        <!-- UUID -->        <!-- ID-->
         <TextView
             android:id="@+id/cid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="UUID"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
 
         <!-- Descripcion -->
@@ -73,13 +69,13 @@
             android:id="@+id/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Count : Lorem"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/timestamp"
             android:ellipsize="end"
             android:maxLines="4"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="false"
-            android:layout_below="@+id/timestamp" />
+            android:text="Count : Lorem"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
     </RelativeLayout>

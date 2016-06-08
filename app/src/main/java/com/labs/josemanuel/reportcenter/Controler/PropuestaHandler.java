@@ -4,6 +4,7 @@ import com.labs.josemanuel.reportcenter.Model.Categoria;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.Status;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -59,4 +60,15 @@ public class PropuestaHandler {
         return key;
     }
 
+    public static String getEpochFromDate(String dateInput){
+        SimpleDateFormat simpleDateFormatdf = new SimpleDateFormat("dd/mm/yyyy");
+        date = null;
+        try {
+            date = simpleDateFormatdf.parse(dateInput);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long epoch = date.getTime();
+        return String.valueOf(epoch);
+    }
 }

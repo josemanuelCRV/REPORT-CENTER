@@ -210,6 +210,7 @@ public class MainFragment extends Fragment {
     }
 
 
+    // Listener de SwipeRefresh con cambio de color durante el progreso
     protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {

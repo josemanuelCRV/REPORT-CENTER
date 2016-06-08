@@ -20,7 +20,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <!-- FOTO Propuesta-->
+        <!-- titulo Propuesta-->
         <TextView
             android:id="@+id/titulo"
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
 
         <!-- foto de User circle shape-->
         <ImageView
-            android:id="@+id/fotouser"
+            android:id="@+id/fotouser_detail"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentLeft="true"
@@ -93,9 +93,9 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fotouser"
-            android:layout_toEndOf="@+id/fotouser"
-            android:layout_toRightOf="@+id/fotouser"
+            android:layout_alignBottom="@+id/fotouser_detail"
+            android:layout_toEndOf="@+id/fotouser_detail"
+            android:layout_toRightOf="@+id/fotouser_detail"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:text="username"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/fotouser"
+            android:layout_below="@+id/fotouser_detail"
             android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:maxLines="2"

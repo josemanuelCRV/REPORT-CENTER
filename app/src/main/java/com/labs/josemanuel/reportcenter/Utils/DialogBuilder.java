@@ -1,9 +1,6 @@
 package com.labs.josemanuel.reportcenter.Utils;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 /**
@@ -31,4 +28,7 @@ public class DialogBuilder extends AlertDialog {
         dialog.show();
 
     }
+
+
+
 }

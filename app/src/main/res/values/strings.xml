@@ -71,6 +71,11 @@
     <string name="dialog_cancel">Cancelar</string>
     <string name="dialog_delete_msg">Se eliminará la meta</string>
 
+    <!--Dialogos de Localización-->
+    <string name="dialog_location">¿Estas en esta ubicación?</string>
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -6,8 +6,17 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,7 +29,11 @@ import com.labs.josemanuel.reportcenter.R;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    LatLng myPosition;
+    private LocationManager locManager;
+    private LocationListener locListener;
+    final String MIAPIKEY ="AIzaSyCtBCoNv0I0ZdvlONRzUUZ_CcABO-d7g-s";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +43,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        //mapFragment.getMapAsync(this);
-        // Getting GoogleMap object from the fragment
-        mMap = mapFragment.getMap();
+        mapFragment.getMapAsync(this);
 
-        // Enabling MyLocation Layer of Google Map
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        // llamar a comenzar localización
+        comenzarLocalizacion();
+    }
+
+
+    public void comenzarLocalizacion() {
+        //Obtenemos una referencia al LocationManager
+        locManager =
+                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        //Obtenemos la última posición conocida
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -45,32 +69,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(true);
 
-        // Getting LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
+        //Mostramos la última posición conocida Log
+        mostrarPosicion(loc);
 
-        // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
+        //Nos registramos para recibir actualizaciones de la posición
+        locListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                mostrarPosicion(location);
+            }
 
-        // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
+            public void onProviderDisabled(String provider) {
+                // lblEstado.setText("Provider OFF");
+            }
 
-        if (location != null) {
-            // Getting latitude of the current location
-            double latitude = location.getLatitude();
+            public void onProviderEnabled(String provider) {
+                // lblEstado.setText("Provider ON ");
+            }
 
-            // Getting longitude of the current location
-            double longitude = location.getLongitude();
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.i("", "Provider Status: " + status);
+                // lblEstado.setText("Provider Status: " + status);
+            }
+        };
 
-            myPosition = new LatLng(latitude, longitude);
+        locManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER, 30000, 0, locListener);
+    }
 
-            mMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
+    private void mostrarPosicion(Location loc) {
+        Toast.makeText(MapsActivity.this, "pasamos por mostrar posicion", Toast.LENGTH_SHORT).show();
+
+        if (loc != null) {
+            // lblLatitud.setText("Latitud: " + String.valueOf(loc.getLatitude()));
+            // lblLongitud.setText("Longitud: " + String.valueOf(loc.getLongitude()));
+            // lblPrecision.setText("Precision: " + String.valueOf(loc.getAccuracy()));
+            Log.i("", String.valueOf(loc.getLatitude() + " - " + String.valueOf(loc.getLongitude())));
+
+
+        } else {
+            // lblLatitud.setText("Latitud: (sin_datos)");
+            // lblLongitud.setText("Longitud: (sin_datos)");
+            // lblPrecision.setText("Precision: (sin_datos)");
         }
     }
+
+
+
 
 
     /**
@@ -87,12 +134,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
 
+        // check de permisos
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        // Comprueba el proveedor disponible
+
+        Location loc = null;
+        if(locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }else{
+            loc = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+
+        Double latitud= Double.valueOf(loc.getLatitude());
+        Double longitud = Double.valueOf(loc.getLongitude());
+
+        LatLng myLocation = new LatLng(latitud, longitud);
+
+        Log.i("", "Latitud: " + latitud);
+        Log.i("", "longitud: " + longitud);
+
+        Toast.makeText(MapsActivity.this, "Latitud es:"+latitud, Toast.LENGTH_SHORT).show();
+
+        //LatLng myLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(myLocation).title("Mi ubicación"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));//movemos la camara hasta nuestra posicion
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,14));//amploa zoom del 1 al 21(mas cercano)
+        /////////
+
+
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(40.4522651,-3.7805837 );
+        /*LatLng sydney = new LatLng(40.4522651,-3.7805837 );
         mMap.addMarker(new MarkerOptions().position(sydney).title("Mi ubicación"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,14));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,14));*/
 
 
 
