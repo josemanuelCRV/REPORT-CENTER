@@ -66,9 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Getting longitude of the current location
             double longitude = location.getLongitude();
 
-            // Creating a LatLng object for the current location
-            LatLng latLng = new LatLng(latitude, longitude);
-
             myPosition = new LatLng(latitude, longitude);
 
             mMap.addMarker(new MarkerOptions().position(myPosition).title("Start"));
