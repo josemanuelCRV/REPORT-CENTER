@@ -59,6 +59,9 @@ public class InsertActivity extends AppCompatActivity
                     .commit();
         }
 
+
+
+
     }
 
     @Override
@@ -197,6 +200,20 @@ public class InsertActivity extends AppCompatActivity
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

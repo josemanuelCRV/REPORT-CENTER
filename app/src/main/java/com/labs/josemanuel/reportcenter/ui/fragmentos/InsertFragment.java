@@ -108,6 +108,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
 
         mostrarDialogoLocalizacion();
 
+
     } // FIN onCreate
 
 
@@ -368,40 +369,6 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case android.R.id.home:// CONFIRMAR
-                if (!basicValidation())
-                    //postProposal
-                    basicValidation();//insertarPropuesta
-                else
-                    Toast.makeText(
-                            getActivity(),
-                            "Completa los campos",
-                            Toast.LENGTH_LONG).show();
-                return true;
-
-            case R.id.action_discard:// DESCARTAR
-                if (!basicValidation())
-                    mostrarDialogo();
-                else
-                    getActivity().finish();
-                break;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     /**
      * Valida si los campos se han rellenado
      *
@@ -424,7 +391,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
      */
     public void actualizarFecha(int ano, int mes, int dia) {
         // Setear en el textview la fecha
-        dateField.setText(String.format(Locale.getDefault().getLanguage(),"%d/0%d/%d",dia,mes+1,ano));
+        dateField.setText(String.format(Locale.FRENCH,"%d/0%d/%d",dia,mes+1,ano));
     }
 
     /**
