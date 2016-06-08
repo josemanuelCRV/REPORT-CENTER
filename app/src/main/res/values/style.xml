@@ -77,11 +77,20 @@
 
 
     <!--  Nuevo Detalle Styles -->
-    <style name="AppTheme.Detail" parent="AppTheme">
+    <style name="AppTheme.Detail" parent="AlertDialog.AppCompat.Light">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="actionBarStyle">@style/ActionBar.Detail</item>
+        <item name="actionBarStyle">@style/ActionBar.Form</item>
     </style>
+
+    <!--  Nuevo Insert Styles -->
+    <style name="AppTheme.Insert" parent="AppTheme">
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/Theme.AppCompat.Light.DarkActionBar</item>
+    </style>
+
+
 
     <!-- ActionBar Detail -->
     <style name="ActionBar.Detail" parent="Widget.AppCompat.Light.ActionBar.Solid">

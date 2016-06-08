@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -56,7 +58,20 @@ import java.util.Locale;
 /**
  * Fragmento que permite al usuario insertar un nueva meta
  */
-public class InsertFragment extends Fragment {
+public class InsertFragment extends Fragment implements  LocationListener, View.OnClickListener {
+
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
     /**
      * Etiqueta para depuración
      */
@@ -70,28 +85,33 @@ public class InsertFragment extends Fragment {
     Spinner prioridad_spinner;
     TextView fecha_text;
     Spinner categoria_spinner;
-
     Button select_img_btn;
 
     // Mostrar el nombre de la calle en base a la localización
     TextView messageDireccion;
 
+    MapsActivity mapsActivity;
+
+
+    Location location = null;
+    private Double lat;
+    private Double lon;
 
     // instancia SupportMapFragment para el mapa
     private SupportMapFragment mSupportMapFragment;
 
+
+    // nuevo
+    private GoogleMap mMap;
     private LocationManager locManager;
-    private LocationListener locListener;
+    private android.location.LocationListener locListener;
+
     final String MIAPIKEY = "AIzaSyBBGoPEmOhpfRYE7zxejlqaCHxyY75FSOw";
     // final String MIAPIKEY ="AIzaSyCtBCoNv0I0ZdvlONRzUUZ_CcABO-d7g-s";
 
 
-    private Double lat;
-    private Double lon;
 
-    /*
-    Instancia global del FAB
-     */
+    // Instancia global del FAB
     com.melnykov.fab.FloatingActionButton fabCamera;
 
 
@@ -101,10 +121,11 @@ public class InsertFragment extends Fragment {
 
     public InsertFragment() {
 
-
-        lon = -3.7854557;
-        lat = 40.4595114;
     }
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,18 +133,13 @@ public class InsertFragment extends Fragment {
         // Habilitar al fragmento para contribuir en la action bar
         setHasOptionsMenu(true);
 
-
         mostrarDialogoLocalizacion();
 
-
-        // INSTANCIAR EL MAPA
-
-
-        // mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
-        // mSupportMapFragment.getMapAsync(  );
-
-
     } // FIN onCreate
+
+
+
+
 
 
     // 0 Crear localización y mostrar en el mapa
@@ -182,8 +198,6 @@ public class InsertFragment extends Fragment {
         );
 
 
-
-
         // Data Picker
         fecha_text.setOnClickListener(
                 new View.OnClickListener() {
@@ -197,15 +211,17 @@ public class InsertFragment extends Fragment {
         );
 
 
+
+
         // INSTANCIAR EL MAPA
 
 
-        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere);
+        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere1);
         if (mSupportMapFragment == null) {
             FragmentManager fragmentManager = getFragmentManager();
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mSupportMapFragment = SupportMapFragment.newInstance();
-            fragmentTransaction.replace(R.id.mapwhere, mSupportMapFragment).commit();
+            fragmentTransaction.replace(R.id.mapwhere1, mSupportMapFragment).commit();
         }
 
 
@@ -214,27 +230,13 @@ public class InsertFragment extends Fragment {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     if (googleMap != null) {
+                        LatLng marker_latlng = getLatLng(googleMap);
+                        if (marker_latlng == null) return;
 
-
-
-                 /*       Location loc = null;
-
-
-
-                        Double latitud= Double.valueOf(loc.getLatitude());
-                        Double longitud = Double.valueOf(loc.getLongitude());
-
-                        LatLng myLocation = new LatLng(latitud, longitud);
-
-                        Log.i("", "Latitud: " + latitud);
-                        Log.i("", "longitud: " + longitud);
-
-                        Toast.makeText(getContext(), "Latitud es:"+latitud, Toast.LENGTH_SHORT).show();
-*/
 
                         // -> marker_latlng recoge la latitud y longitud en formato double//
                         //  LatLng marker_latlng = new LatLng(lat, lon);
-                        LatLng marker_latlng = new LatLng(lat, lon);
+
                         // configurando la vista del mapa, setea posición, mueve la camara,aplica zoom, coloca título y controles
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(marker_latlng).zoom(15.0f).build();
                         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
@@ -251,6 +253,50 @@ public class InsertFragment extends Fragment {
         return v;
 
     } // FIN onCreateView
+    //********************************************************* for refactor's sake...
+    @Nullable
+    private LatLng getLatLng(GoogleMap googleMap) {
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return null;
+        }
+        googleMap.setMyLocationEnabled(true);
+
+        // Getting LocationManager object from System Service LOCATION_SERVICE
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+
+
+        // Getting the name of the best provider
+        String provider = locationManager.getBestProvider(new Criteria(), true);
+
+        // Getting Current Location
+        Location location = locationManager.getLastKnownLocation(provider);
+        //LatLng marker_latlng = new LatLng(lat, lon);
+        LatLng marker_latlng ;
+        if (location != null) {
+            // Getting latitude of the current location
+            double latitude = location.getLatitude();
+
+            // Getting longitude of the current location
+            double longitude = location.getLongitude();
+
+            marker_latlng = new LatLng(latitude, longitude);
+
+        }else{
+            marker_latlng= new LatLng(lat, lon);
+        }
+        return marker_latlng;
+    }
+
+
+
 
 
 
