@@ -2,7 +2,6 @@ package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,13 +18,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,11 +28,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
-import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,19 +40,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.ObtenerImagen;
-import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,6 +60,16 @@ import java.util.Locale;
 public class InsertFragment extends Fragment implements LocationListener, View.OnClickListener {
 
 
+    /**
+     *
+     *   mClienteHttp.postProposal(mClienteHttp.generateProposal());
+     * este es el metodo que genera la propuesta!
+     *
+     *
+     *
+     *
+     *
+     * */
     @Override
     public void onLocationChanged(Location location) {
 
@@ -194,7 +191,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
         imageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("Ready to send", setJSONObjectForSending().toString());
+                mClienteHttp.postProposal(prepareJSONObjectForSending());
             }
         });
         // Data Picker
@@ -292,7 +289,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
     }
 
 
-    private JSONObject setJSONObjectForSending() {
+    private JSONObject prepareJSONObjectForSending() {
         JSONObject propuestaToSend = new JSONObject();
         try {
             /*Definición objeto que se envía en POST a Drupal
@@ -314,14 +311,16 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
             * porque no tenemos un sistema de login propiamente dicho.
             * */
             JSONHandler.setJsonArrayNodeByName(propuestaToSend, "uid");
-            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "target_id", "301");
+            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "target_id", "344");
             JSONHandler.setValueJsonArray(propuestaToSend, "uid", "target_type", "user");
-            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "url", "/en/user/301");
+            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "url", "/en/user/344");
             /*
             * La categoría cambiará en función de lo que se elija en el combobox a la hora de la inserción.
             * */
             JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_category");
-            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_category", "target_id", String.valueOf(categorySpinner.getSelectedItem()));
+            //Se envia el código de categoría que está en las taxonomias JOSE||FELIPE!!!
+            //JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_category", "target_id", String.valueOf(categorySpinner.getSelectedItem()));
+            JSONHandler.setValueJsonArray(propuestaToSend,"field_proposal_category","target_id","3");
             JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_location");
             /*
              *No hace especificar la dirección con una dirección,
@@ -402,7 +401,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
         String titulo = titleField.getText().toString();
         String descripcion = bodyField.getText().toString();
 
-        return (titulo.isEmpty() || descripcion.isEmpty());
+        return (!titulo.isEmpty() || !descripcion.isEmpty());
     }
 
     /**
@@ -465,7 +464,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
   "data":[{"value":"insert-output-from-base64-here"}] }
         * */
 
-        mClienteHttp.postProposal(mClienteHttp.generateProposal());
+
 
 
     }

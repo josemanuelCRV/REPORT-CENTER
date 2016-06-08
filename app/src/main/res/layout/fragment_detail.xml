@@ -117,7 +117,7 @@
 
 
                 <!-- ***********************************************  -->
-
+g
                 <!-- foto de User circle shape-->
                 <ImageView
                     android:id="@+id/fotouser_detail"
