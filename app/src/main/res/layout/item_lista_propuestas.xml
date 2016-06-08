@@ -28,7 +28,7 @@
             android:layout_alignLeft="@+id/foto"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/foto"
-            android:text="Titulo"
+            android:text="@string/Titulo"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
         <!--foto-->
@@ -108,7 +108,7 @@
             android:layout_alignTop="@+id/ic_time"
             android:layout_toEndOf="@+id/ic_time"
             android:layout_toRightOf="@+id/ic_time"
-            android:text="Fecha"
+            android:text="@string/Fecha"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/highlighted_text_material_light" />
 
@@ -142,7 +142,7 @@
             android:elegantTextHeight="false"
             android:elevation="1dp"
             android:gravity="top"
-            android:text="Status"
+            android:text="@string/Estado"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/material_grey_100" />
@@ -169,7 +169,7 @@
             android:layout_gravity="right"
             android:layout_toEndOf="@+id/ic_location"
             android:layout_toRightOf="@+id/ic_location"
-            android:text="ubicacion"
+            android:text="@string/ubicacion"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 
