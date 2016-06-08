@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,10 +86,10 @@ public class UpdateFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_form, container, false);
 
         // Obtención de instancias controles
-        titulo_input = (EditText) v.findViewById(R.id.titulo_input);
-        descripcion_input = (EditText) v.findViewById(R.id.descripcion_input);
-        fecha_text = (TextView) v.findViewById(R.id.fecha_ejemplo_text);
-        categoria_spinner = (Spinner) v.findViewById(R.id.categoria_spinner);
+        titulo_input = (EditText) v.findViewById(R.id.titleField);
+        descripcion_input = (EditText) v.findViewById(R.id.bodyField);
+        fecha_text = (TextView) v.findViewById(R.id.dateLabel);
+        categoria_spinner = (Spinner) v.findViewById(R.id.categorySpinner);
        // prioridad_spinner = (Spinner) v.findViewById(R.id.prioridad_spinner);
 
         fecha_text.setOnClickListener(

@@ -28,7 +28,7 @@
 
             <!-- Titulo-->
             <EditText
-                android:id="@+id/titulo_input"
+                android:id="@+id/titleField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -40,30 +40,30 @@
                 android:minLines="1"
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
-                android:phoneNumber="false"
                 android:singleLine="true" />
 
             <!-- Descripción -->
             <EditText
-                android:id="@+id/descripcion_input"
+                android:id="@+id/bodyField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/titulo_input"
+                android:layout_below="@+id/titleField"
                 android:layout_centerHorizontal="true"
                 android:hint="Descripción"
                 android:maxLength="128"
                 android:nestedScrollingEnabled="true"
                 android:paddingBottom="16dp"
-                android:paddingTop="16dp" />
+                android:paddingTop="16dp"
+                android:lines="3" />
 
             <!-- Etiqueta Fecha -->
             <TextView
-                android:id="@+id/fecha_text"
+                android:id="@+id/dateHeaderLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/descripcion_input"
+                android:layout_below="@+id/bodyField"
                 android:paddingTop="16dp"
                 android:text="Fecha"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -71,22 +71,22 @@
 
             <!-- Fecha -->
             <TextView
-                android:id="@+id/fecha_ejemplo_text"
+                android:id="@+id/dateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fecha_text"
+                android:layout_below="@+id/dateHeaderLabel"
                 android:text="2016/06/09"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
             <!-- Etiqueta Categoría -->
             <TextView
-                android:id="@+id/categoria_texto"
+                android:id="@+id/categoryLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/fecha_ejemplo_text"
+                android:layout_below="@+id/dateLabel"
                 android:paddingTop="16dp"
                 android:text="Categoría"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -95,10 +95,10 @@
 
             <!-- Categoría -->
             <Spinner
-                android:id="@+id/categoria_spinner"
+                android:id="@+id/categorySpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/categoria_texto"
+                android:layout_below="@+id/categoryLabel"
                 android:layout_marginBottom="30dp"
                 android:entries="@array/entradas_categoria" />
 
@@ -107,7 +107,7 @@
                 android:id="@+id/btn_select_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/categoria_spinner"
+                android:layout_below="@+id/categorySpinner"
                 android:layout_marginBottom="30dp"
                 android:text="Select Image" />
 
@@ -154,6 +154,14 @@
                 fab:fab_colorNormal="@color/btn_Twitter_normal"
                 fab:fab_colorPressed="@color/btn_Twitter_pressed"
                 fab:fab_colorRipple="@color/ripple" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notificar al ayuntamiento"
+                android:id="@+id/councilCheckbox"
+                android:layout_toLeftOf="@id/fab"
+                android:layout_alignParentBottom="true"/>
 
 
         </RelativeLayout>

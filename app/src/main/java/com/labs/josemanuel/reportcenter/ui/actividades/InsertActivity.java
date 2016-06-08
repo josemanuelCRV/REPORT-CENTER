@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,9 +58,6 @@ public class InsertActivity extends AppCompatActivity
                     .add(R.id.container, new InsertFragment(), "InsertFragment")
                     .commit();
         }
-
-
-
 
     }
 
@@ -136,57 +134,6 @@ public class InsertActivity extends AppCompatActivity
 
     // ********************************************************************
 
-    public void comenzarLocalizacion() {
-        //Obtenemos una referencia al LocationManager
-        locManager =
-                (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        //Obtenemos la última posición conocida
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-
-        Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        //Mostramos la última posición conocida Log
-        // mostrarPosicion(loc);
-
-        //Nos registramos para recibir actualizaciones de la posición
-        locListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-
-                // mostrarPosicion(location);
-            }
-
-            public void onProviderDisabled(String provider) {
-                // lblEstado.setText("Provider OFF");
-            }
-
-            public void onProviderEnabled(String provider) {
-                // lblEstado.setText("Provider ON ");
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                Log.i("", "Provider Status: " + status);
-                // lblEstado.setText("Provider Status: " + status);
-            }
-        };
-
-        locManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 30000, 0, locListener);
-    }
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -250,22 +197,6 @@ public class InsertActivity extends AppCompatActivity
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

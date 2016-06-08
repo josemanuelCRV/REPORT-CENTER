@@ -2,15 +2,14 @@ package com.labs.josemanuel.reportcenter.ui.fragmentos;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -27,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,9 +41,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.labs.josemanuel.reportcenter.Controler.JSONHandler;
 import com.labs.josemanuel.reportcenter.R;
-import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,15 +52,13 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 
 /**
  * Fragmento que permite al usuario insertar un nueva meta
  */
-public class InsertFragment extends Fragment implements  LocationListener, View.OnClickListener {
-
+public class InsertFragment extends Fragment implements LocationListener, View.OnClickListener {
 
 
     @Override
@@ -80,41 +79,18 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
     /*
     Controles
     */
-    EditText titulo_input;
-    EditText descripcion_input;
-    Spinner prioridad_spinner;
-    TextView fecha_text;
-    Spinner categoria_spinner;
-    Button select_img_btn;
-
-    // Mostrar el nombre de la calle en base a la localización
-    TextView messageDireccion;
-
-    MapsActivity mapsActivity;
-
-
-    Location location = null;
-    private Double lat;
-    private Double lon;
-
+    EditText titleField;
+    EditText bodyField;
+    TextView dateField;
+    Spinner categorySpinner;
+    Button imageBtn;
     // instancia SupportMapFragment para el mapa
-    private SupportMapFragment mSupportMapFragment;
-
-
-    // nuevo
-    private GoogleMap mMap;
-    private LocationManager locManager;
-    private android.location.LocationListener locListener;
-
-    final String MIAPIKEY = "AIzaSyBBGoPEmOhpfRYE7zxejlqaCHxyY75FSOw";
-    // final String MIAPIKEY ="AIzaSyCtBCoNv0I0ZdvlONRzUUZ_CcABO-d7g-s";
-
-
-
+    SupportMapFragment mSupportMapFragment;
+    CheckBox councilCheckBox;
     // Instancia global del FAB
     com.melnykov.fab.FloatingActionButton fabCamera;
 
-
+    LatLng marker_latlng;
     private final String ruta_fotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/CityHacks/";
     private File file = new File(ruta_fotos);
 
@@ -122,9 +98,6 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
     public InsertFragment() {
 
     }
-
-
-
 
 
     @Override
@@ -138,10 +111,6 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
     } // FIN onCreate
 
 
-
-
-
-
     // 0 Crear localización y mostrar en el mapa
     // 1º dialog con pregunta de si estas en este punto nada más entrar
     // 2º  Si estas recoge lat_long
@@ -151,8 +120,6 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
 
 
     /// -------------------------------------------------------------------------
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -160,10 +127,12 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
         View v = inflater.inflate(R.layout.fragment_form, container, false);
 
         // Obtención de instancias controles
-        titulo_input = (EditText) v.findViewById(R.id.titulo_input);
-        descripcion_input = (EditText) v.findViewById(R.id.descripcion_input);
-        fecha_text = (TextView) v.findViewById(R.id.fecha_ejemplo_text);
-        categoria_spinner = (Spinner) v.findViewById(R.id.categoria_spinner);
+        titleField = (EditText) v.findViewById(R.id.titleField);
+        bodyField = (EditText) v.findViewById(R.id.bodyField);
+        dateField = (TextView) v.findViewById(R.id.dateLabel);
+        categorySpinner = (Spinner) v.findViewById(R.id.categorySpinner);
+        imageBtn = (Button) v.findViewById(R.id.btn_select_img);
+        councilCheckBox = (CheckBox) v.findViewById(R.id.councilCheckbox);
 
 
         // prioridad_spinner = (Spinner) v.findViewById(R.id.prioridad_spinner);
@@ -197,9 +166,14 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
                 }
         );
 
-
+        imageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("Ready to send", setJSONObjectForSending().toString());
+            }
+        });
         // Data Picker
-        fecha_text.setOnClickListener(
+        dateField.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -211,11 +185,7 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
         );
 
 
-
-
         // INSTANCIAR EL MAPA
-
-
         mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapwhere1);
         if (mSupportMapFragment == null) {
             FragmentManager fragmentManager = getFragmentManager();
@@ -230,7 +200,7 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     if (googleMap != null) {
-                        LatLng marker_latlng = getLatLng(googleMap);
+                        marker_latlng = getLatLng(googleMap);
                         if (marker_latlng == null) return;
 
 
@@ -253,6 +223,7 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
         return v;
 
     } // FIN onCreateView
+
     //********************************************************* for refactor's sake...
     @Nullable
     private LatLng getLatLng(GoogleMap googleMap) {
@@ -279,7 +250,7 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
         // Getting Current Location
         Location location = locationManager.getLastKnownLocation(provider);
         //LatLng marker_latlng = new LatLng(lat, lon);
-        LatLng marker_latlng ;
+        LatLng marker_latlng;
         if (location != null) {
             // Getting latitude of the current location
             double latitude = location.getLatitude();
@@ -289,15 +260,98 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
 
             marker_latlng = new LatLng(latitude, longitude);
 
-        }else{
-            marker_latlng= new LatLng(lat, lon);
+        } else {
+            marker_latlng = new LatLng(40.4169514, -3.7057225);//Puerta del Sol
         }
         return marker_latlng;
     }
 
 
+    private JSONObject setJSONObjectForSending() {
+        JSONObject propuestaToSend = new JSONObject();
+        try {
+            /*Definición objeto que se envía en POST a Drupal
+            * _links es un objeto que se integra en el formato hal_json.
+            * Gracias a este objeto, el sistema permite relacionar este objeto JSON con otras entidades.
+            * Es una versión relacional del json (HAL => Hypertext Application Language)
+            * */
+            JSONHandler.setJsonObjectNode(propuestaToSend, "_links");
+            JSONHandler.setValueJsonObject(propuestaToSend, "_links", "type", new JSONObject().put("href", "http://stag.hackityapp.com/rest/type/node/proposal"));
 
+            /*
+            * El cuerpo del mensaje, texto del textbox
+            * */
+            JSONHandler.setJsonObjectNode(propuestaToSend, "body");
+            JSONHandler.setValueJsonObject(propuestaToSend, "body", "value", bodyField.getText().toString());
+            /*
+            * Se especifica en el uid la referencia al usuario que envía la propuesta,
+            * en este momento no tenemos forma de rescatar el uid del usuario que se logea,
+            * porque no tenemos un sistema de login propiamente dicho.
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "uid");
+            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "target_id", "301");
+            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "target_type", "user");
+            JSONHandler.setValueJsonArray(propuestaToSend, "uid", "url", "/en/user/301");
+            /*
+            * La categoría cambiará en función de lo que se elija en el combobox a la hora de la inserción.
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_category");
+            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_category", "target_id", String.valueOf(categorySpinner.getSelectedItem()));
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_location");
+            /*
+             *No hace especificar la dirección con una dirección,
+             * al enviar la posición en lat y lng el sistema las procesa
+             * y devuelve una dirección formateada.
+              *  */
+            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_location", "lat", String.valueOf(marker_latlng.latitude));
+            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_location", "lng", String.valueOf(marker_latlng.longitude));
+            /*JSONHandler.setValueJsonArray(propuestaToSend,"field_proposal_location","lat_sin","0.64776378153254");
+            JSONHandler.setValueJsonArray(propuestaToSend,"field_proposal_location","lat_cos","0.76184124549322");
+            JSONHandler.setValueJsonArray(propuestaToSend,"field_proposal_location","lng_rad","-0.063883640838925");*/
+            propuestaToSend.getJSONArray("field_proposal_location").getJSONObject(0).put("data", new JSONArray());
 
+            /*
+            * En la página web está marcado como un checkbox, podemos darle el mismo sentido en la aplicación
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_notify_council");
+            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_notify_council", "value", councilCheckBox.isChecked() ? "1" : "2");
+            /*
+            * Las propuestas por defecto están abiertas nada más ser añadidas.
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_status");
+            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_status", "target_id", "1");
+            /*
+            * Idioma en el que se encuentra la aplicación. (MULTIIDIOMAS!)
+            * Configuración del sistema
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "langcode");
+            JSONHandler.setValueJsonArray(propuestaToSend, "langcode", "value", Locale.getDefault().getLanguage());
+            /*
+            * Titulo de la propuesta
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "title");
+            JSONHandler.setValueJsonArray(propuestaToSend, "title", "value", titleField.getText().toString());
+
+            /*
+            * Indica el tipo del recurso que se va a añadir. En este momento sólo tenemos capacidad de añadir propuestas.
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "type");
+            JSONHandler.setValueJsonArray(propuestaToSend, "type", "target_id", "proposal");
+            /*
+            * Añadir las imagenes a la propuesta.
+            * */
+            JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_images");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                propuestaToSend.getJSONArray("field_proposal_images").remove(0);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (basicValidation())
+            return propuestaToSend;
+        else
+            return null;
+    }
 
 
     /**
@@ -317,8 +371,6 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        // Remover el action button de borrar
-        menu.removeItem(R.id.action_delete);
     }
 
     @Override
@@ -327,8 +379,9 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
 
         switch (id) {
             case android.R.id.home:// CONFIRMAR
-                if (!camposVacios())
-                    guardarMeta();
+                if (!basicValidation())
+                    //postProposal
+                    basicValidation();//insertarPropuesta
                 else
                     Toast.makeText(
                             getActivity(),
@@ -337,7 +390,7 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
                 return true;
 
             case R.id.action_discard:// DESCARTAR
-                if (!camposVacios())
+                if (!basicValidation())
                     mostrarDialogo();
                 else
                     getActivity().finish();
@@ -348,118 +401,6 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Guarda los cambios de una meta editada.
-     * <p/>
-     * Si está en modo inserción, entonces crea una nueva
-     * meta en la base de datos
-     */
-    public void guardarMeta() {
-
-        // Obtener valores actuales de los controles
-/*
-        final String titulo = titulo_input.getText().toString();
-        final String descripcion = descripcion_input.getText().toString();
-        final String fecha = fecha_text.getText().toString();
-        final String categoria = categoria_spinner.getSelectedItem().toString();
-        final String prioridad = prioridad_spinner.getSelectedItem().toString();
-
-        HashMap<String, String> map = new HashMap<>();// Mapeo previo
-
-        map.put("titulo", titulo);
-        map.put("descripcion", descripcion);
-        map.put("fechaLim", fecha);
-        map.put("categoria", categoria);
-        map.put("prioridad", prioridad);
-
-        // Crear nuevo objeto Json basado en el mapa
-        JSONObject jobject = new JSONObject(map);
-
-        // Depurando objeto Json...
-        Log.d(TAG, jobject.toString());
-
-        // Actualizar datos en el servidor
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(
-                new JsonObjectRequest(
-                        Request.Method.POST,
-                        Constantes.INSERT,
-                        jobject,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // Procesar la respuesta del servidor
-                                procesarRespuesta(response);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d(TAG, "Error Volley: " + error.getMessage());
-                            }
-                        }
-
-                ) {
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        Map<String, String> headers = new HashMap<String, String>();
-                        headers.put("Content-Type", "application/json; charset=utf-8");
-                        headers.put("Accept", "application/json");
-                        return headers;
-                    }
-
-                    @Override
-                    public String getBodyContentType() {
-                        return "application/json; charset=utf-8" + getParamsEncoding();
-                    }
-                }
-        );
-*/
-
-    } // FIN GUARDAR META
-
-    /**
-     * Procesa la respuesta obtenida desde el sevidor
-     *
-     * @param response Objeto Json
-     */
-    private void procesarRespuesta(JSONObject response) {
-
-        try {
-            // Obtener estado
-            String estado = response.getString("estado");
-            // Obtener mensaje
-            String mensaje = response.getString("mensaje");
-
-            switch (estado) {
-                case "1":
-                    // Mostrar mensaje
-                    Toast.makeText(
-                            getActivity(),
-                            mensaje,
-                            Toast.LENGTH_LONG).show();
-                    // Enviar código de éxito
-                    getActivity().setResult(Activity.RESULT_OK);
-                    // Terminar actividad
-                    getActivity().finish();
-                    break;
-
-                case "2":
-                    // Mostrar mensaje
-                    Toast.makeText(
-                            getActivity(),
-                            mensaje,
-                            Toast.LENGTH_LONG).show();
-                    // Enviar código de falla
-                    getActivity().setResult(Activity.RESULT_CANCELED);
-                    // Terminar actividad
-                    getActivity().finish();
-                    break;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * Valida si los campos se han rellenado
@@ -467,9 +408,9 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
      * @return true si alguno o dos de los campos están vacios, false si ambos
      * están completos
      */
-    public boolean camposVacios() {
-        String titulo = titulo_input.getText().toString();
-        String descripcion = descripcion_input.getText().toString();
+    public boolean basicValidation() {
+        String titulo = titleField.getText().toString();
+        String descripcion = bodyField.getText().toString();
 
         return (titulo.isEmpty() || descripcion.isEmpty());
     }
@@ -483,7 +424,7 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
      */
     public void actualizarFecha(int ano, int mes, int dia) {
         // Setear en el textview la fecha
-        fecha_text.setText(ano + "-" + (mes + 1) + "-" + dia);
+        dateField.setText(String.format(Locale.getDefault().getLanguage(),"%d/0%d/%d",dia,mes+1,ano));
     }
 
     /**
@@ -505,8 +446,6 @@ public class InsertFragment extends Fragment implements  LocationListener, View.
                                 getString(R.string.dialog_location));
         dialogo.show(getFragmentManager(), "ConfirmDialogLocation");
     }
-
-
 
 
 }
