@@ -1,8 +1,17 @@
 package com.labs.josemanuel.reportcenter.ui.actividades;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,52 +35,81 @@ public class ProfileActivity extends Activity {
 
     ListView lista;
     ArrayAdapter adaptador;
+    ImageView geoImage = (ImageView)findViewById(R.id.ic_location);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_list_item);
 
+
+        //extraemos el drawable en un bitmap
+        Drawable originalDrawable = getResources().getDrawable(R.drawable.arnoldthumbnail);
+        Bitmap originalBitmap = ((BitmapDrawable) originalDrawable).getBitmap();
+
+        //creamos el drawable redondeado
+        RoundedBitmapDrawable roundedDrawable =
+                RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
+
+        //asignamos el CornerRadius
+        roundedDrawable.setCornerRadius(originalBitmap.getHeight());
+
+        ImageView imageView = (ImageView) findViewById(R.id.userImg);
+
+        imageView.setImageDrawable(roundedDrawable);
+
+        ImageView geoImg = (ImageView) findViewById(R.id.ic_location);
+        geoImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileActivity.this, MapsActivity.class);
+            }
+        });
+
+
+
+
+
+
+
         ArrayList<String> titulos = new ArrayList<String>();
 
         titulos.add("Tu nombre de usuario");
         titulos.add("E-Mail");
         titulos.add("Nueva contraseña");
-        titulos.add("Tu foto");
         titulos.add("Estoy en");
         titulos.add("Borrar cuenta");
 
         ArrayList<String> subtitulos = new ArrayList<String>();
 
         subtitulos.add("Manu");
-        subtitulos.add("a@a.com");
+        subtitulos.add("cityhacks.social@gmail.com");
         subtitulos.add("Contraseña");
-        subtitulos.add("Tu foto");
-        subtitulos.add("-----");
+        subtitulos.add("");
         subtitulos.add("Borrar cuenta");
 
 
-        TextView titulo1 = (TextView) findViewById(R.id.title1);
-        TextView titulo2 = (TextView) findViewById(R.id.title2);
-        TextView titulo3 = (TextView) findViewById(R.id.title3);
-        TextView titulo4 = (TextView) findViewById(R.id.title4);
-        TextView titulo5 = (TextView) findViewById(R.id.title5);
-        TextView titulo0 = (TextView) findViewById(R.id.title6);
-        TextView subtitulo1 = (TextView) findViewById(R.id.subtitle1);
-        TextView subtitulo2 = (TextView) findViewById(R.id.subtitle2);
-        TextView subtitulo3 = (TextView) findViewById(R.id.subtitle3);
-        TextView subtitulo4 = (TextView) findViewById(R.id.subtitle4);
-        TextView subtitulo5 = (TextView) findViewById(R.id.subtitle5);
-        TextView subtitulo0 = (TextView) findViewById(R.id.subtitle6);
-        ImageView profImage = (ImageView) findViewById(R.id.profImage);
-        Iterator<String> iterador = titulos.iterator();
+        TextView titulo0 = (TextView) findViewById(R.id.title1);
+        TextView titulo1 = (TextView) findViewById(R.id.title2);
+        TextView titulo2 = (TextView) findViewById(R.id.title3);
+        TextView titulo3 = (TextView) findViewById(R.id.title4);
+        TextView titulo4 = (TextView) findViewById(R.id.title5);
+
+
+        TextView subtitulo0 = (TextView) findViewById(R.id.subtitle1);
+        TextView subtitulo1 = (TextView) findViewById(R.id.subtitle2);
+        TextView subtitulo2 = (TextView) findViewById(R.id.subtitle3);
+        TextView subtitulo3 = (TextView) findViewById(R.id.subtitle4);
+        TextView subtitulo4 = (TextView) findViewById(R.id.subtitle5);
+
 
         titulo0.setText(titulos.get(0));
         titulo1.setText(titulos.get(1));
         titulo2.setText(titulos.get(2));
         titulo3.setText(titulos.get(3));
         titulo4.setText(titulos.get(4));
-        titulo5.setText(titulos.get(5));
+
 
 
         subtitulo0.setText(subtitulos.get(0));
@@ -78,7 +117,7 @@ public class ProfileActivity extends Activity {
         subtitulo2.setText(subtitulos.get(2));
         subtitulo3.setText(subtitulos.get(3));
         subtitulo4.setText(subtitulos.get(4));
-        subtitulo5.setText(subtitulos.get(5));
+
 
 
 
@@ -103,6 +142,7 @@ public class ProfileActivity extends Activity {
        // lista.setOnItemClickListener(this);*/
 
     }
+
 
 
 
