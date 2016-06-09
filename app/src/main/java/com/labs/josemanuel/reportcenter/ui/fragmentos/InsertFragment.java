@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.Utils.ObtenerImagen;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,7 +95,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
     EditText bodyField;
     TextView dateField;
     Spinner categorySpinner;
-    Button imageBtn;
+    com.melnykov.fab.FloatingActionButton sendBtn;
     // instancia SupportMapFragment para el mapa
     SupportMapFragment mSupportMapFragment;
     CheckBox councilCheckBox;
@@ -145,8 +146,8 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
         bodyField = (EditText) v.findViewById(R.id.bodyField);
         dateField = (TextView) v.findViewById(R.id.dateLabel);
         categorySpinner = (Spinner) v.findViewById(R.id.categorySpinner);
-        imageBtn = (Button) v.findViewById(R.id.btn_select_img);
         councilCheckBox = (CheckBox) v.findViewById(R.id.councilCheckbox);
+        sendBtn = (FloatingActionButton) v.findViewById(R.id.sendBtn);
 
 
         // prioridad_spinner = (Spinner) v.findViewById(R.id.prioridad_spinner);
@@ -165,30 +166,8 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
             }
         });
 
-                /*new View.OnClickListener() {
-                    ;}
-                    @Override
-                    public void onClick(View v) {
-                        String file = ruta_fotos + getCode() + ".jpg";
-                        File mi_foto = new File(file);
-                        try {
-                            mi_foto.createNewFile();
-                        } catch (IOException ex) {
-                            Log.e("ERROR ", "Error:" + ex);
-                        }
-                        //
-                        Uri uri = Uri.fromFile(mi_foto);
-                        //Abre la camara para tomar la foto
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //Guarda imagen
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                        //Retorna a la actividad
-                        startActivityForResult(cameraIntent, 0);
-                    }
-                }
-        )*/
 
-        imageBtn.setOnClickListener(new View.OnClickListener() {
+        sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mClienteHttp.postProposal(prepareJSONObjectForSending());

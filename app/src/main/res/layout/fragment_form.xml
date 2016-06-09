@@ -29,6 +29,21 @@
             android:focusableInTouchMode="true"
             android:theme="@style/AppTheme.Insert">
 
+
+            <!-- Toolbar -->
+            <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbar_insert"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/CustomActionBar" />
+
+
+
+
             <!-- Titulo-->
             <EditText
                 android:id="@+id/titleField"
@@ -57,7 +72,8 @@
                 android:nestedScrollingEnabled="true"
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
-                android:lines="3" />
+                android:lines="3"
+                android:layout_marginBottom="15dp" />
 
             <!-- Etiqueta Fecha -->
             <TextView
@@ -79,7 +95,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateHeaderLabel"
                 android:text="pick a date"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_marginBottom="15dp" />
 
 
             <!-- Etiqueta Categoría -->
@@ -105,33 +122,16 @@
                 android:layout_marginBottom="30dp"
                 android:entries="@array/entradas_categoria" />
 
-            <!-- Boton seleccionar imagen-->
-            <Button
-                android:id="@+id/btn_select_img"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/categorySpinner"
-                android:layout_marginBottom="30dp"
-                android:text="Select Image" />
-
-
-            <!-- Prioridad -->
-
-
-            <!--ESPACIO PARA EL MAPA-->
-
-
-            <!-- Divisor 2 -->
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/btn_select_img"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@android:color/darker_gray"
+                android:layout_below="@+id/categorySpinner" />
 
             <FrameLayout
                 android:id="@+id/mapwhere1"
@@ -141,8 +141,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/divider2"
-                android:layout_marginBottom="60dp"
-                android:layout_marginTop="40dp" />
+                android:layout_marginBottom="65dp"
+                android:layout_marginTop="44dp" />
 
 
             <com.melnykov.fab.FloatingActionButton
@@ -164,8 +164,35 @@
                 android:text="Notificar al ayuntamiento"
                 android:id="@+id/councilCheckbox"
                 android:layout_toLeftOf="@id/fab"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp" />
 
+            <EditText
+                android:id="@+id/searchInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:hint="Buscar en Google Maps"
+                android:maxLines="1"
+                android:minLines="1"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/sendBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="bottom|left"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_media_play"
+                fab:fab_colorNormal="@color/btn_Twitter_normal"
+                fab:fab_colorPressed="@color/btn_Twitter_pressed"
+                fab:fab_colorRipple="@color/ripple" />
 
         </RelativeLayout>
 

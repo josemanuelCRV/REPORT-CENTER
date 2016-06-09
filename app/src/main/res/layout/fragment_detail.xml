@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:tag="frag_detail_tag">
+    android:tag="frag_detail_tag"
+    android:background="@color/cardview_light_background">
 
 
     <!-- App Bar -->
@@ -41,7 +42,7 @@
 
             <!-- Toolbar -->
             <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/toolbar1"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
@@ -216,7 +217,7 @@ g
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/direccion"
-                    android:background="@color/colorPrimary_light"
+                    android:background="@color/cardview_light_background"
                     android:measureWithLargestChild="false"
                     android:orientation="vertical">
 
@@ -305,7 +306,8 @@ g
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:background="@color/cardview_light_background">
 
                         <com.labs.josemanuel.reportcenter.ui.InteractiveScrollView
                             android:id="@+id/comentarios"

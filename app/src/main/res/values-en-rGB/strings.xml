@@ -95,4 +95,8 @@
     <string name="Timestamp">Timestamp</string>
     <string name="name">Name</string>
     <string name="ubicacion">Location</string>
+    <string name="chooser_title">Share CityHacks via</string>
+    <string name="emailContactUs">mailto:cityhacks.social@gmail.com</string>
+    <string name="Share">Share</string>
+    <string name="contact_us">Contact Us</string>
 </resources>

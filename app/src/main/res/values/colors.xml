@@ -78,9 +78,9 @@
     <color name="rojo_hackity">#e43e26</color>-->
 
     <!-- botones Twitter -->
-    <color name="btn_Twitter_normal">#33b5e5</color>
-    <color name="btn_Twitter_pressed">#3F51B5</color>
-    <color name="black_overlay">#66000000</color>
+    <color name="btn_Twitter_normal">#607d8b</color>
+    <color name="btn_Twitter_pressed">#CFD8DC</color>
+    <color name="black_overlay">#455A64</color>
 
 
 </resources>

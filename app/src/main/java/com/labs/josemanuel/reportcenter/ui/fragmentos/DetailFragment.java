@@ -35,6 +35,7 @@ import com.labs.josemanuel.reportcenter.Controler.PropuestaHandler;
 import com.labs.josemanuel.reportcenter.Infrastructure.Infrastructure;
 import com.labs.josemanuel.reportcenter.Model.Propuesta;
 import com.labs.josemanuel.reportcenter.Model.RandomHero;
+import com.labs.josemanuel.reportcenter.Model.Taxonomia;
 import com.labs.josemanuel.reportcenter.Model.User;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.ui.AdaptadorComment;
@@ -94,6 +95,8 @@ public class DetailFragment extends Fragment {
     private SupportMapFragment mSupportMapFragment;
     // Propuesta seleccionada
     private Propuesta PropSeleecionada = Infrastructure.getPropuestaSeleccionada();
+
+
 
 
     // CONSTRUCTOR DE CLASE
@@ -280,6 +283,20 @@ public class DetailFragment extends Fragment {
 
 
         // título
+        // http://stag.hackityapp.com/en/api/category/8
+
+        // Taxonomia UrbanEquipment = new Taxonomia(3,
+        // Taxonomia Cleaning = new Taxonomia(4,
+        // Taxonomia Mobility = new Taxonomia(5
+        // Taxonomia GreenAreas = new Taxonomia(6,
+        // Taxonomia NeighborhoodLife = new Taxonomia(7,
+        // Taxonomia Other = new Taxonomia(8,
+
+        //
+        //"field_proposal_status","target_id","1"
+
+
+
         viewTituloDetalle.setText(PropSeleecionada.getTitle());
         // descripción
         viewDescripcionDetalle.setText(PropSeleecionada.getBody().getValue());
@@ -292,7 +309,7 @@ public class DetailFragment extends Fragment {
         String category = PropSeleecionada.getField_proposal_status().getUrl();
         viewCategoriaDetalle.setText(category);
         // Stado abierta/cerrada
-        if (abierta.equals(PropSeleecionada.getStatus())) {
+        if (PropSeleecionada.getStatus().equals(abierta)) {
             viewEstado.setText("Abierta");
             viewFlagState.setImageResource(R.drawable.ic_bookmark); // cambia la bandera
         } else {

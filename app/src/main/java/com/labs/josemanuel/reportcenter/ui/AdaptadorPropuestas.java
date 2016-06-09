@@ -70,7 +70,6 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             viewTitle = (TextView) v.findViewById(R.id.titulo);
             viewUbicacion = (TextView) v.findViewById(R.id.ubicacion);
             viewBody = (TextView) v.findViewById(R.id.descripcion);
-            viewUsername = (TextView) v.findViewById(R.id.username);
             viewFoto = (ImageView) v.findViewById(R.id.foto);
             viewFecha = (TextView) v.findViewById(R.id.fecha);
             viewEstado = (TextView) v.findViewById(R.id.categoria);
@@ -166,11 +165,11 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
         }
 
         // ID de Usuario
-        if (propuesta.getUid().getTarget_id() != null) {
+     /*   if (propuesta.getUid().getTarget_id() != null) {
             holder.viewUsername.setText(String.format("idUsuario %s", propuesta.getUid().getTarget_id() + " propuso")); // Consultar en api el username del id
         } else {
             holder.viewUsername.setText("Usuario desconocido");
-        }
+        }*/
 
         // Imágen de Propuesta
         /*if (propuesta.getImage()[0].getUrl().length() != 0) {

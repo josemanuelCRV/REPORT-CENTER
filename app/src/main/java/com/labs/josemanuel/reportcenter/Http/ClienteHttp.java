@@ -62,6 +62,7 @@ public class ClienteHttp {
     public AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> getPropuestas(){
         String tag_JsonArray_req = "mJsonArrayRequest";
         RequestFuture<JSONArray> future= RequestFuture.newFuture();
+        mUrl="https://stag.hackityapp.com/es/api/v1/proposals";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, mUrl,future,future);
         addToRequestQueue(tag_JsonArray_req,jsonArrayRequest);
         return new PropuestasTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,future);

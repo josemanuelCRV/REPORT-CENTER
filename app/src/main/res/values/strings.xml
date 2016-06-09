@@ -67,12 +67,14 @@
 
     <!-- Diálogos -->
     <string name="dialog_ok">OK</string>
+    <string name="dialog_si">SI</string>
     <string name="dialog_discard_msg">¿Descartar Cambios?</string>
     <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_no">No</string>
     <string name="dialog_delete_msg">Se eliminará la meta</string>
 
     <!--Dialogos de Localización-->
-    <string name="dialog_location">¿Estas en esta ubicación?</string>
+    <string name="dialog_location">¿Estás ahora en el lugar de la propuesta?</string>
 
 
 
@@ -102,4 +104,9 @@
     <string name="Timestamp">Marca de tiempo</string>
     <string name="name">Nombre</string>
     <string name="ubicacion">Ubicación</string>
+    <string name="chooser_title">Share CityHacks via</string>
+    <string name="emailContactUs">mailto:cityhacks.social@gmail.com</string>
+    <string name="compartir">Compartir</string>
+    <string name="Share">Share</string>
+    <string name="contacto">Contacto</string>
 </resources>

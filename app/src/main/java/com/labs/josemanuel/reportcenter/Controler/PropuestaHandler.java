@@ -1,3 +1,4 @@
+
 package com.labs.josemanuel.reportcenter.Controler;
 
 import com.labs.josemanuel.reportcenter.Model.Categoria;

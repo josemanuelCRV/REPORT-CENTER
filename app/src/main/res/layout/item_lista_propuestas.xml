@@ -77,40 +77,20 @@
             fab:fab_colorRipple="@color/colorRippleMini" />
 
         <!-- foto de User circle shape-->
-        <ImageView
-            android:id="@+id/fotouser_detail"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/foto"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="6dp"
-            android:src="@android:drawable/sym_def_app_icon" />
 
         <!-- nombre de User circle shape-->
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fotouser_detail"
-            android:layout_toEndOf="@+id/fotouser_detail"
-            android:layout_toRightOf="@+id/fotouser_detail"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:text="username"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <!-- Fecha -->
         <TextView
             android:id="@+id/fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ic_time"
-            android:layout_toEndOf="@+id/ic_time"
-            android:layout_toRightOf="@+id/ic_time"
             android:text="@string/Fecha"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/highlighted_text_material_light" />
+            android:textColor="@color/highlighted_text_material_light"
+            android:layout_below="@+id/foto"
+            android:layout_toRightOf="@+id/ic_time"
+            android:layout_toEndOf="@+id/ic_time" />
 
 
         <!-- Descripcion -->
@@ -120,12 +100,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/fotouser_detail"
             android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet."
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_below="@+id/fecha" />
 
 
         <!-- status_prop Abierta/Cerrada -->
@@ -133,8 +113,6 @@
             android:id="@+id/categoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/username"
-            android:layout_alignBottom="@+id/username"
             android:layout_alignLeft="@+id/status_flag"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -145,7 +123,8 @@
             android:text="@string/Estado"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/material_grey_100" />
+            android:textColor="@color/material_grey_100"
+            android:layout_alignTop="@+id/fecha" />
 
         <!-- status_Flag -->
         <ImageView
@@ -154,10 +133,10 @@
             android:layout_height="35dp"
             android:layout_alignBottom="@+id/categoria"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/username"
             android:adjustViewBounds="false"
             android:nestedScrollingEnabled="false"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:layout_alignTop="@+id/fecha" />
 
 
         <!--direccion -->
@@ -227,10 +206,10 @@
             android:id="@+id/ic_time"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_above="@+id/descripcion"
-            android:layout_alignLeft="@+id/username"
-            android:layout_alignStart="@+id/username"
-            android:src="@android:drawable/ic_menu_recent_history" />
+            android:src="@android:drawable/ic_menu_recent_history"
+            android:layout_alignBottom="@+id/fecha"
+            android:layout_toLeftOf="@+id/ubicacion"
+            android:layout_toStartOf="@+id/ubicacion" />
 
 
     </RelativeLayout>

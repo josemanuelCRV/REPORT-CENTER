@@ -1,6 +1,7 @@
 package com.labs.josemanuel.reportcenter.ui.actividades;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -28,20 +30,15 @@ import com.labs.josemanuel.reportcenter.ui.fragmentos.InsertFragment;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MapsActivity;
 
 
-
-
-
 public class InsertActivity extends AppCompatActivity
         implements DatePickerFragment.OnDateSelectedListener,
-        ConfirmDialogFragment.ConfirmDialogListener, ConfirmLocationFragment.ConfirmDialogListenerLocation,OnMapReadyCallback {
-
+        ConfirmDialogFragment.ConfirmDialogListener, ConfirmLocationFragment.ConfirmDialogListenerLocation, OnMapReadyCallback {
 
 
     private GoogleMap mMap;
     private LocationManager locManager;
     private LocationListener locListener;
-    final String MIAPIKEY ="AIzaSyCtBCoNv0I0ZdvlONRzUUZ_CcABO-d7g-s";
-
+    final String MIAPIKEY = "AIzaSyCtBCoNv0I0ZdvlONRzUUZ_CcABO-d7g-s";
 
 
     @Override
@@ -60,7 +57,19 @@ public class InsertActivity extends AppCompatActivity
         }
 
 
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_insert);
+        setSupportActionBar(toolbar);
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);*/
+
+        //Escondiendo la Action Bar
+        // actionBar.hide();
+
+        //Mostrando de nuevo la Action Bar
+      /*  if (actionBar != null) {
+            actionBar.show();
+        }*/
 
     }
 
@@ -79,7 +88,6 @@ public class InsertActivity extends AppCompatActivity
             insertFragment.actualizarFecha(year, month, day);
         }
     }
-
 
 
     // -------------  PARA LOS DIALOG DE DESCARTAR CAMBIOS
@@ -107,7 +115,6 @@ public class InsertActivity extends AppCompatActivity
     }
 
 
-
     // -------------  DIALOGS DE LOCALIZACIÓN
     @Override
     public void onDialogPositiveClickLocation(DialogFragment dialog) {
@@ -121,7 +128,6 @@ public class InsertActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void onDialogNegativeClickLocation(DialogFragment dialog) {
         InsertFragment insertFragment = (InsertFragment)
@@ -132,7 +138,6 @@ public class InsertActivity extends AppCompatActivity
 
         }
     }
-
 
 
     // ********************************************************************
@@ -166,14 +171,14 @@ public class InsertActivity extends AppCompatActivity
         // Comprueba el proveedor disponible
 
         Location loc = null;
-        if(locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }else{
+        } else {
             loc = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
 
 
-        Double latitud= Double.valueOf(loc.getLatitude());
+        Double latitud = Double.valueOf(loc.getLatitude());
         Double longitud = Double.valueOf(loc.getLongitude());
 
         LatLng myLocation = new LatLng(latitud, longitud);
@@ -181,14 +186,13 @@ public class InsertActivity extends AppCompatActivity
         Log.i("", "Latitud: " + latitud);
         Log.i("", "longitud: " + longitud);
 
-        Toast.makeText(InsertActivity.this, "Latitud es:"+latitud, Toast.LENGTH_SHORT).show();
+        Toast.makeText(InsertActivity.this, "Latitud es:" + latitud, Toast.LENGTH_SHORT).show();
 
         //LatLng myLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
         mMap.addMarker(new MarkerOptions().position(myLocation).title("Mi ubicación"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));//movemos la camara hasta nuestra posicion
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,14));//amploa zoom del 1 al 21(mas cercano)
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14));//amploa zoom del 1 al 21(mas cercano)
         /////////
-
 
 
         // Add a marker in Sydney and move the camera
@@ -198,22 +202,7 @@ public class InsertActivity extends AppCompatActivity
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,14));*/
 
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

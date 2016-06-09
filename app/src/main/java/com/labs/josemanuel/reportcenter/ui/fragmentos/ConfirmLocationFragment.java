@@ -4,9 +4,12 @@ package com.labs.josemanuel.reportcenter.ui.fragmentos;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.TextView;
 
 import com.labs.josemanuel.reportcenter.R;
 
@@ -17,6 +20,7 @@ public class ConfirmLocationFragment extends DialogFragment {
      * Etiqueta del valor extra
      */
     private static final String EXTRA_NOMBRE = "NOMBRE";
+
 
     /**
      * Crea una nueva instancia del diálogo con un parámetro extra
@@ -31,6 +35,10 @@ public class ConfirmLocationFragment extends DialogFragment {
         bundle.putString(EXTRA_NOMBRE, extra);
         fragmentLocation.setArguments(bundle);
         return fragmentLocation;
+
+
+
+
     }
 
     @Override
@@ -39,16 +47,22 @@ public class ConfirmLocationFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         builder.setMessage(getArguments().getString(EXTRA_NOMBRE))
-                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_si, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Enviar evento de aceptar a la actividad
                         listener.onDialogPositiveClickLocation(ConfirmLocationFragment.this);
+
+
+
+
                     }
                 })
-                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Enviar evento de cancelar a la actividad
                         listener.onDialogNegativeClickLocation(ConfirmLocationFragment.this);
+
+
                     }
                 });
         return builder.create();
