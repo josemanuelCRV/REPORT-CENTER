@@ -249,34 +249,4 @@ public class DetailActivity extends AppCompatActivity {
 
     // FINN onCreate
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ConstantsTransition.CODIGO_ACTUALIZACION) {
-            if (resultCode == RESULT_OK) {
-                DetailFragment fragment = (DetailFragment) getSupportFragmentManager().
-                        findFragmentByTag("DetailFragment");
-                fragment.cargarDatos();
-
-                setResult(RESULT_OK); // Propagar código para actualizar
-            } else if (resultCode == 203) {
-                setResult(203);
-                finish();
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        }
-    }
 }

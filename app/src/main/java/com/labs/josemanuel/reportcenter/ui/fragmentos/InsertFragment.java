@@ -338,7 +338,7 @@ public class InsertFragment extends Fragment implements LocationListener, View.O
             * En la página web está marcado como un checkbox, podemos darle el mismo sentido en la aplicación
             * */
             JSONHandler.setJsonArrayNodeByName(propuestaToSend, "field_proposal_notify_council");
-            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_notify_council", "value", councilCheckBox.isChecked() ? "1" : "2");
+            JSONHandler.setValueJsonArray(propuestaToSend, "field_proposal_notify_council", "value", councilCheckBox.isChecked() ? "1" : "0");
             /*
             * Las propuestas por defecto están abiertas nada más ser añadidas.
             * */

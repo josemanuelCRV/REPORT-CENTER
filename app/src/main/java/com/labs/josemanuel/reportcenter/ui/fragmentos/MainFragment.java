@@ -172,6 +172,7 @@ public class MainFragment extends Fragment {
         if (mClienteHttp.isNetworkAvailable()) {
             final AsyncTask<RequestFuture<JSONArray>, Void, Propuesta[]> loadProposalFeedTask = mClienteHttp.getPropuestas();
 
+            mClienteHttp.setmUrl("https://stag.hackityapp.com/es/api/v1/proposals");
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -214,7 +215,7 @@ public class MainFragment extends Fragment {
     protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            cargarAdaptador();
+            loadProposalFeed();
             Toast.makeText(getContext(), "Refrescando...", Toast.LENGTH_SHORT).show();
             mSwipeRefreshLayout.setColorSchemeResources(
 
