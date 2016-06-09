@@ -1,0 +1,112 @@
+<resources>
+    <string name="app_name">City Hacks</string>
+
+    <string name="navigation_drawer_open">Abrir panel de navegación</string>
+    <string name="navigation_drawer_close">Cerrar panel de navegación</string>
+
+    <string name="action_settings">Ajustes</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Correo Electronico</string>
+    <string name="prompt_user">Nombre de Usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">LET´S HACK</string>
+    <string name="action_sign_in_short">Iniciar Sesión</string>
+    <string name="another_account">O inicia sesión con otra cuenta</string>
+
+
+    <!-- Strings related to SignUp -->
+    <string name="title_activity_sing_up">Registrarse</string>
+    <string name="prompt_signup_email">Correo Electronico</string>
+    <string name="prompt_signup_user">Nombre de Usuario</string>
+    <string name="prompt_signup_password">Crear contraseña</string>
+    <string name="action_sign_up">Registrarse</string>
+    <string name="action_sign_up_short">Registro</string>
+
+    <!-- Strings related to error validation -->
+    <string name="error_invalid_email">Esta dirección de correo electrónico no es válida</string>
+    <string name="error_invalid_password">Esta contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="permission_rationale">"Se necesitan permisos de contactos para proporcionar terminaciones de correo electrónico."
+    </string>
+
+
+    <!-- Actividades -->
+    <string name="title_activity_update">Editar Propuesta</string>
+    <string name="title_activity_detail">Detalle</string>
+    <string name="title_activity_insert">Nueva Propuesta</string>
+
+    <!-- Action Buttons -->
+    <string name="action_delete">Borrar</string>
+    <string name="action_discard">Descartar</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_done">Guardar</string>
+
+    <!-- Categorías -->
+    <string-array name="entradas_categoria">
+        <item>Mobiliario Urbano</item>
+        <item>Limpieza</item>
+        <item>Movilidad</item>
+        <item>Áreas Verdes</item>
+        <item>Vida urbana</item>
+        <item>Otras</item>
+    </string-array>
+
+    <string-array name="camera_choices">
+        <item>Tomar Foto</item>
+        <item>Escoger de la galeria</item>
+    </string-array>
+    <!-- Prioridades -->
+    <string-array name="entradas_prioridad">
+        <item>Alta</item>
+        <item>Media</item>
+        <item>Baja</item>
+    </string-array>
+
+    <!-- Diálogos -->
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_si">SI</string>
+    <string name="dialog_discard_msg">¿Descartar Cambios?</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_delete_msg">Se eliminará la meta</string>
+
+    <!--Dialogos de Localización-->
+    <string name="dialog_location">¿Estás ahora en el lugar de la propuesta?</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="bg_img_botom">skyline Madrid city</string>
+    <string name="logo_flat">Logo</string>
+    <string name="title_activity_maps">Map</string>
+
+
+    <string name="URL">https://stag.hackityapp.com/es/api/v1/proposals</string>
+    <string name="URL_LOCALHOST">http://194.140.6.122:3000</string>
+    <string name="URL_LOGIN">http://194.140.6.122:3000/login</string>
+
+
+
+    <!-- Fragment_details -->
+    <string name="Fecha">Fecha</string>
+    <string name="categoria">Categoria</string>
+    <string name="direccion">C/...</string>
+    <string name="Titulo">Titulo</string>
+    <string name="Descripción">Descripción</string>
+    <string name="Estado">Estado</string>
+    <string name="Prioridad">Prioridad</string>
+    <string name="noData">No hay datos</string>
+    <string name="Timestamp">Marca de tiempo</string>
+    <string name="name">Nombre</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="chooser_title">Share CityHacks via</string>
+    <string name="emailContactUs">mailto:cityhacks.social@gmail.com</string>
+    <string name="compartir">Compartir</string>
+    <string name="Share">Share</string>
+    <string name="contacto">Contacto</string>
+</resources>

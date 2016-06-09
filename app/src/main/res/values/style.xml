@@ -1,0 +1,118 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Habilitar la Toolbar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!--Colores-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+
+     </style>
+
+    <style name="AppTheme.TranslucentSystemBars" parent="AppTheme">
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+
+    </style>
+
+    <style name="HeaderBar">
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/headerbar_elevation</item>
+    </style>
+
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+
+
+
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+         <item name="colorPrimary">@color/gold2_poundwater</item>
+         <item name="colorPrimaryDark">@color/gold1_aoi</item>
+         <item name="colorAccent">@color/gold4_giant</item>
+         <item name="colorControlHighlight">@color/gold5_unreal</item>
+         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+         <item name="windowActionBar">true</item>
+         <item name="windowNoTitle">false</item>
+     </style>-->
+
+
+    <!--
+    <item name="colorControlHighlight">@color/gold5_unreal</item>
+    <item name="android:windowBackground">@color/background</item>
+    -->
+
+    <!--<style name="AppTheme" parent="AppTheme.Base" />-->
+
+
+    <!-- OLD Base application theme. -->
+    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+          <item name="colorPrimary">@color/colorPrimary</item>
+          <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+          <item name="colorAccent">@color/colorAccent</item>
+      </style>
+      -->
+
+    <!--AKII-->
+    <!-- <style name="AppTheme.NoActionBar">
+         <item name="windowActionBar">false</item>
+         <item name="windowNoTitle">true</item>
+     </style>
+ -->
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--  Nuevo Detalle Styles -->
+    <style name="AppTheme.Detail" parent="AlertDialog.AppCompat.Light">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/ActionBar.Form</item>
+    </style>
+
+    <!--  Nuevo Insert Styles -->
+    <style name="AppTheme.Insert" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/Theme.AppCompat.Light.DarkActionBar</item>
+    </style>
+
+
+
+    <!-- ActionBar Detail -->
+    <style name="ActionBar.Detail" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="background">@null</item>
+    </style>
+
+    <!-- ActionBar Formulario insertar -->
+    <style name="ActionBar.Form" parent="AppTheme.AppBarOverlay">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="background">@null</item>
+    </style>
+
+
+
+    <!-- botones de Sign Up - Sign In -->
+    <style name="Btn_Sign" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+
+</resources>
+
+
