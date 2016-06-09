@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.RequestFuture;
 import com.bumptech.glide.Glide;
@@ -84,8 +85,9 @@ public class AdaptadorPropuestas extends RecyclerView.Adapter<AdaptadorPropuesta
             viewFabFollow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent goMain = new Intent(contexto, MapsActivity.class);
-                    contexto.startActivity(goMain);
+                    /*Intent goMain = new Intent(contexto, MapsActivity.class);
+                    contexto.startActivity(goMain);*/
+                    Toast.makeText(contexto, contexto.getResources().getString(R.string.addFavoritos), Toast.LENGTH_SHORT).show();
                 }
             });
         }

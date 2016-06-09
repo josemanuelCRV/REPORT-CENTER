@@ -214,22 +214,6 @@ public class DetailFragment extends Fragment {
         // Obtener extra del intent de envío
         //extra = getArguments().getString(Constantes.EXTRA_ID);
 
-
-        // Setear escucha para el fab
-     /*   editButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Iniciar actividad de actualización
-                        Intent i = new Intent(getActivity(), UpdateActivity.class);
-                        //i.putExtra(Constantes.EXTRA_ID, extra);
-                        //getActivity().startActivityForResult(i, Constantes.CODIGO_ACTUALIZACION);
-                        getActivity().startActivity(i);
-                    }
-                }
-        );*/
-
-
         // Cargar datos desde el web service
         cargarDatos();
 
@@ -306,10 +290,10 @@ public class DetailFragment extends Fragment {
         // dirección
         viewDireccion.setText(PropSeleecionada.getField_proposal_formatted_address());
         // categoria
-        String category = PropSeleecionada.getField_proposal_status().getUrl();
-        viewCategoriaDetalle.setText(category);
+        String categoryName= Taxonomia.getCategoryName(PropuestaHandler.getColorKey(PropSeleecionada.getField_proposal_category().getUrl()));
+        viewCategoriaDetalle.setText(categoryName);
         // Stado abierta/cerrada
-        if (PropSeleecionada.getStatus().equals(abierta)) {
+        if (abierta.equals(PropSeleecionada.getStatus())) {
             viewEstado.setText("Abierta");
             viewFlagState.setImageResource(R.drawable.ic_bookmark); // cambia la bandera
         } else {

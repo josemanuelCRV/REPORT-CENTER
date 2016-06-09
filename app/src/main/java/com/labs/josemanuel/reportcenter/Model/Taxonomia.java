@@ -135,6 +135,24 @@ public class Taxonomia {
     public static Taxonomia getUrbanEquipment(){
         String[] relationshipsLinks = {"http://stag.hackityapp.com/en/api/category/3/relationships/vid?_format=api_json","http://stag.hackityapp.com/en/api/category/3/vid?_format=api_json"};
         Taxonomia UrbanEquipment = new Taxonomia(3,"239c0953-e898-4ecc-9d23-9414b06bb3a3","en","Urban equipment",DATA,relationshipsLinks,"http://stag.hackityapp.com/en/api/category/3?_format=api_json");
-        return null;
+        return UrbanEquipment;
+    }
+
+
+    public static String getCategoryName(String categoryID){
+        if("4".equals(categoryID))
+            return getCleaning().getName();
+        if("6".equals(categoryID))
+            return getGreenAreas().getName();
+        if("5".equals(categoryID))
+            return getMobility().getName();
+        if("7".equals(categoryID))
+            return getNeighborhoodLife().getName();
+        if("8".equals(categoryID))
+            return getOther().getName();
+        if("3".equals(categoryID))
+            return getUrbanEquipment().getName();
+
+        return "Sin categoría";
     }
 }

@@ -406,4 +406,12 @@ public class Propuesta {
                 ", type=" + type +
                 '}';
     }
+
+    public Categoria getField_proposal_category() {
+        return field_proposal_category;
+    }
+
+    public void setField_proposal_category(Categoria field_proposal_category) {
+        this.field_proposal_category = field_proposal_category;
+    }
 }

@@ -60,6 +60,12 @@ public class PropuestaHandler {
 
         return key;
     }
+    public static String getColorKey(String categoria){
+
+        String key = categoria.replaceAll("[^0-9]", "");
+
+        return key;
+    }
 
     public static String getEpochFromDate(String dateInput){
         SimpleDateFormat simpleDateFormatdf = new SimpleDateFormat("dd/mm/yyyy");
