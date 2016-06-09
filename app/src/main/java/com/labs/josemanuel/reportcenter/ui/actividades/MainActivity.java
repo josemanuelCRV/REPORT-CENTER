@@ -172,8 +172,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intentNewProposal);
 
         } else if (id == R.id.nav_mi_cuenta) {
-           // Intent intentMyProfile = new Intent(MainActivity.this, InsertActivity.class);
-           // startActivity(intentMyProfile);
+            Intent intentMyProfile = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intentMyProfile);
 
         } else if (id == R.id.nav_logout) {
             Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);

@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goMain = new Intent(LoginActivity.this, MainActivity.class);
+                Intent goMain = new Intent(LoginActivity.this, ProfileActivity.class);
                 startActivity(goMain);
                 /*Snackbar.make(view, "¿Nos logueamos con Twitter?", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/

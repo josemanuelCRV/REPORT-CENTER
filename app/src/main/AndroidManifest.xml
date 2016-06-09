@@ -86,6 +86,9 @@
             android:label="@string/title_activity_maps" />
 
         <activity
+            android:name=".ui.actividades.ProfileActivity" />
+
+        <activity
             android:name=".ui.actividades.LoginActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
