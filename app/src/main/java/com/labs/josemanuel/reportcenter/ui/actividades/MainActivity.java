@@ -1,6 +1,7 @@
 package com.labs.josemanuel.reportcenter.ui.actividades;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +25,7 @@ import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
 import com.labs.josemanuel.reportcenter.ui.fragmentos.MainFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends Activity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView emptyFeedTextView;
 
@@ -38,14 +39,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new TrustAllSSLCerts().nuke();
+        /*new TrustAllSSLCerts().nuke();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         Credentials.setAuthorization(preferences.getString("Authorization","-1"));
         Credentials.setX_CSRF_Token(preferences.getString("X_CSRF_Token","-1"));
         String cadena = Credentials.getAuthorization() + Credentials.getX_CSRF_Token();
-        Toast.makeText(MainActivity.this, cadena, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, cadena, Toast.LENGTH_LONG).show();*/
 
 
         // ------------------------------------------------------
@@ -99,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Creación del fragmento principal
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment(), "MainFragment")
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new Fragment(), "MainFragment")
                     .commit();
         }
 

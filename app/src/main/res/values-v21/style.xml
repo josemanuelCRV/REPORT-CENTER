@@ -17,7 +17,7 @@
         <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="AppTheme">
         <!-- Habilitar la Toolbar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

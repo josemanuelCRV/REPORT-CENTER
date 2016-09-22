@@ -3,6 +3,7 @@ package com.labs.josemanuel.reportcenter.ui.actividades;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -43,6 +44,7 @@ import com.labs.josemanuel.reportcenter.Http.ClienteHttp;
 import com.labs.josemanuel.reportcenter.Http.TrustAllSSLCerts;
 import com.labs.josemanuel.reportcenter.Infrastructure.Credentials;
 import com.labs.josemanuel.reportcenter.R;
+import com.labs.josemanuel.reportcenter.Repository.Repository;
 import com.labs.josemanuel.reportcenter.Utils.DialogBuilder;
 import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
 
@@ -60,7 +62,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -90,13 +92,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //Login cañero
     ClienteHttp mClienteHttp;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Repository repository;
+/*
         TrustAllSSLCerts.nuke();
-        mClienteHttp = new ClienteHttp(getResources().getString(R.string.URL_LOCALHOST), this);
-        mClienteHttp.initiate();
+*/
+        repository= Repository.getRepository("mongodb://test:citymike2016@ds035816.mlab.com:35816/cityhack_db?apiKey=2E81PUmPFI84t7UIc_5YdldAp1ruUPKye");
+        Log.i("results",repository.getProposals().get(0).toString());
+        /*mClienteHttp = new ClienteHttp(getResources().getString(R.string.URL_LOCALHOST), this);
+        mClienteHttp.initiate();*/
         /**
          * La aplicación almacena la obligación de logearse en el caso de que no exista el token || no sea válido
          * */

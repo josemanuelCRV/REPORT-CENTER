@@ -86,7 +86,7 @@ public class DatabaseTest {
     }
 
 
-    @Test
+    /*@Test
     public void shouldBeAbleToReadFile(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.
@@ -106,15 +106,15 @@ public class DatabaseTest {
         }
 
         assertNotNull(propuestaDAO);
-    }
+    }*/
 
 
-    private Object mapIntoObject(JsonNode node) throws IOException,
+    /*private Object mapIntoObject(JsonNode node) throws IOException,
             JsonProcessingException {
         JsonParser parser = node.traverse();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(parser, wrappedType);
-    }
+    }*/
     private long insertReminderValues(ContentValues reminderValues) {
         SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
         long ack = writableDatabase.insert(ProposalDbHelper.tableName, null, reminderValues);

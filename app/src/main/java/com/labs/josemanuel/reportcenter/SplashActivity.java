@@ -1,5 +1,6 @@
 package com.labs.josemanuel.reportcenter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 import com.labs.josemanuel.reportcenter.ui.actividades.LoginActivity;
 import com.labs.josemanuel.reportcenter.ui.actividades.MainActivity;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,9 @@ public class SplashActivity extends AppCompatActivity {
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
         final TextView tv = (TextView) findViewById(R.id.welcomeLabel);
         final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
+        Intent i;     i = new Intent(SplashActivity.this, LoginActivity.class);
+        startActivity(i);
+        finish();
         /**
          * Acceso a SharedPreferences para realizar el redireccionamiento.
          * */

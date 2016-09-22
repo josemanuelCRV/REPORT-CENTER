@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="AppTheme">
         <!-- Habilitar la Toolbar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -107,7 +107,7 @@
 
 
     <!-- botones de Sign Up - Sign In -->
-    <style name="Btn_Sign" parent="Theme.AppCompat.Light">
+    <style name="Btn_Sign" parent="android:Theme.DeviceDefault">
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
     </style>

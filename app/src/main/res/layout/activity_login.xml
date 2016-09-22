@@ -61,9 +61,7 @@
             android:orientation="vertical">
 
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -74,12 +72,9 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textColorHint="#9767ff" />
-            </android.support.design.widget.TextInputLayout>
 
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
 
                 <EditText
                     android:id="@+id/password"
@@ -92,7 +87,6 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
-            </android.support.design.widget.TextInputLayout>
 
 
             <!-- Login progress -->
@@ -125,7 +119,8 @@
                     android:textColor="@color/secondary_text"
                     android:textSize="14sp" />
 
-                <android.support.design.widget.FloatingActionButton
+
+               <!-- <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,7 +129,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="40dp"
                     android:src="@drawable/twitter"
-                    app:backgroundTint="@color/btn_Twitter_normal" />
+                    app:backgroundTint="@color/btn_Twitter_normal" />-->
 
             </RelativeLayout>
 
